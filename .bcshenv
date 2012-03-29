@@ -1,0 +1,16 @@
+#!/bin/sh
+# Common environment variables for all shells
+# Load from .zshenv or equivalent
+
+export PATH="/bin:/usr/bin:/sbin:/usr/sbin:/usr/games:/usr/local/bin:/usr/local/sbin:/usr/local/games:$HOME/bin:$HOME/Software/android-sdk/tools"
+
+export CVS_RSH="ssh"
+export EDITOR="nano"
+export GREP_COLOR="1;32"
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+export PAGER="/usr/bin/less"
+export TZ="America/New_York"
+export VISUAL="emacsclient"
+
+umask 0077

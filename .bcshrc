@@ -1,0 +1,152 @@
+#!/bin/bash
+
+audate() { TZ="Australia/Sydney" date; }
+b() { ls -Alh --color=always "$@" | less -XRF; }
+bsplit() { split -d -b "$1" "$2" "$(basename "$2")."; }
+cwdiff() { wdiff -n "$@" | colordiff | less -XRF; }
+gomark() { cd "$MARKDIR"; }
+mark() { export MARKDIR="${PWD}"; }
+stamp() { find "$@" -print0 | xargs -0 touch; }
+today() { date +%Y-%m-%d; }
+
+d() {
+    firstchar=$(echo "$1" | cut -c1)
+    if [ -z "$1" ]; then
+        dirs -p
+    elif [ -d "$1" ] || [ "$firstchar" = "+" ] || [ "$1" = "-" ]; then
+        eval pushd "\"$1\""
+    elif [ "$firstchar" = "-" ]; then
+        dirs "$@"
+    elif echo "$1" | grep -qE '^[[:digit:]]+$'; then
+        eval pushd "\"+$1\""
+    else
+        echo "d: not directory or options: $@" >&2
+        return 1
+    fi
+}
+
+fin() {
+    msg="${@:-Job\'s done.}"
+    zenity --info --text "$msg" || printf "\a${msg}\n"
+}
+
+pl() {
+    newdir="$(pwd)"
+    eval cd - >/dev/null
+    eval pushd "\"$newdir\""
+}
+
+shdownload() {
+    ROOT="http://brettcsmith.org/shrc"
+    LISTFILE=".bcshlist"
+    [ -e "$HOME/$LISTFILE" ] && return 1
+    for fn in $(wget -qO - "$ROOT/$LISTFILE"); do
+        wget -O "$HOME/$fn" "$ROOT/$fn"
+    done
+}
+
+str() {
+    if file -b "$1" | grep -q text; then
+        $PAGER "$1"
+    else
+        strings -a "$1" | $PAGER
+    fi
+}
+
+_up() {
+    if [ -z "$2" ]; then
+        nextpath=".."
+    elif echo "$2" | grep -q "^[0-9]$"; then
+        nextpath=""
+        for i in $(seq 1 "$2"); do
+            nextpath="${nextpath}../"
+        done
+    else
+        pattern="^$(echo "$2" | sed -e 's/\([^-A-Za-z0-9]\)/\\\1/g')"
+        nextpath="$(dirname "$(pwd)")"
+        while [ "$nextpath" != "/" ]; do
+            if basename "$nextpath" | grep -qi "$pattern"; then
+                break
+            fi
+            nextpath="$(dirname "$nextpath")"
+        done
+        if [ "$nextpath" = "/" ]; then
+            echo "no match found for $2" >&2
+            return 1
+        fi
+    fi
+    eval "$1" "$nextpath"
+}
+
+if type qrencode 2>/dev/null >/dev/null; then
+    qr() {
+        if [ -z "$1" ]; then
+            echo "Usage: qr URL" >&2
+            return 1
+        fi
+        fn="$(tempfile -p qr- -s .png)" && \
+            qrencode -o "$fn" "$1" && eog "$fn" && rm -f "$fn"
+    }
+fi    
+
+vcsfind() {
+    find \( -name 'CVS' -o -name '.svn' -o -name '.hg' -o -name '.git' \) \
+        -prune -o \( "$@" \)
+}
+
+waittil() {
+    TARGET_TIME="$(date -d "$@" +%s)"
+    NOW="$(date +%s)"
+    while [ "$NOW" -ge "$TARGET_TIME" ]; do
+        let "TARGET_TIME = $TARGET_TIME + 86400"
+    done
+    let "SLEEP_SECS = $TARGET_TIME - $(date +%s)"
+    sleep "${SLEEP_SECS}s"
+}
+
+zenalarm() {
+    if echo "$1" | grep -Eq "^[0-9]+[smhd]$"; then
+        sleep "$1"
+    else
+        waittil "$1"
+    fi
+    shift && zenity --info --text "$*";
+}
+
+_tryalias() {
+    type "$1" 2>/dev/null >/dev/null && shift && \
+        name="$1" && shift && eval "alias $name='$*'"
+}
+
+PYTHON_VERSION=$(python -c \
+    'import sys; print "%s.%s" % tuple(sys.version_info[:2])')
+_tryalias "python$PYTHON_VERSION" pdb \
+    "python$PYTHON_VERSION" "/usr/lib/python$PYTHON_VERSION/pdb.py"
+
+_tryalias colordiff cdiff colordiff -u
+_tryalias emacs wemacs VISUAL=emacs EDITOR=emacs
+_tryalias emacsclient visit emacsclient -n
+_tryalias emacsclient wemacsc VISUAL=emacsclient EDITOR=emacsclient
+_tryalias ftp ftp ftp -p
+_tryalias gnome-open o gnome-open
+_tryalias grep cgrep grep --color=always
+_tryalias grep vcscgrep grep --color=always -r --exclude-dir={CVS,.svn,.hg,.git}
+_tryalias grep vcsgrep grep -r --exclude-dir={CVS,.svn,.hg,.git}
+_tryalias less l less -XRF
+_tryalias nano wnano VISUAL=nano EDITOR=nano
+_tryalias readlink realpath readlink -e
+_tryalias xclip xcopy xclip -selection clipboard
+_tryalias xclip xpaste xclip -selection clipboard -o
+_tryalias youtube-dl ydl youtube-dl -t -f 18
+
+alias noproxy='http_proxy=""'
+alias pd=popd
+alias up='_up cd'
+alias upp='_up pushd'
+
+[ -e "$HOME/bin/x" ] || alias x='dtrx'
+[ -e "/usr/share/doc/mutt/manual.txt.gz" ] && \
+    alias muttman='zless /usr/share/doc/mutt/manual.txt.gz'
+[ -e "$HOME/bin/reattach" ] || _tryalias screen reattach screen -dR
+
+[ -e "$HOME/.bcshrc-private" ] && source "$HOME/.bcshrc-private"

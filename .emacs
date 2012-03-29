@@ -24,7 +24,7 @@
 (global-set-key "\C-x\C-j" 'goto-line)
 (global-set-key "\C-z" 'undo)
 (global-set-key "\C-x\C-n" 'save-buffer)  ; Helpful with Dvorak.
-(global-set-key "\C-xc" 'comment-or-uncomment-region)
+(global-set-key "\C-x/" 'comment-or-uncomment-region)
 
 (let ((default-directory "~/.emacs.d/elisp/"))
   (normal-top-level-add-to-load-path '("."))

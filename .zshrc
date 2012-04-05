@@ -65,15 +65,15 @@ fi
 case "$(hostname -s)" in
     # Home machines
     isolde) PROMPT_HOST_COLOR=$'%{\e[1;36m%}' ;;
-    stephan) PROMPT_HOST_COLOR=$'%{\e[1;44;32m%}' ;;
-    timulty) PROMPT_HOST_COLOR=$'%{\e[1;44;36m%}' ;;
-    ozymandias) PROMPT_HOST_COLOR=$'%{\e[1;41;37m%}' ;;
+    stephan) PROMPT_HOST_COLOR=$'%{\e[1;45;32m%}' ;;
+    timulty) PROMPT_HOST_COLOR=$'%{\e[1;45;36m%}' ;;
+    ozymandias) PROMPT_HOST_COLOR=$'%{\e[1;30m%}' ;;
     # Personal servers
     llewellyn) PROMPT_HOST_COLOR=$'%{\e[1;33m%}' ;;
-    panacea) PROMPT_HOST_COLOR=$'%{\e[1;44;33m%}' ;;
+    panacea) PROMPT_HOST_COLOR=$'%{\e[1;45;33m%}' ;;
+    fencepost) PROMPT_HOST_COLOR=$'%{\e[1;45;35m%}' ;;
     # Work machines
     serenity) PROMPT_HOST_COLOR=$'%{\e[1;34m%}' ;;
-    fencepost) PROMPT_HOST_COLOR=$'%{\e[1;35m%}' ;;
     copyrighteous) PROMPT_HOST_COLOR=$'%{\e[1;44;37m%}' ;;
     *) PROMPT_HOST_COLOR=$'%{\e[1;41;31m%}' ;;
 esac

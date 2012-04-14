@@ -9,6 +9,8 @@ PROMPT_PURPLE=$'%{\e[1;35m%}'
 PROMPT_CYAN=$'%{\e[1;36m%}'
 PROMPT_RESET=$'%{\e[0m%}'
 
+DARK_GREEN=$'%{\e[0;32m%}'
+
 ZLS_COLORS="di=1;34"
 WORDCHARS=$(echo $WORDCHARS | sed -e 's/\///')
 
@@ -40,9 +42,14 @@ precmd() {
     [ -n "$titlebar" ] && echo -ne "\033]0;${(%)titlebar}\007"
     RPROMPT="%(1j!${PROMPT_CYAN}%j${PROMPT_RESET} !)"
     RPROMPT+="%(0?!!${PROMPT_RED}%?${PROMPT_RESET} )"
-    local branch=$(git status 2>/dev/null | head -n 1 | cut -d' ' -f4-)
+    local branch
+    if [[ "$PWD" =~ "^$HOME/repos/[^/]+" ]]; then
+        if [ -d "$MATCH/.git" ]; then
+            branch=$(git status 2>/dev/null | head -n 1 | cut -d' ' -f4-)
+        fi
+    fi
     if [ -n "$branch" ]; then
-        RPROMPT+="(${PROMPT_GREEN}%20>…>${branch}%>>:${PROMPT_RESET}%1d"
+        RPROMPT+="(${PROMPT_GREEN}%20>…>${branch}%>>${DARK_GREEN}:${PROMPT_RESET}%1d"
     else
         local predir=$(print -P "%-1~/…")
         RPROMPT+="(%30<${predir}<%~%<<"

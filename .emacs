@@ -21,6 +21,8 @@
 
 (setq auto-mode-alist (cons '("\\.mdwn" . markdown-mode) auto-mode-alist))
 
+(add-hook 'markdown-mode-hook 'visual-line-mode)
+
 (global-set-key "\C-xl" 'open-last-buffer)
 (global-set-key "\C-c\C-s" 'ispell-region)
 (global-set-key "\C-x\C-j" 'goto-line)

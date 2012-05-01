@@ -5,7 +5,7 @@
 (tool-bar-mode 0)
 
 (setq-default vertical-scroll-bar nil)
-
+(setq inhibit-startup-message t)
 (setq auto-mode-alist (cons '("cvs.*" . text-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("mutt-.*" . text-mode) auto-mode-alist))
 (setq auto-save-default nil)

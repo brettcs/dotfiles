@@ -19,6 +19,8 @@
 (setq visible-bell t)
 (setq x-select-enable-clipboard t)  ; Unbreak my software, please.
 
+(setq auto-mode-alist (cons '("\\.mdwn" . markdown-mode) auto-mode-alist))
+
 (global-set-key "\C-xl" 'open-last-buffer)
 (global-set-key "\C-c\C-s" 'ispell-region)
 (global-set-key "\C-x\C-j" 'goto-line)

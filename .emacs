@@ -19,7 +19,8 @@
 (setq visible-bell t)
 (setq x-select-enable-clipboard t)  ; Unbreak my software, please.
 
-(setq auto-mode-alist (cons '("\\.mdwn" . markdown-mode) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.md\\(wn\\)?" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.phi" . php-mode))
 
 (add-hook 'markdown-mode-hook 'visual-line-mode)
 

@@ -9,6 +9,17 @@ mark() { export MARKDIR="${PWD}"; }
 stamp() { find "$@" -print0 | xargs -0 touch; }
 today() { date +%Y-%m-%d; }
 
+if type colordiff 2>/dev/null >/dev/null; then
+    cdiff() {
+	eval "last_arg=\$$#"
+	if [ -e "$last_arg" ]; then
+	    colordiff -u "$@"
+	else
+	    colordiff "$@"
+	fi
+    }
+fi
+
 d() {
     firstchar=$(echo "$1" | cut -c1)
     if [ -z "$1" ]; then
@@ -123,7 +134,6 @@ PYTHON_VERSION=$(python -c \
 _tryalias "python$PYTHON_VERSION" pdb \
     "python$PYTHON_VERSION" "/usr/lib/python$PYTHON_VERSION/pdb.py"
 
-_tryalias colordiff cdiff colordiff -u
 _tryalias emacs wemacs VISUAL=emacs EDITOR=emacs
 _tryalias emacsclient visit emacsclient -n
 _tryalias emacsclient wemacsc VISUAL=emacsclient EDITOR=emacsclient

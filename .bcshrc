@@ -91,7 +91,7 @@ fi
 
 vcsfind() {
     find \( -name 'CVS' -o -name '.svn' -o -name '.hg' -o -name '.git' \) \
-        -prune -o \( "$@" \)
+        -not -prune -o \( "$@" \)
 }
 
 waittil() {

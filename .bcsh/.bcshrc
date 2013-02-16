@@ -1,6 +1,5 @@
 #!/bin/bash
 
-audate() { TZ="Australia/Sydney" date; }
 b() { ls -Alh --color=always "$@" | less -XRF; }
 bsplit() { split -d -b "$1" "$2" "$(basename "$2")."; }
 cwdiff() { wdiff -n "$@" | colordiff | less -XRF; }

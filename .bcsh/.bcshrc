@@ -46,15 +46,6 @@ pl() {
     eval pushd "\"$newdir\""
 }
 
-shdownload() {
-    ROOT="http://brettcsmith.org/shrc"
-    LISTFILE=".bcshlist"
-    [ -e "$HOME/$LISTFILE" ] && return 1
-    for fn in $(wget -qO - "$ROOT/$LISTFILE"); do
-        wget -O "$HOME/$fn" "$ROOT/$fn"
-    done
-}
-
 str() {
     if file -b "$1" | grep -q text; then
         $PAGER "$1"

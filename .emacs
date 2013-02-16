@@ -53,6 +53,9 @@
 (fset 'load-init-file
    [?\M-x ?l ?o ?a ?d ?- ?f ?i ?l ?e ?\C-m ?\C-a ?\C-k ?~ ?/ ?. ?e ?m ?a ?c ?s ?\C-m])
 
+(require 'magit)
+(global-set-key "\C-xg" 'magit-status)
+
 (require 'python)
 (define-key python-mode-map (kbd "RET") 'newline-and-indent)
 

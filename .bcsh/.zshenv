@@ -3,8 +3,9 @@
 ### ENVIRONMENT VARIABLES
 SAVEHIST=500
 HISTFILE="$HOME/.zsh_history"
+ZDOTDIR="$HOME/.bcsh"
 
-export SAVEHIST HISTFILE
+export SAVEHIST HISTFILE ZDOTDIR
 
 ### OPTIONS
 setopt CLOBBER
@@ -14,4 +15,4 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
 
-source "$HOME/.bcshenv"
+source "$ZDOTDIR/.bcshenv"

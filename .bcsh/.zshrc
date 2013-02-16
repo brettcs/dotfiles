@@ -96,8 +96,8 @@ case "$(hostname -s)" in
 esac
 
 _trysource() { [ -f "$1" ] && source "$1"; }
-_trysource "$HOME/.zshrc-local"
-_trysource "$HOME/.bcshrc"
+_trysource "$ZDOTDIR/.zshrc-local"
+_trysource "$ZDOTDIR/.bcshrc"
 [ -n "$BCS_SCREEN" ] && _trysource "$BCS_VAR_FILE"
 
 trap "source \"$BCS_VAR_FILE\"" USR1

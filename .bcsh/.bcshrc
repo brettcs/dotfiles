@@ -159,4 +159,4 @@ alias upp='_up pushd'
     alias muttman='zless /usr/share/doc/mutt/manual.txt.gz'
 [ -e "$HOME/bin/reattach" ] || _tryalias screen reattach screen -dR
 
-[ -e "$HOME/.bcshrc-private" ] && source "$HOME/.bcshrc-private"
+[ -e "$ZDOTDIR/.bcshrc-local" ] && source "$ZDOTDIR/.bcshrc-local"

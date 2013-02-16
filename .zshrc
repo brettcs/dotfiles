@@ -1,15 +1,16 @@
 # .zshrc - third in the execution list; only for interactive shells.
 
 ### ENVIRONMENT VARIABLES
+PROMPT_BOLD=$'%{\e[1m%}'
+PROMPT_NORMAL=$'%{\e[22m%}'
+PROMPT_RESET=$'%{\e[0m%}'
+
 PROMPT_RED=$'%{\e[1;31m%}'
 PROMPT_GREEN=$'%{\e[1;32m%}'
 PROMPT_YELLOW=$'%{\e[1;33m%}'
 PROMPT_BLUE=$'%{\e[1;34m%}'
 PROMPT_PURPLE=$'%{\e[1;35m%}'
 PROMPT_CYAN=$'%{\e[1;36m%}'
-PROMPT_RESET=$'%{\e[0m%}'
-
-DARK_GREEN=$'%{\e[0;32m%}'
 
 ZLS_COLORS="di=1;34"
 WORDCHARS=$(echo $WORDCHARS | sed -e 's/\///')
@@ -42,17 +43,23 @@ precmd() {
     [ -n "$titlebar" ] && echo -ne "\033]0;${(%)titlebar}\007"
     RPROMPT="%(1j!${PROMPT_CYAN}%j${PROMPT_RESET} !)"
     RPROMPT+="%(0?!!${PROMPT_RED}%?${PROMPT_RESET} )"
-    local branch
-    if [[ "$PWD" =~ "^$HOME/repos/[^/]+" ]]; then
+    local branch repocolor halfwidth
+    halfwidth=$[${COLUMNS:-80} / 2]
+# PROMPT_GREEN=$'%{\e[1;32m%}'
+    if [[ "$PWD" =~ "^$HOME/(w3)?repos/[^/]+" ]]; then
         if [ -d "$MATCH/.git" ]; then
+	    repocolor=$'%{\e[32m%}'  # green
             branch=$(git status 2>/dev/null | head -n 1 | cut -d' ' -f4-)
+	elif [ -d "$MATCH/.hg" ]; then
+	    repocolor=$'%{\e[36m%}'  # cyan
+	    branch=$(hg branch)
         fi
     fi
     if [ -n "$branch" ]; then
-        RPROMPT+="(${PROMPT_GREEN}%20>…>${branch}%>>${DARK_GREEN}:${PROMPT_RESET}%1d"
+        RPROMPT+="(${PROMPT_BOLD}${repocolor}%$[$halfwidth - 20]>…>${branch}%>>${PROMPT_NORMAL}:${PROMPT_RESET}%1d"
     else
         local predir=$(print -P "%-1~/…")
-        RPROMPT+="(%30<${predir}<%~%<<"
+        RPROMPT+="(%$[$halfwidth - 10]<${predir}<%~%<<"
     fi
     [ ${#dirstack} -ne 0 ] && \
         RPROMPT+="${PROMPT_YELLOW} +${#dirstack}"

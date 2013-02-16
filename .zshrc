@@ -78,6 +78,7 @@ fi
 # 0=black, 1=red, 2=green, 3=yellow, 4=blue, 5=purple, 6=cyan, 7=white
 case "$(hostname -s)" in
     # Home machines
+    locke) PROMPT_HOST_COLOR=$'%{\e[1;34m%}' ;;
     isolde) PROMPT_HOST_COLOR=$'%{\e[1;36m%}' ;;
     stephan) PROMPT_HOST_COLOR=$'%{\e[1;45;32m%}' ;;
     timulty) PROMPT_HOST_COLOR=$'%{\e[1;45;36m%}' ;;
@@ -85,10 +86,12 @@ case "$(hostname -s)" in
     # Personal servers
     llewellyn) PROMPT_HOST_COLOR=$'%{\e[1;33m%}' ;;
     panacea) PROMPT_HOST_COLOR=$'%{\e[1;45;33m%}' ;;
+    # Ex-work machines
     fencepost) PROMPT_HOST_COLOR=$'%{\e[1;45;35m%}' ;;
+    serenity) PROMPT_HOST_COLOR=$'%{\e[1;45;34m%}' ;;
     # Work machines
-    serenity) PROMPT_HOST_COLOR=$'%{\e[1;34m%}' ;;
-    copyrighteous) PROMPT_HOST_COLOR=$'%{\e[1;44;37m%}' ;;
+    bongo) PROMPT_HOST_COLOR=$'%{\e[1;37m%}' ;;
+    jay) PROMPT_HOST_COLOR=$'%{\e[1;44;37m%}' ;;
     *) PROMPT_HOST_COLOR=$'%{\e[1;41;31m%}' ;;
 esac
 

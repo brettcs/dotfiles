@@ -36,10 +36,16 @@
   (normal-top-level-add-subdirs-to-load-path))
 (load-library "naquadah-theme")
 
-(cond (window-system (setq-default initial-frame-alist
-				   '((vertical-scroll-bars . nil)
-				     (width . 81)
-				     (height . 50)))))
+(when (window-system)
+      (setq-default initial-frame-alist
+		    '((vertical-scroll-bars . nil)
+		      (width . 81)
+		      (height . 50))) ; )
+       (load-library "nyan-mode")
+       (setq nyan-bar-length 10)
+       (setq nyan-wavy-trail t)
+       (nyan-mode)
+       (nyan-start-animation))
 
 ; Macros
 (fset 'open-last-buffer

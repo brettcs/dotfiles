@@ -5,6 +5,7 @@ bsplit() { split -d -b "$1" "$2" "$(basename "$2")."; }
 cwdiff() { wdiff -n "$@" | colordiff | less -XRF; }
 gomark() { cd "$MARKDIR"; }
 mark() { export MARKDIR="${PWD}"; }
+reallines() { grep -Ev '^[[:space:]]*($|#)' "$@" | less -XRF; }
 stamp() { find "$@" -print0 | xargs -0 touch; }
 today() { date +%Y-%m-%d; }
 

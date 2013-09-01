@@ -136,6 +136,7 @@ _tryalias grep vcsgrep grep -r --exclude-dir={CVS,.svn,.hg,.git}
 _tryalias less l less -XRF
 _tryalias nano wnano VISUAL=nano EDITOR=nano
 _tryalias readlink realpath readlink -e
+_tryalias shred zeroout shred -n 0 -z
 _tryalias xclip xcopy xclip -selection clipboard
 _tryalias xclip xpaste xclip -selection clipboard -o
 _tryalias youtube-dl ydl youtube-dl -t -f 18

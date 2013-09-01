@@ -133,6 +133,7 @@ _tryalias gnome-open o gnome-open
 _tryalias grep cgrep grep --color=always
 _tryalias grep vcscgrep grep --color=always -r --exclude-dir={CVS,.svn,.hg,.git}
 _tryalias grep vcsgrep grep -r --exclude-dir={CVS,.svn,.hg,.git}
+_tryalias ipv6calc rev6 ipv6calc --quiet --out revnibbles.arpa
 _tryalias less l less -XRF
 _tryalias nano wnano VISUAL=nano EDITOR=nano
 _tryalias readlink realpath readlink -e

@@ -26,7 +26,6 @@
 
 (global-set-key "\C-xl" 'open-last-buffer)
 (global-set-key "\C-c\C-s" 'ispell-region)
-(global-set-key "\C-x\C-j" 'goto-line)
 (global-set-key "\C-z" 'undo)
 (global-set-key "\C-x\C-n" 'save-buffer)  ; Helpful with Dvorak.
 (global-set-key "\C-x/" 'comment-or-uncomment-region)

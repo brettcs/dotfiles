@@ -10,6 +10,7 @@
 (setq auto-mode-alist (cons '("mutt-.*" . text-mode) auto-mode-alist))
 (setq auto-save-default nil)
 (setq blink-matching-paren nil)
+(setq diff-switches "-u")
 (setq fill-column 75)
 (setq indent-tabs-mode nil)
 (setq kill-whole-line t)

@@ -54,6 +54,7 @@
 
 (require 'magit)
 (global-set-key "\C-xg" 'magit-status)
+(setq magit-status-buffer-switch-function 'switch-to-buffer)
 
 (require 'python)
 (define-key python-mode-map (kbd "RET") 'newline-and-indent)

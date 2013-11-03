@@ -28,6 +28,14 @@ ask_overwrite() {
     done
 }
 
+can_overwrite() {
+    local fn=$1; shift
+    local target=$1; shift
+    test -e "$target" || return 0
+    cmp -s "$fn" "$target" && return 1
+    ask_overwrite "$target"
+}
+
 destdir=${1:-$HOME}
 
 for dn in $(my_find -type d); do
@@ -36,10 +44,7 @@ done
 
 for fn in $(my_find -type f); do
     target="$destdir/$fn"
-    if [ -e "$target" ]; then
-	if cmp -s "$target" "$fn" || ! ask_overwrite "$target"; then
-	    continue
-	fi
+    if can_overwrite "$fn" "$target"; then
+	cp -b "$fn" "$target"
     fi
-    cp -b "$fn" "$target"
 done

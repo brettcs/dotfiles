@@ -9,7 +9,7 @@ umask 077
 my_find() {
     find -mindepth 1 \
 	\( -name .git -or -name .gitignore -or -name "$(basename "$0")" \) \
-	-prune -or "$@" -print
+	-prune -or "$@" -print | sed -e 's/^\.\///'
 }
 
 ask_overwrite() {
@@ -46,5 +46,17 @@ for fn in $(my_find -type f); do
     target="$destdir/$fn"
     if can_overwrite "$fn" "$target"; then
 	cp -b "$fn" "$target"
+    fi
+done
+
+cd .bcsh
+for fn in $(my_find -type f); do
+    source="$destdir/.bcsh/$fn"
+    target="$destdir/$fn"
+    if [ -h "$target" ] \
+	&& [ "$(readlink -e "$source")" = "$(readlink -e "$target")" ]; then
+	continue
+    elif can_overwrite "$source" "$target"; then
+	ln -sb ".bcsh/$fn" "$target"
     fi
 done

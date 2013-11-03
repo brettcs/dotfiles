@@ -79,6 +79,7 @@
   (setq-default nxml-child-indent 4))
 
 (put 'narrow-to-region 'disabled nil)
+(put 'overwrite-mode 'disabled t)
 (put 'upcase-region 'disabled nil)
 
 (with-library 'local)

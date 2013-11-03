@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+cd
+export http_proxy=""
+export HTTP_PROXY=""
+sudo aptitude update
+sudo aptitude dist-upgrade

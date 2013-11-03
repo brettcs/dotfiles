@@ -3,6 +3,9 @@
      ,@body))
 (put 'with-library 'lisp-indent-function 1)
 
+(defun load-init-file ()
+  (load-file "~/.emacs"))
+
 (server-start)
 (blink-cursor-mode 0)
 (column-number-mode 1)
@@ -57,8 +60,6 @@
 ; Macros
 (fset 'open-last-buffer
    [?\C-x ?b ?\C-m])
-(fset 'load-init-file
-   [?\M-x ?l ?o ?a ?d ?- ?f ?i ?l ?e ?\C-m ?\C-a ?\C-k ?~ ?/ ?. ?e ?m ?a ?c ?s ?\C-m])
 
 (with-library 'magit
   (global-set-key "\C-xg" 'magit-status)

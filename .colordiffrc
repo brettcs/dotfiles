@@ -22,5 +22,5 @@ color_patches=no
 plain=off
 newtext=green
 oldtext=red
-diffstuff=cyan
-cvsstuff=yellow
+diffstuff=yellow
+cvsstuff=magenta

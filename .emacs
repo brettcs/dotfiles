@@ -33,6 +33,8 @@
 
 (add-hook 'markdown-mode-hook 'visual-line-mode)
 
+(fset 'open-last-buffer [?\C-x ?b ?\C-m])
+
 (global-set-key "\C-xl" 'open-last-buffer)
 (global-set-key "\C-c\C-s" 'ispell-region)
 (global-set-key "\C-z" 'undo)
@@ -47,7 +49,7 @@
       (setq-default initial-frame-alist
                     '((vertical-scroll-bars . nil)
                       (width . 81)
-                      (height . 50))) ; )
+                      (height . 50)))
       ; git://git.naquadah.org/naquadah-theme.git
       (with-library 'naquadah-theme)
       ; git://github.com/TeMPOraL/nyan-mode.git
@@ -56,10 +58,6 @@
         (setq nyan-wavy-trail t)
         (nyan-mode)
         (nyan-stop-animation)))
-
-; Macros
-(fset 'open-last-buffer
-   [?\C-x ?b ?\C-m])
 
 (with-library 'magit
   (global-set-key "\C-xg" 'magit-status)

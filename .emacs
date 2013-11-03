@@ -1,3 +1,8 @@
+(defmacro with-library (symbol &rest body)
+  `(when (require ,symbol nil t)
+     ,@body))
+(put 'with-library 'lisp-indent-function 1)
+
 (server-start)
 (blink-cursor-mode 0)
 (column-number-mode 1)
@@ -37,17 +42,17 @@
 
 (when (window-system)
       (setq-default initial-frame-alist
-		    '((vertical-scroll-bars . nil)
-		      (width . 81)
-		      (height . 50))) ; )
-       ; git://git.naquadah.org/naquadah-theme.git
-       (load-library "naquadah-theme")
-       ; git://github.com/TeMPOraL/nyan-mode.git
-       (load-library "nyan-mode")
-       (setq nyan-bar-length 10)
-       (setq nyan-wavy-trail t)
-       (nyan-mode)
-       (nyan-start-animation))
+                    '((vertical-scroll-bars . nil)
+                      (width . 81)
+                      (height . 50))) ; )
+      ; git://git.naquadah.org/naquadah-theme.git
+      (with-library 'naquadah-theme)
+      ; git://github.com/TeMPOraL/nyan-mode.git
+      (with-library 'nyan-mode
+        (setq nyan-bar-length 10)
+        (setq nyan-wavy-trail t)
+        (nyan-mode)
+        (nyan-stop-animation)))
 
 ; Macros
 (fset 'open-last-buffer
@@ -55,22 +60,22 @@
 (fset 'load-init-file
    [?\M-x ?l ?o ?a ?d ?- ?f ?i ?l ?e ?\C-m ?\C-a ?\C-k ?~ ?/ ?. ?e ?m ?a ?c ?s ?\C-m])
 
-(require 'magit)
-(global-set-key "\C-xg" 'magit-status)
-(setq magit-repo-dirs '("~/repos/"))
-(setq magit-status-buffer-switch-function 'switch-to-buffer)
+(with-library 'magit
+  (global-set-key "\C-xg" 'magit-status)
+  (setq magit-repo-dirs '("~/repos/"))
+  (setq magit-status-buffer-switch-function 'switch-to-buffer))
 
-(require 'python)
-(define-key python-mode-map (kbd "RET") 'newline-and-indent)
+(with-library 'python
+  (define-key python-mode-map (kbd "RET") 'newline-and-indent))
 
-(require 'font-lock)
-(show-paren-mode t)
-(setq font-lock-maximum-decoration t)
-(global-font-lock-mode t)
+(with-library 'font-lock
+  (show-paren-mode t)
+  (setq font-lock-maximum-decoration t)
+  (global-font-lock-mode t))
 
-(require 'nxml-mode)
-(setq-default nxml-outline-child-indent 4)
-(setq-default nxml-child-indent 4)
+(with-library 'nxml-mode
+  (setq-default nxml-outline-child-indent 4)
+  (setq-default nxml-child-indent 4))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'upcase-region 'disabled nil)

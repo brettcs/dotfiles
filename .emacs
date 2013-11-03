@@ -63,7 +63,7 @@
 
 (with-library 'magit
   (global-set-key "\C-xg" 'magit-status)
-  (setq magit-repo-dirs '("~/repos/"))
+  (setq magit-repo-dirs (file-expand-wildcards "~/*repos"))
   (setq magit-status-buffer-switch-function 'switch-to-buffer))
 
 (with-library 'python

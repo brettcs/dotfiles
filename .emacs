@@ -34,6 +34,7 @@
 (let ((default-directory "~/.emacs.d/elisp/"))
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
+; git://git.naquadah.org/naquadah-theme.git
 (load-library "naquadah-theme")
 
 (when (window-system)
@@ -41,6 +42,7 @@
 		    '((vertical-scroll-bars . nil)
 		      (width . 81)
 		      (height . 50))) ; )
+       ; git://github.com/TeMPOraL/nyan-mode.git
        (load-library "nyan-mode")
        (setq nyan-bar-length 10)
        (setq nyan-wavy-trail t)

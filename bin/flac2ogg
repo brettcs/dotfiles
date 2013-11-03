@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -e
+set -u
+
+if [ "$#" -lt 2 ] || [ ! -d "$1" ]; then
+    echo "Usage: flac2ogg dirname flacfile1 [flacfile2 ...]" >&2
+    exit 2
+fi
+
+destdir=$1
+shift
+
+for flacfn in "$@"; do
+    oggfn="$(echo "$flacfn" | sed -e 's/\.flac$/.ogg/')"
+    if [ "$oggfn" = "$flacfn" ]; then
+        oggfn="${flacfn}.ogg"
+    fi
+    oggenc -o "${destdir}/$(basename "$oggfn")" "$flacfn"
+done

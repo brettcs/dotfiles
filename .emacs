@@ -55,6 +55,7 @@
 
 (require 'magit)
 (global-set-key "\C-xg" 'magit-status)
+(setq magit-repo-dirs '("~/repos/"))
 (setq magit-status-buffer-switch-function 'switch-to-buffer)
 
 (require 'python)

@@ -1,0 +1,165 @@
+### -*- muttrc -*-
+### Settings to override
+
+set   from="brettcsmith@brettcsmith.org"
+set   pgp_sign_as="brettcsmith@brettcsmith.org"
+set   imap_user=brett
+unset imap_pass
+unset smtp_url
+unset smtp_pass
+
+my_hdr From: Brett Smith <brettcsmith@brettcsmith.org>
+
+unset folder
+set   spoolfile=/var/mail/brett
+
+### Personal settings
+
+set   editor="/usr/bin/emacsclient"
+set   realname="Brett Smith"
+set   use_domain
+
+## GPG settings
+
+unset pgp_autoencrypt
+unset pgp_autosign
+unset pgp_long_ids
+set   pgp_replyencrypt
+set   pgp_replysign
+unset pgp_strict_enc
+set   pgp_verify_sig=yes
+set   fcc_clear
+
+### Look
+
+set   charset="utf-8"
+set   ascii_chars
+unset help
+set   pager_index_lines=6
+set   quote_regexp="^([ \t]*[|>:])+"
+set   reverse_alias
+set   sort=threads
+set   sort_alias=unsorted
+set   to_chars="?+TCFL"
+
+## Formatting
+
+set alias_format=" %t %4n %-10a | %r"
+set compose_format=" [%l : %a attachments] %| "
+set index_format="%-6.6(%d %b) %S | %-20.20F | %s"
+set pager_format=" (%3C/%3m) %F: %s"
+set status_format=" (%2b) %f %>  \
+[%?t?%t tag, ?%?F?%F flag, ?%?n?%n new, ?%?u?%u unread, ?%m -%d] "
+
+## Colors
+
+# General colors
+
+color error     white         red
+color indicator brightyellow  blue
+color markers   red           black
+color message   white         blue
+color tree      blue          black
+color status    brightgreen   blue
+
+# Header colors
+
+color header    magenta       black  ":"
+color header    green         black  "^cc:"
+color header    blue          black  "^date:"
+color header    cyan          black  "^from:"
+color header    yellow        black  "^subject:"
+color header    green         black  "^to:"
+
+# Index colors
+
+color index     red           black  ~D # Deleted
+color index     yellow        black  ~F # Flagged
+color index cyan black ~P # From me
+color index     magenta       black  ~T # Tagged
+color index     green         black  ~U # Unread
+
+# QuotedN colors
+
+color quoted1   magenta       black
+color quoted    green         black
+
+# Pager colors
+
+color attachment brightyellow black
+color signature cyan black
+
+## Headers
+
+ignore *
+unignore from: date subject to cc reply-to:
+unignore organization organisation
+unignore user-agent: x-agent: x-mailer: x-newsreader:
+unignore newsgroups: posted-to:
+unignore X-Spam-Status:
+
+unhdr_order *
+hdr_order Subject: From: To: Cc: Date: X-Newsreader: X-Mailer: \
+Organization: Organisation: User-Agent: Newsgroups: Reply-To:
+
+### Feel
+
+set   abort_nosubject=no
+set   abort_unmodified=ask-yes
+set   askcc=yes
+unset beep
+unset confirmappend
+unset confirmcreate
+set   delete=yes
+set   edit_headers
+set   mail_check=15
+set   move=no
+set   pager_stop
+set   print=ask-no
+set   save_empty
+unset suspend
+set   certificate_file=~/.mail_certificates
+
+## Keybindings
+
+bind index n next-unread
+bind index p previous-unread
+
+bind index N next-thread
+bind index P previous-thread
+
+bind index \cn next-subthread
+bind index \cp previous-subthread
+
+bind index \el current-bottom
+bind index L current-middle
+bind index \eL current-top
+
+bind index \cv collapse-all
+bind index \ca first-entry
+bind index <space> next-page
+bind index \ep print-message
+bind index \e\cl show-limit
+
+bind pager q skip-quoted
+
+## Macros
+
+macro index \ce "* \el" "move to the last entry and the bottom of the screen"
+macro index z "C \cu=Spam.Missed Spam\n" \
+		"copy mail to Bayesian spam box"
+macro pager z "C \cu=Spam.Missed Spam\n" \
+		"copy mail to Bayesian spam box"
+macro index Z "s \cu=Spam.Missed Spam\n" \
+		"save mail to Bayesian spam box"
+macro pager Z "s \cu=Spam.Missed Spam\n" \
+		"save mail to Bayesian spam box"
+
+macro index y "C \cu=Spam.Missed Ham\n" \
+		"copy mail to Bayesian ham box"
+macro pager y "C \cu=Spam.Missed Ham\n" \
+		"copy mail to Bayesian ham box"
+macro index Y "s \cu=Spam.Missed Ham\n" \
+		"save mail to Bayesian ham box"
+macro pager Y "s \cu=Spam.Missed Ham\n" \
+		"save mail to Bayesian ham box"

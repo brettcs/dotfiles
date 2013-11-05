@@ -50,7 +50,7 @@ for fn in $(my_find -type f); do
 done
 
 cd .bcsh
-for fn in $(my_find -type f); do
+for fn in $(my_find -type f \! -name .bcsh\*); do
     source="$destdir/.bcsh/$fn"
     target="$destdir/$fn"
     if [ -h "$target" ] \

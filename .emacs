@@ -10,7 +10,6 @@
 (blink-cursor-mode 0)
 (column-number-mode 1)
 (menu-bar-mode 0)
-(tool-bar-mode 0)
 
 (setq-default vertical-scroll-bar nil)
 (setq inhibit-startup-message t)
@@ -50,6 +49,7 @@
                     '((vertical-scroll-bars . nil)
                       (width . 81)
                       (height . 50)))
+      (tool-bar-mode 0)
       ; git://git.naquadah.org/naquadah-theme.git
       (with-library 'naquadah-theme)
       ; git://github.com/TeMPOraL/nyan-mode.git

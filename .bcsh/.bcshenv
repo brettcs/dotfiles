@@ -5,11 +5,11 @@
 export PATH="/bin:/usr/bin:/sbin:/usr/sbin:/usr/games:/usr/local/bin:/usr/local/sbin:/usr/local/games:$HOME/bin:/usr/local/android-sdk/tools"
 
 export CVS_RSH="ssh"
-export EDITOR="nano"
+export EDITOR="/bin/nano"
 export GREP_COLOR="1;32"
 export PAGER="/usr/bin/less"
 export TZ="America/New_York"
-export VISUAL="emacsclient"
+export VISUAL="/usr/bin/emacsclient"
 
 _trylocale() {
     local locale=$1; shift

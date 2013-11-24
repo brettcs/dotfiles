@@ -11,6 +11,7 @@
 (column-number-mode 1)
 (menu-bar-mode 0)
 
+(setq-default indent-tabs-mode nil)
 (setq-default vertical-scroll-bar nil)
 (setq inhibit-startup-message t)
 (setq auto-mode-alist (cons '("cvs.*" . text-mode) auto-mode-alist))
@@ -19,7 +20,6 @@
 (setq blink-matching-paren nil)
 (setq diff-switches "-u")
 (setq fill-column 75)
-(setq indent-tabs-mode nil)
 (setq kill-whole-line t)
 (setq make-backup-files nil)
 (setq mouse-yank-at-point nil)

@@ -4,7 +4,7 @@
 (put 'with-library 'lisp-indent-function 1)
 
 (defun load-init-file ()
-  (load-file "~/.emacs"))
+  (interactive (load-file "~/.emacs")))
 
 (server-start)
 (blink-cursor-mode 0)

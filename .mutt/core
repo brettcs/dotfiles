@@ -118,7 +118,7 @@ set   pager_stop
 set   print=ask-no
 set   save_empty
 unset suspend
-set   certificate_file=~/.mail_certificates
+set   certificate_file=~/.mutt/certificates
 
 ## Keybindings
 

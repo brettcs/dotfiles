@@ -14,8 +14,6 @@
 (setq-default indent-tabs-mode nil)
 (setq-default vertical-scroll-bar nil)
 (setq inhibit-startup-message t)
-(setq auto-mode-alist (cons '("cvs.*" . text-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("mutt-.*" . text-mode) auto-mode-alist))
 (setq auto-save-default nil)
 (setq blink-matching-paren nil)
 (setq diff-switches "-u")
@@ -27,7 +25,11 @@
 (setq visible-bell t)
 (setq x-select-enable-clipboard t)  ; Unbreak my software, please.
 
-(add-to-list 'auto-mode-alist '("\\.phi" . php-mode))
+(setq auto-mode-alist
+      (nconc '(("/db\\." . zone-mode)
+               ("/cvs\\.*" . text-mode)
+               ("/mutt-" . text-mode)
+               ("\\.phi\\'" . php-mode)) auto-mode-alist))
 
 (fset 'open-last-buffer [?\C-x ?b ?\C-m])
 

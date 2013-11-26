@@ -3,13 +3,15 @@
      ,@body))
 (put 'with-library 'lisp-indent-function 1)
 
-(defun load-init-file ()
-  (interactive (load-file "~/.emacs")))
+(let ((default-directory "~/.emacs.d/elisp/"))
+  (normal-top-level-add-to-load-path '("."))
+  (normal-top-level-add-subdirs-to-load-path))
 
-(server-start)
-(blink-cursor-mode 0)
-(column-number-mode 1)
-(menu-bar-mode 0)
+(defun load-init-file () (interactive)
+  (load-file "~/.emacs"))
+
+(defun switch-to-buffer-last () (interactive)
+  (switch-to-buffer nil))
 
 (setq-default indent-tabs-mode nil)
 (setq-default vertical-scroll-bar nil)
@@ -31,17 +33,16 @@
                ("/mutt-" . text-mode)
                ("\\.phi\\'" . php-mode)) auto-mode-alist))
 
-(fset 'open-last-buffer [?\C-x ?b ?\C-m])
-
-(global-set-key "\C-xl" 'open-last-buffer)
 (global-set-key "\C-c\C-s" 'ispell-region)
-(global-set-key "\C-z" 'undo)
+(global-set-key "\C-xl" 'switch-to-buffer-last)
 (global-set-key "\C-x\C-n" 'save-buffer)  ; Helpful with Dvorak.
 (global-set-key "\C-x/" 'comment-or-uncomment-region)
+(global-set-key "\C-z" 'undo)
 
-(let ((default-directory "~/.emacs.d/elisp/"))
-  (normal-top-level-add-to-load-path '("."))
-  (normal-top-level-add-subdirs-to-load-path))
+(server-start)
+(blink-cursor-mode 0)
+(column-number-mode 1)
+(menu-bar-mode 0)
 
 (when (window-system)
       (setq-default initial-frame-alist
@@ -58,6 +59,11 @@
         (nyan-mode)
         (nyan-stop-animation)))
 
+(with-library 'font-lock
+  (show-paren-mode t)
+  (setq font-lock-maximum-decoration t)
+  (global-font-lock-mode t))
+
 (with-library 'magit
   (global-set-key "\C-xg" 'magit-status)
   (setq magit-repo-dirs (file-expand-wildcards "~/*repos"))
@@ -67,17 +73,12 @@
   (add-to-list 'auto-mode-alist '("\\.md\\(wn\\)?\\'" . markdown-mode))
   (add-hook 'markdown-mode-hook 'visual-line-mode))
 
-(with-library 'python
-  (define-key python-mode-map (kbd "RET") 'newline-and-indent))
-
-(with-library 'font-lock
-  (show-paren-mode t)
-  (setq font-lock-maximum-decoration t)
-  (global-font-lock-mode t))
-
 (with-library 'nxml-mode
   (setq-default nxml-outline-child-indent 4)
   (setq-default nxml-child-indent 4))
+
+(with-library 'python
+  (define-key python-mode-map (kbd "RET") 'newline-and-indent))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'overwrite-mode 'disabled t)

@@ -27,10 +27,7 @@
 (setq visible-bell t)
 (setq x-select-enable-clipboard t)  ; Unbreak my software, please.
 
-(add-to-list 'auto-mode-alist '("\\.md\\(wn\\)?" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.phi" . php-mode))
-
-(add-hook 'markdown-mode-hook 'visual-line-mode)
 
 (fset 'open-last-buffer [?\C-x ?b ?\C-m])
 
@@ -63,6 +60,10 @@
   (global-set-key "\C-xg" 'magit-status)
   (setq magit-repo-dirs (file-expand-wildcards "~/*repos"))
   (setq magit-status-buffer-switch-function 'switch-to-buffer))
+
+(with-library 'markdown-mode
+  (add-to-list 'auto-mode-alist '("\\.md\\(wn\\)?\\'" . markdown-mode))
+  (add-hook 'markdown-mode-hook 'visual-line-mode))
 
 (with-library 'python
   (define-key python-mode-map (kbd "RET") 'newline-and-indent))

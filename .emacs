@@ -77,6 +77,9 @@
   (setq-default nxml-outline-child-indent 4)
   (setq-default nxml-child-indent 4))
 
+(with-library 'perl-mode
+  (defalias 'cperl-mode 'perl-mode))
+
 (with-library 'python
   (define-key python-mode-map (kbd "RET") 'newline-and-indent))
 

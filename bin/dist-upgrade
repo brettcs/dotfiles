@@ -1,9 +1,29 @@
 #!/bin/sh
 
 set -e
+set -u
+
+UPDATE_STAMP_FILE=/var/cache/apt/pkgcache.bin
 
 cd
 export http_proxy=""
 export HTTP_PROXY=""
-sudo aptitude update
-sudo aptitude dist-upgrade
+
+if [ "$(whoami)" = root ]; then
+    APT_GET=aptitude
+else
+    APT_GET="sudo aptitude"
+fi
+
+if [ -e "$UPDATE_STAMP_FILE" ]; then
+    last_update_stamp=$(stat -c '%Y' "$UPDATE_STAMP_FILE")
+else
+    last_update_stamp=0
+fi
+
+LAST_UPDATE_AGO=$(( $(date +%s) - $last_update_stamp ))
+if [ "$LAST_UPDATE_AGO" -gt 57600 ]; then  # 16 hours
+    $APT_GET update
+fi
+
+$APT_GET dist-upgrade

@@ -16,7 +16,7 @@ ask_overwrite() {
     local fn=$1; shift
     while true; do
 	echo
-	head -n 10 "$fn"
+	grep -viE '\bpass(word|wd|)\b' "$fn" | head -n 10
 	printf "OK to overwrite this $fn? (y/N) "
 	read ans
 	ans=$(echo "${ans:-n}" | tr '[:upper:]' '[:lower:]')

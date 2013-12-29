@@ -1,17 +1,16 @@
 #!/bin/sh
 
-for dir in "$HOME/Temporary Files" "$HOME/temp" "$HOME/scp"; do
-    if [ ! -d "$dir" ]; then continue; fi
-    find "$dir" -xdev -mtime +14 -type f -print0 | xargs -0r rm
-    for i in $(seq 1 50); do
-        edfn=$(tempfile -p cleaner)
-        find "$dir" -mindepth 1 -type d -empty -print0 >"$edfn"
-        if [ -s "$edfn" ]; then
-            xargs -0 rmdir <"$edfn"
-            rm "$edfn"
-        else
-            rm "$edfn"
-            break
-        fi
+clean_dir() {
+    test -d "$1" || return
+    find "$1" -depth -mindepth 1 -xdev \
+        \( -type f -mtime +14 -delete \) -or \
+        \( -type d -empty -delete \)
+}
+
+if [ $# -eq 0 ]; then
+    clean_dir "$HOME/temp"
+else
+    for dir in "$@"; do
+        clean_dir "$dir"
     done
-done
+fi

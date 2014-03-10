@@ -82,16 +82,15 @@ case "$(hostname -s)" in
     isolde) PROMPT_HOST_COLOR=$'%{\e[1;36m%}' ;;
     stephan) PROMPT_HOST_COLOR=$'%{\e[1;45;32m%}' ;;
     timulty) PROMPT_HOST_COLOR=$'%{\e[1;45;36m%}' ;;
-    ozymandias) PROMPT_HOST_COLOR=$'%{\e[1;30m%}' ;;
     # Personal servers
     llewellyn) PROMPT_HOST_COLOR=$'%{\e[1;33m%}' ;;
     panacea) PROMPT_HOST_COLOR=$'%{\e[1;45;33m%}' ;;
-    # Ex-work machines
-    fencepost) PROMPT_HOST_COLOR=$'%{\e[1;45;35m%}' ;;
-    serenity) PROMPT_HOST_COLOR=$'%{\e[1;45;34m%}' ;;
     # Work machines
-    bongo) PROMPT_HOST_COLOR=$'%{\e[1;37m%}' ;;
-    jay) PROMPT_HOST_COLOR=$'%{\e[1;44;37m%}' ;;
+    brinstar) PROMPT_HOST_COLOR=$'%{\e[1;44;37m%}' ;;
+    norfair) PROMPT_HOST_COLOR=$'%{\e[1;44;36m%}' ;;
+    tourian) PROMPT_HOST_COLOR=$'%{\e[1;44;35m%}' ;;
+    crateria) PROMPT_HOST_COLOR=$'%{\e[1;44;33m%}' ;;
+    maridia) PROMPT_HOST_COLOR=$'%{\e[1;44;32m%}' ;;
     *) PROMPT_HOST_COLOR=$'%{\e[1;41;31m%}' ;;
 esac
 

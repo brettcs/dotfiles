@@ -39,6 +39,7 @@
                ("/mutt-" . visual-text-mode)
                ("\\.textile\\'" . visual-text-mode)) auto-mode-alist))
 
+(define-key global-map (kbd "RET") 'newline-and-indent)
 (global-set-key "\C-c\C-s" 'ispell-region)
 (global-set-key "\C-xl" 'switch-to-buffer-last)
 (global-set-key "\C-x\C-n" 'save-buffer)  ; Helpful with Dvorak.
@@ -89,8 +90,8 @@
 (with-library 'perl-mode
   (defalias 'cperl-mode 'perl-mode))
 
-(with-library 'python
-  (define-key python-mode-map (kbd "RET") 'newline-and-indent))
+(with-library 'ruby-mode
+  (define-key ruby-mode-map (kbd "RET") 'newline-and-indent))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'overwrite-mode 'disabled t)

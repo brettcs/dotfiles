@@ -13,8 +13,8 @@ unsetopt AUTO_REMOVE_SLASH
 setopt LIST_TYPES
 
 # Miscellaneous options
+setopt CORRECT
 setopt NO_BEEP
-setopt CORRECT_ALL
 setopt RM_STAR_SILENT
 setopt TRANSIENT_RPROMPT
 unsetopt MAIL_WARNING

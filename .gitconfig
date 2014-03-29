@@ -1,3 +1,13 @@
+[color]
+	diff = true
+	grep = true
+[color "diff"]
+	meta = cyan
+	frag = yellow bold
+	old = red bold
+	new = green bold
+[color "grep"]
+	match = green bold
+	filename = magenta
 [user]
 	name = Brett Smith
-	email = brettcsmith@brettcsmith.org

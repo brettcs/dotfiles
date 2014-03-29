@@ -23,6 +23,15 @@ setopt RM_STAR_SILENT
 setopt TRANSIENT_RPROMPT
 unsetopt MAIL_WARNING
 
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable bzr cvs git hg svn
+zstyle ':vcs_info:*' formats '%F{cyan}%r:%B%b%%b%F{cyan}:%f'
+zstyle ':vcs_info:*' actionformats \
+    '%F{cyan}%r:%B%F{yellow}%a%f%%b on %F{cyan}%B%b%%b%F{cyan}:%f'
+zstyle ':vcs_info:git:*' formats '%F{green}%r:%B%b%%b%F{green}:%f'
+zstyle ':vcs_info:git:*' actionformats \
+    '%F{green}%r:%B%F{yellow}%a%f%%b on %F{green}%B%b%%b%F{green}:%f'
+
 ### TERMINAL TITLE SETTING
 if [ "$TERM" = "xterm" ] || [ -n "$BCS_SCREEN" ]; then
     titlebar="%m:%~"
@@ -30,21 +39,12 @@ fi
 
 precmd() {
     [ -n "$titlebar" ] && echo -ne "\033]0;${(%)titlebar}\007"
+    vcs_info
     RPROMPT="%(1j!%B%F{cyan}%j%b%f !)"
     RPROMPT+="%(0?!!%B%F{red}%?%b%f )"
-    local branch repocolor halfwidth
-    halfwidth=$[${COLUMNS:-80} / 2]
-    if [[ "$PWD" =~ "^$HOME/(w3)?repos/[^/]+" ]]; then
-        if [ -d "$MATCH/.git" ]; then
-	    repocolor='%F{green}'
-            branch=$(git status 2>/dev/null | head -n 1 | cut -d' ' -f4-)
-	elif [ -d "$MATCH/.hg" ]; then
-	    repocolor='%F{cyan}'
-	    branch=$(hg branch)
-        fi
-    fi
-    if [ -n "$branch" ]; then
-        RPROMPT+="(%B${repocolor}%$[$halfwidth - 20]>…>${branch}%>>%b${repocolor}:%f%1d"
+    local halfwidth=$[${COLUMNS:-80} / 2]
+    if [ -n "$vcs_info_msg_0_" ]; then
+        RPROMPT+="(${vcs_info_msg_0_}%1d"
     else
         local predir=$(print -P "%-1~/…")
         RPROMPT+="(%$[$halfwidth - 10]<${predir}<%~%<<"

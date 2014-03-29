@@ -64,10 +64,9 @@ _up() {
             nextpath="${nextpath}../"
         done
     else
-        pattern="^$(echo "$2" | sed -e 's/\([^-A-Za-z0-9]\)/\\\1/g')"
         nextpath="$(dirname "$(pwd)")"
         while [ "$nextpath" != "/" ]; do
-            if basename "$nextpath" | grep -qi "$pattern"; then
+            if basename "$nextpath" | grep -qFi "$2"; then
                 break
             fi
             nextpath="$(dirname "$nextpath")"
@@ -89,7 +88,7 @@ if type qrencode 2>/dev/null >/dev/null; then
         fn="$(tempfile -p qr- -s .png)" && \
             qrencode -o "$fn" "$1" && eog "$fn" && rm -f "$fn"
     }
-fi    
+fi
 
 vcsfind() {
     find \( -name 'CVS' -o -name '.svn' -o -name '.hg' -o -name '.git' \) \

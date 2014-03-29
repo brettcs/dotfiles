@@ -13,8 +13,7 @@ export VISUAL="/usr/bin/emacsclient"
 
 _trylocale() {
     local locale=$1; shift
-    local pattern=$(echo "$locale" | sed -e 's/\([^A-Za-z0-9]\)/\1?/g')
-    locale -a | grep -Eqie "^$pattern\$" || return $?
+    locale -a | grep -qFxi "$pattern" || return $?
     export LANG=$locale
     export LC_ALL=$locale
 }

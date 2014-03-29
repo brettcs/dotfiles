@@ -45,6 +45,8 @@
 (global-set-key "\C-x/" 'comment-or-uncomment-region)
 (global-set-key "\C-z" 'undo)
 
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 (server-start)
 (blink-cursor-mode 0)
 (column-number-mode 1)

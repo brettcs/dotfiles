@@ -1,17 +1,6 @@
 # .zshrc - third in the execution list; only for interactive shells.
 
 ### ENVIRONMENT VARIABLES
-PROMPT_BOLD=$'%{\e[1m%}'
-PROMPT_NORMAL=$'%{\e[22m%}'
-PROMPT_RESET=$'%{\e[0m%}'
-
-PROMPT_RED=$'%{\e[1;31m%}'
-PROMPT_GREEN=$'%{\e[1;32m%}'
-PROMPT_YELLOW=$'%{\e[1;33m%}'
-PROMPT_BLUE=$'%{\e[1;34m%}'
-PROMPT_PURPLE=$'%{\e[1;35m%}'
-PROMPT_CYAN=$'%{\e[1;36m%}'
-
 ZLS_COLORS="di=1;34"
 WORDCHARS=$(echo $WORDCHARS | sed -e 's/\///')
 
@@ -41,57 +30,55 @@ fi
 
 precmd() {
     [ -n "$titlebar" ] && echo -ne "\033]0;${(%)titlebar}\007"
-    RPROMPT="%(1j!${PROMPT_CYAN}%j${PROMPT_RESET} !)"
-    RPROMPT+="%(0?!!${PROMPT_RED}%?${PROMPT_RESET} )"
+    RPROMPT="%(1j!%B%F{cyan}%j%b%f !)"
+    RPROMPT+="%(0?!!%B%F{red}%?%b%f )"
     local branch repocolor halfwidth
     halfwidth=$[${COLUMNS:-80} / 2]
-# PROMPT_GREEN=$'%{\e[1;32m%}'
     if [[ "$PWD" =~ "^$HOME/(w3)?repos/[^/]+" ]]; then
         if [ -d "$MATCH/.git" ]; then
-	    repocolor=$'%{\e[32m%}'  # green
+	    repocolor='%F{green}'
             branch=$(git status 2>/dev/null | head -n 1 | cut -d' ' -f4-)
 	elif [ -d "$MATCH/.hg" ]; then
-	    repocolor=$'%{\e[36m%}'  # cyan
+	    repocolor='%F{cyan}'
 	    branch=$(hg branch)
         fi
     fi
     if [ -n "$branch" ]; then
-        RPROMPT+="(${PROMPT_BOLD}${repocolor}%$[$halfwidth - 20]>…>${branch}%>>${PROMPT_NORMAL}:${PROMPT_RESET}%1d"
+        RPROMPT+="(%B${repocolor}%$[$halfwidth - 20]>…>${branch}%>>%b${repocolor}:%f%1d"
     else
         local predir=$(print -P "%-1~/…")
         RPROMPT+="(%$[$halfwidth - 10]<${predir}<%~%<<"
     fi
     [ ${#dirstack} -ne 0 ] && \
-        RPROMPT+="${PROMPT_YELLOW} +${#dirstack}"
-    RPROMPT+="${PROMPT_RESET})"
+        RPROMPT+="%B%F{yellow} +${#dirstack}"
+    RPROMPT+="%b%f%k)"
 }
 
 PROMPT_SCREEN_HINT=$'%{\ek\e\\%}'
 if [ "$LOGNAME" = "root" ]; then
-    PROMPT_PCT="${PROMPT_RED}%#${PROMPT_RESET}"
+    PROMPT_PCT="%B%F{red}%#%b%f"
 elif [ -n "$BCS_SCREEN" ]; then
     PROMPT_PCT="%#"
 else
-    PROMPT_PCT="${PROMPT_YELLOW}%#${PROMPT_RESET}"
+    PROMPT_PCT="%B%F{yellow}%#%b%f"
 fi
 
-# 0=black, 1=red, 2=green, 3=yellow, 4=blue, 5=purple, 6=cyan, 7=white
 case "$(hostname -s)" in
     # Home machines
-    locke) PROMPT_HOST_COLOR=$'%{\e[1;34m%}' ;;
-    isolde) PROMPT_HOST_COLOR=$'%{\e[1;36m%}' ;;
-    stephan) PROMPT_HOST_COLOR=$'%{\e[1;45;32m%}' ;;
-    timulty) PROMPT_HOST_COLOR=$'%{\e[1;45;36m%}' ;;
+    locke) PROMPT_HOST_COLOR='%F{blue}' ;;
+    isolde) PROMPT_HOST_COLOR='%F{cyan}' ;;
+    stephan) PROMPT_HOST_COLOR='%K{magenta}%F{green}' ;;
+    timulty) PROMPT_HOST_COLOR='%K{magenta}%F{cyan}' ;;
     # Personal servers
-    llewellyn) PROMPT_HOST_COLOR=$'%{\e[1;33m%}' ;;
-    panacea) PROMPT_HOST_COLOR=$'%{\e[1;45;33m%}' ;;
+    llewellyn) PROMPT_HOST_COLOR='%F{yellow}' ;;
+    panacea) PROMPT_HOST_COLOR='%K{magenta}%F{yellow}' ;;
     # Work machines
-    brinstar) PROMPT_HOST_COLOR=$'%{\e[1;44;37m%}' ;;
-    norfair) PROMPT_HOST_COLOR=$'%{\e[1;44;36m%}' ;;
-    tourian) PROMPT_HOST_COLOR=$'%{\e[1;44;35m%}' ;;
-    crateria) PROMPT_HOST_COLOR=$'%{\e[1;44;33m%}' ;;
-    maridia) PROMPT_HOST_COLOR=$'%{\e[1;44;32m%}' ;;
-    *) PROMPT_HOST_COLOR=$'%{\e[1;41;31m%}' ;;
+    brinstar) PROMPT_HOST_COLOR='%K{blue}%F{white}' ;;
+    norfair) PROMPT_HOST_COLOR='%K{blue}%F{cyan}' ;;
+    tourian) PROMPT_HOST_COLOR='%K{blue}%F{magenta}' ;;
+    crateria) PROMPT_HOST_COLOR='%K{blue}%F{yellow}' ;;
+    maridia) PROMPT_HOST_COLOR='%K{blue}%F{green}' ;;
+    *) PROMPT_HOST_COLOR='%K{red}%F{white}' ;;
 esac
 
 _trysource() { [ -f "$1" ] && source "$1"; }
@@ -101,7 +88,7 @@ _trysource "$ZDOTDIR/.bcshrc"
 
 trap "source \"$BCS_VAR_FILE\"" USR1
 
-PROMPT="${PROMPT_HOST_COLOR}%m${PROMPT_RESET} ${PROMPT_PCT} "
+PROMPT="%B${PROMPT_HOST_COLOR}%m%b%f%k ${PROMPT_PCT} "
 [ "$LOGNAME" != "brett" ] && PROMPT="%n@$PROMPT"
 [ -n "$BCS_SCREEN" ] && PROMPT="${PROMPT_SCREEN_HINT}${PROMPT}"
 true

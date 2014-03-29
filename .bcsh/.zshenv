@@ -1,12 +1,11 @@
 # .zshenv - first in the execution list; for all shells
 
 ### ENVIRONMENT VARIABLES
-ZDOTDIR="$HOME/.bcsh"
+export ZDOTDIR="$HOME/.bcsh"
 
-SAVEHIST=500
-HISTFILE="$ZDOTDIR/.zsh_history"
-
-export SAVEHIST HISTFILE ZDOTDIR
+export HISTFILE="$ZDOTDIR/.zsh_history"
+export HISTSIZE=300
+export SAVEHIST=250
 
 ### OPTIONS
 setopt CLOBBER

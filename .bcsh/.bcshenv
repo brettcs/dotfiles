@@ -7,6 +7,7 @@ export PATH="/bin:/usr/bin:/sbin:/usr/sbin:/usr/games:/usr/local/bin:/usr/local/
 export CVS_RSH="ssh"
 export EDITOR="/bin/nano"
 export GREP_COLOR="1;32"
+export LESS=XRF
 export PAGER="/usr/bin/less"
 export TZ="America/New_York"
 export VISUAL="/usr/bin/emacsclient"

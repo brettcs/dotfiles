@@ -7,11 +7,17 @@
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
+(defun fill-text-mode () (interactive)
+  (text-mode) (auto-fill-mode))
+
 (defun load-init-file () (interactive)
   (load-file "~/.emacs"))
 
 (defun switch-to-buffer-last () (interactive)
   (switch-to-buffer nil))
+
+(defun visual-text-mode () (interactive)
+  (text-mode) (visual-line-mode))
 
 (setq-default indent-tabs-mode nil)
 (setq-default vertical-scroll-bar nil)
@@ -29,9 +35,9 @@
 
 (setq auto-mode-alist
       (nconc '(("/db\\." . zone-mode)
-               ("/cvs\\.*" . text-mode)
-               ("/mutt-" . text-mode)
-               ("\\.phi\\'" . php-mode)) auto-mode-alist))
+               ("/cvs\\.*" . fill-text-mode)
+               ("/mutt-" . visual-text-mode)
+               ("\\.textile\\'" . visual-text-mode)) auto-mode-alist))
 
 (global-set-key "\C-c\C-s" 'ispell-region)
 (global-set-key "\C-xl" 'switch-to-buffer-last)
@@ -66,6 +72,7 @@
 
 (with-library 'magit
   (global-set-key "\C-xg" 'magit-status)
+  (add-hook 'magit-log-edit-mode-hook 'auto-fill-mode)
   (setq magit-repo-dirs (file-expand-wildcards "~/*repos"))
   (setq magit-status-buffer-switch-function 'switch-to-buffer))
 

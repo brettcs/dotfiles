@@ -73,6 +73,16 @@
   (setq font-lock-maximum-decoration t)
   (global-font-lock-mode t))
 
+; https://github.com/alpaker/Fill-Column-Indicator.git
+(with-library 'fill-column-indicator
+  (setq fci-rule-column 80)
+  (setq fci-rule-color "DarkOrange4")
+  (add-hook 'emacs-lisp-mode-hook 'fci-mode)
+  (add-hook 'perl-mode-hook 'fci-mode)
+  (add-hook 'python-mode-hook 'fci-mode)
+  (add-hook 'ruby-mode-hook 'fci-mode)
+  (add-hook 'sh-mode-hook 'fci-mode))
+
 (with-library 'magit
   (global-set-key "\C-xg" 'magit-status)
   (add-hook 'magit-log-edit-mode-hook 'auto-fill-mode)

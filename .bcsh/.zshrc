@@ -1,13 +1,8 @@
 # .zshrc - third in the execution list; only for interactive shells.
 
-### ENVIRONMENT VARIABLES
-ZLS_COLORS="di=1;34"
-WORDCHARS=$(echo $WORDCHARS | sed -e 's/\///')
-
 # for ~/bin/reattach
 export BCS_VAR_FILE="$HOME/.reattach"
 
-### OPTIONS
 # Autocompletion options
 setopt AUTO_LIST
 setopt AUTO_MENU
@@ -22,6 +17,9 @@ setopt CORRECT_ALL
 setopt RM_STAR_SILENT
 setopt TRANSIENT_RPROMPT
 unsetopt MAIL_WARNING
+
+WORDCHARS=$(echo $WORDCHARS | sed -e 's/\///')
+ZLS_COLORS="di=1;34"
 
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable bzr cvs git hg svn

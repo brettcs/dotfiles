@@ -9,6 +9,7 @@ setopt AUTO_MENU
 setopt ALWAYS_TO_END
 setopt AUTO_PARAM_KEYS
 setopt AUTO_PARAM_SLASH
+unsetopt AUTO_REMOVE_SLASH
 setopt LIST_TYPES
 
 # Miscellaneous options
@@ -19,7 +20,12 @@ setopt TRANSIENT_RPROMPT
 unsetopt MAIL_WARNING
 
 WORDCHARS=$(echo $WORDCHARS | sed -e 's/\///')
-ZLS_COLORS="di=1;34"
+
+autoload -U compinit
+autoload zsh/complist
+compinit
+zstyle ':completion:*' list-colors 'di=1;34'
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable bzr cvs git hg svn

@@ -8,6 +8,7 @@ mark() { export MARKDIR="${PWD}"; }
 reallines() { grep -Ev '^[[:space:]]*($|#)' "$@" | less; }
 stamp() { find "$@" -print0 | xargs -0 touch; }
 today() { date +%Y-%m-%d; }
+wrap() { fold -sw "${COLUMNS:-80}" "$@"; }
 
 if type colordiff 2>/dev/null >/dev/null; then
     cdiff() {

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-b() { ls -Alh --color=always "$@" | less -XRF; }
+b() { ls -Alh --color=always "$@" | less; }
 bsplit() { split -d -b "$1" "$2" "$(basename "$2")."; }
-cwdiff() { wdiff -n "$@" | colordiff | less -XRF; }
+cwdiff() { wdiff -n "$@" | colordiff | less; }
 gomark() { cd "$MARKDIR"; }
 mark() { export MARKDIR="${PWD}"; }
-reallines() { grep -Ev '^[[:space:]]*($|#)' "$@" | less -XRF; }
+reallines() { grep -Ev '^[[:space:]]*($|#)' "$@" | less; }
 stamp() { find "$@" -print0 | xargs -0 touch; }
 today() { date +%Y-%m-%d; }
 
@@ -133,7 +133,7 @@ _tryalias grep cgrep grep --color=always
 _tryalias grep vcscgrep grep --color=always -r --exclude-dir={CVS,.svn,.hg,.git}
 _tryalias grep vcsgrep grep -r --exclude-dir={CVS,.svn,.hg,.git}
 _tryalias ipv6calc rev6 ipv6calc --quiet --out revnibbles.arpa
-_tryalias less l less -XRF
+_tryalias less l less
 _tryalias nano wnano VISUAL=nano EDITOR=nano
 _tryalias readlink realpath readlink -e
 _tryalias shred zeroout shred -n 0 -z

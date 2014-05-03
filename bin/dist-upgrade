@@ -3,27 +3,34 @@
 set -e
 set -u
 
-UPDATE_STAMP_FILE=/var/cache/apt/pkgcache.bin
+update_stamp_file=/var/cache/apt/pkgcache.bin
+
+if [ "$(id -u)" -eq 0 ]; then
+    apt_cmd=aptitude
+else
+    apt_cmd="sudo aptitude"
+fi
+
+while getopts c:u arg; do
+    case "$arg" in
+        c) apt_cmd=$OPTARG;;
+        u) update_stamp_file="";;
+    esac
+done
 
 cd
 export http_proxy=""
 export HTTP_PROXY=""
 
-if [ "$(whoami)" = root ]; then
-    APT_GET=aptitude
-else
-    APT_GET="sudo aptitude"
-fi
-
-if [ -e "$UPDATE_STAMP_FILE" ]; then
-    last_update_stamp=$(stat -c '%Y' "$UPDATE_STAMP_FILE")
+if [ -e "$update_stamp_file" ]; then
+    last_update_stamp=$(stat -c '%Y' "$update_stamp_file")
 else
     last_update_stamp=0
 fi
 
 LAST_UPDATE_AGO=$(( $(date +%s) - $last_update_stamp ))
 if [ "$LAST_UPDATE_AGO" -gt 57600 ]; then  # 16 hours
-    $APT_GET update
+    $apt_cmd update
 fi
 
-$APT_GET dist-upgrade
+$apt_cmd dist-upgrade

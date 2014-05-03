@@ -2,15 +2,9 @@
 # Common environment variables for all shells
 # Load from .zshenv or equivalent
 
-export PATH="/bin:/usr/bin:/sbin:/usr/sbin:/usr/games:/usr/local/bin:/usr/local/sbin:/usr/local/games:$HOME/bin"
-
-export CVS_RSH="ssh"
-export EDITOR="/bin/nano"
-export GREP_COLOR="1;32"
-export LESS=XRF
-export PAGER="/usr/bin/less"
-export TZ="America/New_York"
-export VISUAL="/usr/bin/emacsclient"
+export PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/games:/usr/local/bin:/usr/local/sbin:/usr/local/games:$HOME/bin
+export CVS_RSH=ssh
+export TZ=America/New_York
 
 _trylocale() {
     local regexp=$(echo "$1" | sed -e 's/-/-?/g' -e 's/\./\\./g')

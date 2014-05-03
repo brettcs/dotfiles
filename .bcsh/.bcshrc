@@ -1,5 +1,11 @@
 #!/bin/bash
 
+export EDITOR=/bin/nano
+export GREP_COLOR="1;32"
+export LESS=XRF
+export PAGER=/usr/bin/less
+export VISUAL=/usr/bin/emacsclient
+
 b() { ls -Alh --color=always "$@" | less; }
 bsplit() { split -d -b "$1" "$2" "$(basename "$2")."; }
 cwdiff() { wdiff -n "$@" | colordiff | less; }

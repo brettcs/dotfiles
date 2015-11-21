@@ -126,11 +126,6 @@ _tryalias() {
         name="$1" && shift && eval "alias $name='$*'"
 }
 
-PYTHON_VERSION=$(python -c \
-    'import sys; print "%s.%s" % tuple(sys.version_info[:2])')
-_tryalias "python$PYTHON_VERSION" pdb \
-    "python$PYTHON_VERSION" "/usr/lib/python$PYTHON_VERSION/pdb.py"
-
 _tryalias emacs wemacs VISUAL=emacs EDITOR=emacs
 _tryalias emacsclient visit emacsclient -n
 _tryalias emacsclient wemacsc VISUAL=emacsclient EDITOR=emacsclient

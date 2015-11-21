@@ -140,6 +140,7 @@ _tryalias grep vcsgrep grep -r --exclude-dir={CVS,.svn,.hg,.git}
 _tryalias ipv6calc rev6 ipv6calc --quiet --out revnibbles.arpa
 _tryalias less l less
 _tryalias nano wnano VISUAL=nano EDITOR=nano
+_tryalias python3 py python3 || _tryalias python py python
 _tryalias readlink realpath readlink -e
 _tryalias shred zeroout shred -n 0 -z
 _tryalias xclip xcopy xclip -selection clipboard
@@ -147,6 +148,12 @@ _tryalias xclip xpaste xclip -selection clipboard -o
 _tryalias xmodmap mx1k xmodmap -e '"pointer = 1 13 3 4 5 6 7 8 9 10 11 12 2"'
 _tryalias xmodmap nomx1k xmodmap -e '"pointer = 1 2 3 4 5 6 7 8 9 10 11 12 13"'
 _tryalias youtube-dl ydl youtube-dl -t --prefer-free-formats
+
+echo -n $PATH | tr : \\0 | xargs -0 ls -1p 2>/dev/null \
+      | grep -E '^python[1-9][.0-9]*$' | while read pybin; do
+    _tryalias "$pybin" "$(echo "$pybin" | sed -e 's/^python/py/')" "$pybin"
+done
+unset pybin
 
 alias noproxy='http_proxy=""'
 alias pd=popd

@@ -78,6 +78,7 @@
   (setq fci-rule-column 80)
   (setq fci-rule-color "DarkOrange4")
   (add-hook 'emacs-lisp-mode-hook 'fci-mode)
+  (add-hook 'js-mode-hook 'fci-mode)
   (add-hook 'perl-mode-hook 'fci-mode)
   (add-hook 'python-mode-hook 'fci-mode)
   (add-hook 'ruby-mode-hook 'fci-mode)

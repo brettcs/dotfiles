@@ -155,9 +155,9 @@ alias pd=popd
 alias up='_up cd'
 alias upp='_up pushd'
 
-[ -e "$HOME/bin/x" ] || alias x='dtrx'
+type reattach >/dev/null || _tryalias screen reattach screen -dR
+type x >/dev/null || alias x='dtrx'
 [ -e "/usr/share/doc/mutt/manual.txt.gz" ] && \
     alias muttman='zless /usr/share/doc/mutt/manual.txt.gz'
-[ -e "$HOME/bin/reattach" ] || _tryalias screen reattach screen -dR
 
 [ -e "$ZDOTDIR/.bcshrc-local" ] && source "$ZDOTDIR/.bcshrc-local"

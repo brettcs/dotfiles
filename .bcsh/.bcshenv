@@ -2,7 +2,7 @@
 # Common environment variables for all shells
 # Load from .zshenv or equivalent
 
-export PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/games:/usr/local/bin:/usr/local/sbin:/usr/local/games:$HOME/bin
+export PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin:$HOME/.local/bin:/usr/games:/usr/local/games
 export CVS_RSH=ssh
 export TZ=America/New_York
 

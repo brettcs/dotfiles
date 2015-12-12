@@ -58,6 +58,14 @@ pl() {
     eval pushd "\"$newdir\""
 }
 
+py() {
+    if [ -z "$VIRTUAL_ENV" ] && type python3 >/dev/null 2>&1; then
+        python3
+    else
+        python
+    fi
+}
+
 str() {
     if file -b "$1" | grep -q text; then
         $PAGER "$1"
@@ -140,7 +148,6 @@ _tryalias grep vcsgrep grep -r --exclude-dir={CVS,.svn,.hg,.git}
 _tryalias ipv6calc rev6 ipv6calc --quiet --out revnibbles.arpa
 _tryalias less l less
 _tryalias nano wnano VISUAL=nano EDITOR=nano
-_tryalias python3 py python3 || _tryalias python py python
 _tryalias readlink realpath readlink -e
 _tryalias shred zeroout shred -n 0 -z
 _tryalias xclip xcopy xclip -selection clipboard

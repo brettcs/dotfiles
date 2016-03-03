@@ -6,22 +6,25 @@ export LESS=XRF
 export PAGER=/usr/bin/less
 export VISUAL=/usr/bin/emacsclient
 
+_BCSMARKDIR="${_BCSMARKDIR:-$HOME}"
+
 _canrun() {
     type "$@" >/dev/null 2>&1
 }
 
-b() { ls -Alh --color=always "$@" | less; }
+b() { ls -Alh --color=always "$@" | $PAGER; }
 bsplit() { split -d -b "$1" "$2" "$(basename "$2")."; }
-cwdiff() { wdiff -n "$@" | colordiff | less; }
-gomark() { cd "$MARKDIR"; }
-mark() { export MARKDIR="${PWD}"; }
-reallines() { grep -Ev '^[[:space:]]*($|#)' "$@" | less; }
+cwdiff() { wdiff -n "$@" | colordiff | $PAGER; }
+gomark() { cd "$_BCSMARKDIR"; }
+mark() { _BCSMARKDIR="$(pwd)"; }
+reallines() { grep -Ev '^[[:space:]]*($|#)' "$@" | $PAGER; }
 stamp() { find "$@" -print0 | xargs -0 touch; }
 today() { date +%Y-%m-%d; }
 wrap() { fold -sw "${COLUMNS:-80}" "$@"; }
 
 if _canrun colordiff; then
     cdiff() {
+	local last_arg
 	eval "last_arg=\$$#"
 	if [ -e "$last_arg" ]; then
 	    colordiff -u "$@"
@@ -32,12 +35,12 @@ if _canrun colordiff; then
 fi
 
 d() {
-    firstchar=$(echo "$1" | cut -c1)
+    local firstchar="$(echo "$1" | cut -c1)"
     if [ -z "$1" ]; then
         dirs -p
-    elif [ -d "$1" ] || [ "$firstchar" = "+" ] || [ "$1" = "-" ]; then
+    elif [ -d "$1" ] || [ + = "$firstchar" ] || [ - = "$1" ]; then
         eval pushd "\"$1\""
-    elif [ "$firstchar" = "-" ]; then
+    elif [ - = "$firstchar" ]; then
         dirs "$@"
     elif echo "$1" | grep -qE '^[[:digit:]]+$'; then
         eval pushd "\"+$1\""
@@ -48,12 +51,12 @@ d() {
 }
 
 fin() {
-    msg="${@:-Job\'s done.}"
+    local msg="${@:-Job\'s done.}"
     zenity --info --text "$msg" || printf "\a${msg}\n"
 }
 
 pl() {
-    newdir="$(pwd)"
+    local newdir="$(pwd)"
     eval cd - >/dev/null
     eval pushd "\"$newdir\""
 }
@@ -75,6 +78,7 @@ str() {
 }
 
 _up() {
+    local nextpath
     if [ -z "$2" ]; then
         nextpath=".."
     elif echo "$2" | grep -q "^[0-9]$"; then
@@ -115,17 +119,16 @@ vcsfind() {
 }
 
 waittil() {
-    TARGET_TIME="$(date -d "$@" +%s)"
-    NOW="$(date +%s)"
-    while [ "$NOW" -ge "$TARGET_TIME" ]; do
-        let "TARGET_TIME = $TARGET_TIME + 86400"
+    local target_time="$(date -d "$@" +%s)"
+    local now="$(date +%s)"
+    while [ "$now" -ge "$target_time" ]; do
+        target_time=$(($target_time + 86400))
     done
-    let "SLEEP_SECS = $TARGET_TIME - $(date +%s)"
-    sleep "${SLEEP_SECS}s"
+    sleep "$(($target_time - $now))s"
 }
 
 zenalarm() {
-    if echo "$1" | grep -Eq "^[0-9]+[smhd]$"; then
+    if echo "$1" | grep -Eq '^[0-9]+[smhd]$'; then
         sleep "$1"
     else
         waittil "$1"

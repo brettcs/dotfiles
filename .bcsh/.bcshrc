@@ -60,9 +60,9 @@ pl() {
 
 py() {
     if [ -z "$VIRTUAL_ENV" ] && type python3 >/dev/null 2>&1; then
-        python3
+        python3 "$@"
     else
-        python
+        python "$@"
     fi
 }
 

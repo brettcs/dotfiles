@@ -1,0 +1,51 @@
+#!/bin/sh
+
+set -e
+
+errorquit() {
+    echo "$1" >&2
+    exit ${2:-1}
+}
+
+screencount=$(ls -1 /var/run/screen/S-$(whoami) | wc -l)
+if [ -n "$BCS_SCREEN" ]; then
+    errorquit "Won't reattach from inside screen"
+elif [ "$screencount" -gt 1 ]; then
+    errorquit "More than one screen session available to attach"
+fi
+
+# We do the echo here to make sure the filesystem is writable, etc.
+if [ -n "$BCS_VAR_FILE" ] && echo -n >"$BCS_VAR_FILE"; then
+    for env_name in DBUS_SESSION_BUS_ADDRESS DESKTOP_SESSION DISPLAY \
+        GDMSESSION GNOME_KEYRING_CONTROL GNOME_KEYRING_PIDR GPG_AGENT_INFO \
+        GTK_RC_FILES ORBIT_SOCKETDIR SESSION_MANAGER \
+        SSH_AGENT_PID SSH_AUTH_SOCK XAUTHORITY XDG_DATA_DIRS \
+        XDG_SESSION_COOKIE XDG_SESSION_DESKTOP XDG_SESSION_ID; do
+        eval "env_value=\$${env_name}"
+        if [ -z "$env_value" ]; then
+            echo "unset ${env_name}" >>"$BCS_VAR_FILE"
+        else
+            echo "export ${env_name}=\"${env_value}\"" >>"$BCS_VAR_FILE"
+        fi
+    done
+
+    screen_pid="$(ps x -o pid,cmd | grep SCREEN | grep -v grep \
+                  | awk '{print $1}')"
+    ps x -o ppid,pid,cmd | grep -E "^ *${screen_pid} " | grep -E "sh$" \
+        | awk '{print $2}' | xargs -r kill -USR1
+fi
+
+if [ -z "$SSH_CONNECTION" ]; then
+    if [ "$screencount" -eq 0 ]; then
+        screen_config=$(tempfile -p reattach-)
+        cat "$HOME/.screenrc" >"$screen_config"
+        echo "caption always" >>"$screen_config"
+        exec screen -c "$screen_config"
+    else
+        screen -X caption always
+    fi
+elif [ "$screencount" -gt 0 ]; then
+    screen -X caption splitonly
+fi
+
+exec screen -dR

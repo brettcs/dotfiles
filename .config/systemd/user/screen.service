@@ -1,0 +1,6 @@
+[Install]
+WantedBy=default.target
+
+[Service]
+ExecStart=/usr/bin/screen -Dm
+Restart=always

@@ -20,6 +20,7 @@
   (text-mode) (visual-line-mode))
 
 (setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
 (setq-default vertical-scroll-bar nil)
 (setq inhibit-startup-message t)
 (setq auto-save-default nil)

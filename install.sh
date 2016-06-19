@@ -61,6 +61,13 @@ for fn in $(my_find -type f); do
     target="$destdir/$fn"
     if can_overwrite "$fn" "$target"; then
         cp -b "$fn" "$target"
+        fn_dir=$(dirname "$fn")
+        fn_base=$(basename "$fn")
+        if [ "$fn_dir" = .config/systemd/user ] \
+           && [ -e /run/systemd/system ] \
+           && [ "$(systemctl --user is-enabled "$fn_base")" = disabled ]; then
+            systemctl --user enable "$fn_base"
+        fi
     fi
 done
 

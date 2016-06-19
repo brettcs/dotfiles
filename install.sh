@@ -20,16 +20,15 @@ ask_overwrite() {
         *) local answers="(y/N)" ;;
     esac
     while true; do
-	echo
-	grep -viE '\bpass(word|wd|)\b' "$fn" | head -n 10
-	printf "OK to overwrite this $fn? $answers "
-	read ans
-	ans=$(echo "${ans:-$default_answer}" | tr '[:upper:]' '[:lower:]')
-	if [ "$ans" = n ] || [ "$ans" = no ]; then
-	    return 1
-	elif [ "$ans" = y ] || [ "$ans" = yes ]; then
-	    return 0
-	fi
+	    echo
+	    grep -viE '\bpass(word|wd|)\b' "$fn" | head -n 10
+	    printf "OK to overwrite this $fn? $answers "
+	    read ans
+	    ans=$(echo "${ans:-$default_answer}" | tr '[:upper:]' '[:lower:]')
+        case "$ans" in
+            n|no) return 0 ;;
+            y|yes) return 1 ;;
+        esac
     done
 }
 
@@ -61,7 +60,7 @@ done
 for fn in $(my_find -type f); do
     target="$destdir/$fn"
     if can_overwrite "$fn" "$target"; then
-	cp -b "$fn" "$target"
+        cp -b "$fn" "$target"
     fi
 done
 
@@ -70,9 +69,9 @@ for fn in $(my_find -type f \! -name .bcsh\*); do
     source="$destdir/.bcsh/$fn"
     target="$destdir/$fn"
     if [ -h "$target" ] \
-	&& [ "$(readlink -e "$source")" = "$(readlink -e "$target")" ]; then
-	continue
+       && [ "$(readlink -e "$source")" = "$(readlink -e "$target")" ]; then
+        continue
     elif can_overwrite "$source" "$target"; then
-	ln -sb ".bcsh/$fn" "$target"
+        ln -sb ".bcsh/$fn" "$target"
     fi
 done

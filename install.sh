@@ -26,8 +26,8 @@ ask_overwrite() {
 	    read ans
 	    ans=$(echo "${ans:-$default_answer}" | tr '[:upper:]' '[:lower:]')
         case "$ans" in
-            n|no) return 0 ;;
-            y|yes) return 1 ;;
+            n|no) return 1 ;;
+            y|yes) return 0 ;;
         esac
     done
 }

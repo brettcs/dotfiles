@@ -2,3 +2,4 @@
 export ZDOTDIR="$HOME/.bcsh"
 
 source "$ZDOTDIR/.bcshenv"
+source "$ZDOTDIR/.bcshrc"

@@ -48,8 +48,6 @@
 (global-set-key "\C-x/" 'comment-or-uncomment-region)
 (global-set-key "\C-z" 'undo)
 
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
 (server-start)
 (blink-cursor-mode 0)
 (column-number-mode 1)
@@ -105,6 +103,10 @@
 
 (with-library 'ruby-mode
   (define-key ruby-mode-map (kbd "RET") 'newline-and-indent))
+
+(with-library 'ws-trim
+  (setq-default ws-trim-level 1)
+  (global-ws-trim-mode t))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'overwrite-mode 'disabled t)

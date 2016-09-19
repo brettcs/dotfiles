@@ -5,10 +5,9 @@ set -u
 
 update_stamp_file=/var/cache/apt/pkgcache.bin
 
-if [ "$(id -u)" -eq 0 ]; then
-    apt_cmd=aptitude
-else
-    apt_cmd="sudo aptitude"
+apt_cmd=apt
+if [ "$(id -u)" != 0 ]; then
+    apt_cmd="sudo $apt_cmd"
 fi
 
 while getopts c:u arg; do

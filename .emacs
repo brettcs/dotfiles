@@ -3,9 +3,12 @@
      ,@body))
 (put 'with-library 'lisp-indent-function 1)
 
-(let ((default-directory "~/.emacs.d/elisp/"))
-  (normal-top-level-add-to-load-path '("."))
-  (normal-top-level-add-subdirs-to-load-path))
+(when (file-directory-p "~/.emacs.d/elisp")
+  (let ((default-directory "~/.emacs.d/elisp/"))
+    (normal-top-level-add-to-load-path '("."))
+    (normal-top-level-add-subdirs-to-load-path)
+    )
+  )
 
 (defun fill-text-mode () (interactive)
   (text-mode) (auto-fill-mode))

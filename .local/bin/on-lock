@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+set -u
+
+dbus-monitor --session "type='signal',interface='org.gnome.ScreenSaver',member='ActiveChanged'" \
+    | while read dbus_line; do
+          case "$dbus_line" in
+              "boolean true")
+                  quodlibet --pause 2>/dev/null || true
+              ;;
+              "boolean false")
+              ;;
+          esac
+      done

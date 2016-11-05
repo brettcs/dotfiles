@@ -113,6 +113,35 @@ if _canrun qrencode; then
     }
 fi
 
+if _canrun systemctl; then
+    _wrap_systemctl() {
+        local cmd="$1"; shift
+        local need_root
+        if [ "$(id -u)" = 0 ]; then
+            need_root=0
+        else
+            need_root=1
+            for arg in "$@"; do
+                case "$arg" in
+                    --user*)
+                        need_root=0
+                        break
+                        ;;
+                esac
+            done
+        fi
+        case "$need_root" in
+            1) sudo $cmd "$@" ;;
+            *) $cmd "$@" ;;
+        esac
+    }
+
+    jctl() { _wrap_systemctl journalctl "$@"; }
+    sctl() { _wrap_systemctl systemctl "$@"; }
+    alias ujctl='journalctl --user'
+    alias usctl='systemctl --user'
+fi
+
 vcsfind() {
     find \( -name 'CVS' -o -name '.svn' -o -name '.hg' -o -name '.git' \) \
         -not -prune -o \( "$@" \)

@@ -108,6 +108,12 @@
 (with-library 'ruby-mode
   (define-key ruby-mode-map (kbd "RET") 'newline-and-indent))
 
+; https://github.com/joostkremers/visual-fill-column
+(with-library 'visual-fill-column
+  (global-visual-fill-column-mode)
+  (add-hook 'visual-line-mode-hook 'visual-fill-column-mode)
+  (setq-default visual-fill-column-width 100))
+
 (with-library 'ws-trim
   (setq-default ws-trim-level 1)
   (global-ws-trim-mode t))

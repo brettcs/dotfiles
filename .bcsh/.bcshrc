@@ -113,6 +113,12 @@ if _canrun qrencode; then
     }
 fi
 
+if _canrun smartypants && _canrun markdown; then
+    sm() {
+        smartypants | markdown
+    }
+fi
+
 if _canrun systemctl; then
     _wrap_systemctl() {
         local cmd="$1"; shift

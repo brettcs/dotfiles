@@ -22,6 +22,7 @@
 (defun visual-text-mode () (interactive)
   (text-mode) (visual-line-mode))
 
+(setq-default fill-column 76)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq-default vertical-scroll-bar nil)
@@ -29,7 +30,6 @@
 (setq auto-save-default nil)
 (setq blink-matching-paren nil)
 (setq diff-switches "-u")
-(setq fill-column 75)
 (setq kill-whole-line t)
 (setq make-backup-files nil)
 (setq mouse-yank-at-point nil)

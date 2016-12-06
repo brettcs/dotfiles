@@ -17,6 +17,7 @@ set   spoolfile=/var/mail/brett
 
 set   editor="/usr/bin/emacsclient"
 set   realname="Brett Smith"
+set   text_flowed
 set   use_domain
 
 ## GPG settings

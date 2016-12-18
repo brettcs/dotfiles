@@ -20,7 +20,6 @@ mark() { _BCSMARKDIR="$(pwd)"; }
 reallines() { grep -Ev '^[[:space:]]*($|#)' "$@" | $PAGER; }
 stamp() { find "$@" -print0 | xargs -0 touch; }
 today() { date +%Y-%m-%d; }
-wrap() { fold -sw "${COLUMNS:-80}" "$@"; }
 
 if _canrun colordiff; then
     cdiff() {
@@ -160,6 +159,16 @@ waittil() {
         target_time=$(($target_time + 86400))
     done
     sleep "$(($target_time - $now))s"
+}
+
+wrap() {
+    local columns
+    if [ $# -gt 1 ] && [ "$1" -gt 0 ] 2>/dev/null; then
+        columns="$1"; shift
+    else
+        columns="${COLUMNS:-80}"
+    fi
+    fold -sw "$columns" "$@"
 }
 
 zenalarm() {

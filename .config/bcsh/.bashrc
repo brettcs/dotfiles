@@ -8,6 +8,6 @@ case "$(id -nu)" in
     *) PS1='\u@\[\e[1;37m\]\h\[\e[0;37m\] \w\[\e[0m\] \$ ' ;;
 esac
 
-export ZDOTDIR="${ZDOTDIR:-$HOME/.bcsh}"
+export ZDOTDIR="${ZDOTDIR:-$HOME/.config/bcsh}"
 
-source "$ZDOTDIR/.bcshrc"
+source "$ZDOTDIR/rc"

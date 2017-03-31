@@ -1,7 +1,7 @@
 # .zshenv - first in the execution list; for all shells
 
 ### ENVIRONMENT VARIABLES
-export ZDOTDIR="$HOME/.bcsh"
+export ZDOTDIR="$HOME/.config/bcsh"
 
 export HISTFILE="$ZDOTDIR/.zsh_history"
 export HISTSIZE=300
@@ -17,4 +17,4 @@ setopt HIST_SAVE_NO_DUPS
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
-source "$ZDOTDIR/.bcshenv"
+source "$ZDOTDIR/env"

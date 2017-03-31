@@ -71,14 +71,15 @@ for fn in $(my_find -type f); do
     fi
 done
 
-cd .bcsh
-for fn in $(my_find -type f \! -name .bcsh\*); do
-    source="$destdir/.bcsh/$fn"
+shelldir=".config/bcsh"
+cd "$shelldir"
+for fn in $(my_find -type f -name .\* ); do
+    source="$destdir/$shelldir/$fn"
     target="$destdir/$fn"
     if [ -h "$target" ] \
        && [ "$(readlink -e "$source")" = "$(readlink -e "$target")" ]; then
         continue
     elif can_overwrite "$source" "$target"; then
-        ln -sb ".bcsh/$fn" "$target"
+        ln -sb "$shelldir/$fn" "$target"
     fi
 done

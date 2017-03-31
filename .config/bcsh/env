@@ -1,0 +1,20 @@
+#!/bin/sh
+# Common environment variables for all shells
+# Load from .zshenv or equivalent
+
+export PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin:$HOME/.local/bin:/usr/games:/usr/local/games
+export CVS_RSH=ssh
+export TZ=America/New_York
+
+_trylocale() {
+    local regexp=$(echo "$1" | sed -e 's/-/-?/g' -e 's/\./\\./g')
+    local locale=$(locale -a 2>/dev/null | grep -Eiox "$regexp")
+    if [ -z "$locale" ]; then return 1; fi
+    export LC_ALL=$locale
+}
+
+for locale_try in en_US.UTF-8 C.UTF-8 en_US; do
+    if _trylocale "$locale_try"; then break; fi
+done
+
+umask 0077

@@ -1,0 +1,223 @@
+#!/bin/bash
+
+export EDITOR=/bin/nano
+export GREP_COLOR="1;32"
+export LESS=XRF
+export PAGER=/usr/bin/less
+export VISUAL=/usr/bin/emacsclient
+
+_BCSMARKDIR="${_BCSMARKDIR:-$HOME}"
+
+_canrun() {
+    type "$@" >/dev/null 2>&1
+}
+
+b() { ls -Alh --color=always "$@" | $PAGER; }
+bsplit() { split -d -b "$1" "$2" "$(basename "$2")."; }
+cwdiff() { wdiff -n "$@" | colordiff | $PAGER; }
+gomark() { cd "$_BCSMARKDIR"; }
+mark() { _BCSMARKDIR="$(pwd)"; }
+reallines() { grep -Ev '^[[:space:]]*($|#)' "$@" | $PAGER; }
+stamp() { find "$@" -print0 | xargs -0 touch; }
+today() { date +%Y-%m-%d; }
+
+if _canrun colordiff; then
+    cdiff() {
+	local last_arg
+	eval "last_arg=\$$#"
+	if [ -e "$last_arg" ]; then
+	    colordiff -u "$@"
+	else
+	    colordiff "$@"
+	fi
+    }
+fi
+
+d() {
+    local firstchar="$(echo "$1" | cut -c1)"
+    if [ -z "$1" ]; then
+        dirs -p
+    elif [ -d "$1" ] || [ + = "$firstchar" ] || [ - = "$1" ]; then
+        eval pushd "\"$1\""
+    elif [ - = "$firstchar" ]; then
+        dirs "$@"
+    elif echo "$1" | grep -qE '^[[:digit:]]+$'; then
+        eval pushd "\"+$1\""
+    else
+        echo "d: not directory or options: $@" >&2
+        return 1
+    fi
+}
+
+fin() {
+    local msg="${@:-Job\'s done.}"
+    zenity --info --text "$msg" || printf "\a${msg}\n"
+}
+
+pl() {
+    local newdir="$(pwd)"
+    eval cd - >/dev/null
+    eval pushd "\"$newdir\""
+}
+
+py() {
+    if [ -z "$VIRTUAL_ENV" ] && type python3 >/dev/null 2>&1; then
+        python3 "$@"
+    else
+        python "$@"
+    fi
+}
+
+str() {
+    if file -b "$1" | grep -q text; then
+        $PAGER "$1"
+    else
+        strings -a "$1" | $PAGER
+    fi
+}
+
+_up() {
+    local nextpath
+    if [ -z "$2" ]; then
+        nextpath=".."
+    elif echo "$2" | grep -q "^[0-9]$"; then
+        nextpath=""
+        for i in $(seq 1 "$2"); do
+            nextpath="${nextpath}../"
+        done
+    else
+        nextpath="$(dirname "$(pwd)")"
+        while [ "$nextpath" != "/" ]; do
+            if basename "$nextpath" | grep -qFi "$2"; then
+                break
+            fi
+            nextpath="$(dirname "$nextpath")"
+        done
+        if [ "$nextpath" = "/" ]; then
+            echo "no match found for $2" >&2
+            return 1
+        fi
+    fi
+    eval "$1" "$nextpath"
+}
+
+if _canrun qrencode; then
+    qr() {
+        if [ -z "$1" ]; then
+            echo "Usage: qr URL" >&2
+            return 1
+        fi
+        fn="$(tempfile -p qr- -s .png)" && \
+            qrencode -o "$fn" "$1" && eog "$fn" && rm -f "$fn"
+    }
+fi
+
+if _canrun smartypants && _canrun markdown; then
+    sm() {
+        smartypants | markdown
+    }
+fi
+
+if _canrun systemctl; then
+    _wrap_systemctl() {
+        local cmd="$1"; shift
+        local need_root
+        if [ "$(id -u)" = 0 ]; then
+            need_root=0
+        else
+            need_root=1
+            for arg in "$@"; do
+                case "$arg" in
+                    --user*)
+                        need_root=0
+                        break
+                        ;;
+                esac
+            done
+        fi
+        case "$need_root" in
+            1) sudo $cmd "$@" ;;
+            *) $cmd "$@" ;;
+        esac
+    }
+
+    jctl() { _wrap_systemctl journalctl "$@"; }
+    sctl() { _wrap_systemctl systemctl "$@"; }
+    alias ujctl='journalctl --user'
+    alias usctl='systemctl --user'
+fi
+
+vcsfind() {
+    find \( -name 'CVS' -o -name '.svn' -o -name '.hg' -o -name '.git' \) \
+        -not -prune -o \( "$@" \)
+}
+
+waittil() {
+    local target_time="$(date -d "$@" +%s)"
+    local now="$(date +%s)"
+    while [ "$now" -ge "$target_time" ]; do
+        target_time=$(($target_time + 86400))
+    done
+    sleep "$(($target_time - $now))s"
+}
+
+wrap() {
+    local columns
+    if [ $# -gt 1 ] && [ "$1" -gt 0 ] 2>/dev/null; then
+        columns="$1"; shift
+    else
+        columns="${COLUMNS:-80}"
+    fi
+    fold -sw "$columns" "$@"
+}
+
+zenalarm() {
+    if echo "$1" | grep -Eq '^[0-9]+[smhd]$'; then
+        sleep "$1"
+    else
+        waittil "$1"
+    fi
+    shift && zenity --info --text "$*";
+}
+
+_tryalias() {
+    _canrun "$1" && shift && name="$1" && shift && eval "alias $name='$*'"
+}
+
+_tryalias emacs wemacs VISUAL=emacs EDITOR=emacs
+_tryalias emacsclient visit emacsclient -n
+_tryalias emacsclient wemacsc VISUAL=emacsclient EDITOR=emacsclient
+_tryalias ftp ftp ftp -p
+_tryalias gnome-open o gnome-open
+_tryalias grep cgrep grep --color=always
+_tryalias grep vcscgrep grep --color=always -r --exclude-dir={CVS,.svn,.hg,.git}
+_tryalias grep vcsgrep grep -r --exclude-dir={CVS,.svn,.hg,.git}
+_tryalias ipv6calc rev6 ipv6calc --quiet --out revnibbles.arpa
+_tryalias less l less
+_tryalias nano wnano VISUAL=nano EDITOR=nano
+_tryalias readlink realpath readlink -e
+_tryalias shred zeroout shred -n 0 -z
+_tryalias xclip xcopy xclip -selection clipboard
+_tryalias xclip xpaste xclip -selection clipboard -o
+_tryalias xmodmap mx1k xmodmap -e '"pointer = 1 13 3 4 5 6 7 8 9 10 11 12 2"'
+_tryalias xmodmap nomx1k xmodmap -e '"pointer = 1 2 3 4 5 6 7 8 9 10 11 12 13"'
+_tryalias youtube-dl ydl youtube-dl -t --prefer-free-formats
+
+echo -n $PATH | tr : \\0 | xargs -0 ls -1p 2>/dev/null \
+      | grep -E '^python[1-9][.0-9]*$' | while read pybin; do
+    _tryalias "$pybin" "$(echo "$pybin" | sed -e 's/^python/py/')" "$pybin"
+done
+unset pybin
+
+alias noproxy='http_proxy=""'
+alias pd=popd
+alias up='_up cd'
+alias upp='_up pushd'
+
+_canrun reattach || _tryalias screen reattach screen -dR
+_canrun x || alias x='dtrx'
+[ -e "/usr/share/doc/mutt/manual.txt.gz" ] && \
+    alias muttman='zless /usr/share/doc/mutt/manual.txt.gz'
+
+[ -e "$ZDOTDIR/local" ] && source "$ZDOTDIR/local"
+unset _canrun _tryalias

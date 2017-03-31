@@ -17,8 +17,7 @@ fi
 # We do the echo here to make sure the filesystem is writable, etc.
 if [ -n "$BCS_VAR_FILE" ] && echo -n >"$BCS_VAR_FILE"; then
     for env_name in DBUS_SESSION_BUS_ADDRESS DESKTOP_SESSION DISPLAY \
-        GDMSESSION GNOME_KEYRING_CONTROL GNOME_KEYRING_PIDR GPG_AGENT_INFO \
-        GTK_RC_FILES ORBIT_SOCKETDIR SESSION_MANAGER \
+        GDMSESSION GPG_AGENT_INFO SESSION_MANAGER \
         SSH_AGENT_PID SSH_AUTH_SOCK XAUTHORITY XDG_DATA_DIRS \
         XDG_SESSION_COOKIE XDG_SESSION_DESKTOP XDG_SESSION_ID; do
         eval "env_value=\$${env_name}"

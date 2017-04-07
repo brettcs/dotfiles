@@ -34,6 +34,7 @@
 (setq make-backup-files nil)
 (setq mouse-yank-at-point nil)
 (setq next-line-add-newlines nil)
+(setq read-buffer-completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
 (setq visible-bell t)
 (setq x-select-enable-clipboard t)  ; Unbreak my software, please.

@@ -114,7 +114,7 @@ fi
 
 if _canrun smartypants && _canrun markdown; then
     sm() {
-        smartypants | markdown
+        smartypants --attr qbdeu "$@" | markdown
     }
 fi
 

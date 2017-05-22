@@ -106,6 +106,9 @@
 (with-library 'perl-mode
   (defalias 'cperl-mode 'perl-mode))
 
+(with-library 'rst
+  (add-hook 'rst-mode-hook 'visual-line-mode))
+
 (with-library 'ruby-mode
   (define-key ruby-mode-map (kbd "RET") 'newline-and-indent))
 

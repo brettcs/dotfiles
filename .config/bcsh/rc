@@ -141,7 +141,11 @@ if _canrun systemctl; then
         esac
     }
 
-    jctl() { _wrap_systemctl journalctl "$@"; }
+    if journalctl -n1 >/dev/null 2>&1; then
+        alias jctl=journalctl
+    else
+        jctl() { _wrap_systemctl journalctl "$@"; }
+    fi
     sctl() { _wrap_systemctl systemctl "$@"; }
     alias ujctl='journalctl --user'
     alias usctl='systemctl --user'

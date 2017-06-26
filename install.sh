@@ -83,3 +83,7 @@ for fn in $(my_find -type f -name .\* ); do
         ln -sb "$shelldir/$fn" "$target"
     fi
 done
+
+if [ ! -e "$HOME/$shelldir/screenrc" ]; then
+    echo "screen 1 emacs" >>"$HOME/$shelldir/screenrc"
+fi

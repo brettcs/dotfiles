@@ -16,4 +16,7 @@ bind s split
 bind ^x windowlist -b
 
 setenv BCS_SCREEN 1
+source .config/bcsh/screenrc
+screen 3
+screen 2
 screen 1

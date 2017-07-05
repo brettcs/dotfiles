@@ -65,6 +65,7 @@ for fn in $(my_find -type f); do
         fn_base=$(basename "$fn")
         if [ "$fn_dir" = .config/systemd/user ] \
            && [ -e /run/systemd/system ] \
+           && [ -e "/var/lib/systemd/linger/$(id -nu)" ] \
            && [ "$(systemctl --user is-enabled "$fn_base")" = disabled ]; then
             systemctl --user enable "$fn_base"
         fi

@@ -214,6 +214,8 @@ echo -n $PATH | tr : \\0 | xargs -0 ls -1p 2>/dev/null \
 done
 unset pybin
 
+alias cp='cp -i'
+alias mv='mv -i'
 alias noproxy='http_proxy=""'
 alias pd=popd
 alias up='_up cd'

@@ -1,0 +1,69 @@
+#!/usr/bin/env python3
+
+import argparse
+import functools
+import pathlib
+import re
+import sys
+
+class FailedSearchError(Exception):
+    pass
+
+
+def parse_arguments(arglist):
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        'directory',
+        type=pathlib.Path,
+    )
+    parser.add_argument(
+        'search_term',
+        nargs='+',
+    )
+    return parser.parse_args(arglist)
+
+def search_dir(directory, search_term):
+    matches = []
+    max_score = 1
+    pattern = re.compile(re.escape(search_term), re.IGNORECASE)
+    for path in directory.iterdir():
+        match = pattern.search(path.name)
+        if match is None:
+            continue
+        score = 0
+        if match.start() == 0:
+            score += 4
+        if match.group(0) == search_term:
+            score += 2
+        else:
+            score += 1
+        if score > max_score:
+            matches = [path]
+            max_score = score
+        elif score == max_score:
+            matches.append(path)
+    match_count = len(matches)
+    if match_count == 1:
+        return matches[0]
+    else:
+        raise FailedSearchError("{} matches for {!r} in {}".format(
+            match_count, search_term, directory))
+
+def main(arglist=None, stdout=sys.stdout, stderr=sys.stderr):
+    print_error = functools.partial(print, "dirsearch: error:", file=stderr)
+    args = parse_arguments(arglist)
+    result = args.directory
+    for search_term in args.search_term:
+        try:
+            result = search_dir(result, search_term)
+        except OSError as error:
+            print_error("can't search {}: {}".format(error.filename, error.strerror))
+            return 4
+        except FailedSearchError as error:
+            print_error(error.args[0])
+            return 3
+    print(result.as_posix(), file=stdout)
+    return 0
+
+if __name__ == '__main__':
+    exit(main())

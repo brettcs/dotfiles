@@ -50,23 +50,6 @@ d() {
     fi
 }
 
-dirsearch() {
-    local dirpath="${1%/}"; shift
-    local search found foundcount
-    for search in "$@"; do
-        found="$(ls -1 "$dirpath/" | grep -Fi "$search")"
-        foundcount="$(echo "$found" | wc -l)"
-        if [ "$foundcount" -ne 1 ]; then
-            echo >&2 "dirsearch failed: $foundcount results for $search in $dirpath/:"
-            echo >&2 "$found"
-            return 1
-        else
-            dirpath="$dirpath/$found"
-        fi
-    done
-    echo "$dirpath"
-}
-
 fin() {
     local msg="${@:-Job\'s done.}"
     zenity --info --text "$msg" || printf "\a${msg}\n"

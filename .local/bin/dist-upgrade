@@ -32,4 +32,8 @@ if [ "$LAST_UPDATE_AGO" -gt 57600 ]; then  # 16 hours
     $apt_cmd update
 fi
 
-$apt_cmd dist-upgrade
+$apt_cmd dist-upgrade && {
+    if [ -e /run/reboot-required ]; then
+        echo "Reboot required to finish upgrade."
+    fi
+}

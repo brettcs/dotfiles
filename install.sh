@@ -51,6 +51,20 @@ can_overwrite() {
     ask_overwrite "$target" $overwrite_default
 }
 
+should_enable() {
+    local unit_name="$1"; shift
+    local unit_status
+    test -e /run/systemd/system
+    if unit_status="$(systemctl --user is-enabled "$unit_name")" \
+            || [ "$unit_status" != disabled ]; then
+        return 1
+    fi
+    case "$unit_name" in
+        *.service) test -e "/var/lib/systemd/linger/$(id -nu)" ;;
+        *) return 0 ;;
+    esac
+}
+
 destdir=${1:-$HOME}
 
 for dn in $(my_find -type d); do
@@ -63,10 +77,7 @@ for fn in $(my_find -type f); do
         cp -b "$fn" "$target"
         fn_dir=$(dirname "$fn")
         fn_base=$(basename "$fn")
-        if [ "$fn_dir" = .config/systemd/user ] \
-           && [ -e /run/systemd/system ] \
-           && [ -e "/var/lib/systemd/linger/$(id -nu)" ] \
-           && [ "$(systemctl --user is-enabled "$fn_base")" = disabled ]; then
+        if [ "$fn_dir" = .config/systemd/user ] && should_enable "$fn_base"; then
             systemctl --user enable "$fn_base"
         fi
     fi

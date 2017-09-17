@@ -1,0 +1,9 @@
+[Unit]
+Description=Set up temporary directories
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/systemd-tmpfiles --boot --create --remove %h/.config/systemd-tmpfiles.conf

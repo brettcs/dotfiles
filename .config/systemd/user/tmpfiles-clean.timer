@@ -1,0 +1,11 @@
+[Unit]
+Description=Clean up temporary directories
+Wants=tmpfiles-setup.service
+After=tmpfiles-setup.service
+
+[Install]
+WantedBy=timers.target
+
+[Timer]
+OnActiveSec=0
+OnUnitInactiveSec=8h

@@ -47,7 +47,6 @@
                ("/mutt-" . visual-text-mode)
                ("\\.textile\\'" . visual-text-mode)) auto-mode-alist))
 
-(define-key global-map (kbd "RET") 'newline-and-indent)
 (global-set-key "\C-c\C-s" 'ispell-region)
 (global-set-key "\C-xl" 'switch-to-buffer-last)
 (global-set-key "\C-x\C-n" 'save-buffer)  ; Helpful with Dvorak.
@@ -110,9 +109,6 @@
 
 (with-library 'rst
   (add-hook 'rst-mode-hook 'visual-line-mode))
-
-(with-library 'ruby-mode
-  (define-key ruby-mode-map (kbd "RET") 'newline-and-indent))
 
 ; https://github.com/joostkremers/visual-fill-column
 (with-library 'visual-fill-column

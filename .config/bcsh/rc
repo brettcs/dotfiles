@@ -113,12 +113,6 @@ if _canrun qrencode; then
     }
 fi
 
-if _canrun smartypants && _canrun markdown; then
-    sm() {
-        smartypants --attr qbdeu "$@" | markdown
-    }
-fi
-
 if _canrun systemctl; then
     _wrap_systemctl() {
         local cmd="$1"; shift
@@ -226,6 +220,16 @@ _canrun reattach || _tryalias screen reattach screen -dR
 _canrun x || alias x='dtrx'
 [ -e "/usr/share/doc/mutt/manual.txt.gz" ] && \
     alias muttman='zless /usr/share/doc/mutt/manual.txt.gz'
+
+if python3 -m markdown --version >/dev/null 2>&1; then
+    alias _pymarkdown='python3 -m markdown -x sane_lists -x tables'
+    alias markdown='_pymarkdown'
+    alias sm='_pymarkdown -x smarty'
+elif _canrun smartypants && _canrun markdown; then
+    sm() {
+        smartypants --attr qbdeu "$@" | markdown
+    }
+fi
 
 [ -e "$ZDOTDIR/local" ] && source "$ZDOTDIR/local"
 unset _canrun _tryalias

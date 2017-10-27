@@ -14,7 +14,7 @@ _canrun() {
 
 b() { ls -Alh --color=always "$@" | $PAGER; }
 bsplit() { split -d -b "$1" "$2" "$(basename "$2")."; }
-cdr() { cd "$(realpath "$1")"; }
+cdr() { cd "$(realpath "${1:-.}")"; }
 cwdiff() { wdiff -n "$@" | colordiff | $PAGER; }
 gomark() { cd "$_BCSMARKDIR"; }
 mark() { _BCSMARKDIR="$(pwd)"; }

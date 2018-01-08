@@ -113,6 +113,20 @@ if _canrun qrencode; then
     }
 fi
 
+if _canrun svn && _canrun colordiff; then
+    svncdiff() {
+        local revnum
+        if [ $# -ge 1 ] \
+               && revnum="${1#[rc]}" \
+               && [ "$revnum" -ge 0 ] 2>/dev/null \
+               && ! [ -e "$1" ]; then
+            shift
+            set -- "-c$revnum" "$@"
+        fi
+        svn diff "$@" | cdiff -dn | $PAGER
+    }
+fi
+
 if _canrun systemctl; then
     _wrap_systemctl() {
         local cmd="$1"; shift

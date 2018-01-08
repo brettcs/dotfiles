@@ -4,6 +4,7 @@ export EDITOR=/bin/nano
 export GREP_COLOR="1;32"
 export LESS=XRF
 export PAGER=/usr/bin/less
+export PYTHONSTARTUP="${PYTHONSTARTUP:-$HOME/.config/pythonstartup.py}"
 export VISUAL=/usr/bin/emacsclient
 
 _BCSMARKDIR="${_BCSMARKDIR:-$HOME}"

@@ -1,3 +1,4 @@
+import collections
 import datetime
 import decimal
 import functools
@@ -5,6 +6,7 @@ import io
 import itertools
 import operator
 import os
+import pprint as pprintmod
 import random
 import re
 import subprocess
@@ -26,6 +28,7 @@ TimeDelta = datetime.timedelta
 TZInfo = datetime.tzinfo
 Decimal = decimal.Decimal
 StringIO = io.StringIO
+pprint = pprintmod.pprint
 
 try:
     TimeZone = datetime.timezone

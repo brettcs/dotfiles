@@ -228,8 +228,11 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias noproxy='http_proxy=""'
 alias pd=popd
+alias pip='py -m pip'
+alias pydoc='py -m pydoc'
 alias up='_up cd'
 alias upp='_up pushd'
+alias venv='py -m venv'
 
 _canrun reattach || _tryalias screen reattach screen -dR
 _canrun x || alias x='dtrx'

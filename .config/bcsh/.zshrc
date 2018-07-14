@@ -69,10 +69,10 @@ fi
 
 case "$(hostname -s)" in
     # Home machines
-    locke) PROMPT_HOST_COLOR='%F{blue}' ;;
     shelley) PROMPT_HOST_COLOR='%F{cyan}' ;;
     stephan) PROMPT_HOST_COLOR='%K{magenta}%F{green}' ;;
-    timulty) PROMPT_HOST_COLOR='%K{magenta}%F{cyan}' ;;
+    mililani) PROMPT_HOST_COLOR='%F{red}' ;;
+    larnblatt) PROMPT_HOST_COLOR='%F{magenta}' ;;
     # Personal servers
     llewellyn) PROMPT_HOST_COLOR='%F{yellow}' ;;
     panacea) PROMPT_HOST_COLOR='%K{magenta}%F{yellow}' ;;

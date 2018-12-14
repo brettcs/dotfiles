@@ -221,7 +221,7 @@ _tryalias youtube-dl ydl youtube-dl --prefer-free-formats \
 
 echo -n $PATH | tr : \\0 | xargs -0 ls -1p 2>/dev/null \
       | grep -E '^python[1-9][.0-9]*$' | while read pybin; do
-    _tryalias "$pybin" "$(echo "$pybin" | sed -e 's/^python/py/')" "$pybin"
+    _tryalias "$pybin" "py${pybin#python}" "$pybin"
 done
 unset pybin
 

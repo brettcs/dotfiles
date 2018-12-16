@@ -202,7 +202,7 @@ _tryalias emacs wemacs VISUAL=emacs EDITOR=emacs
 _tryalias emacsclient visit emacsclient -n
 _tryalias emacsclient wemacsc VISUAL=emacsclient EDITOR=emacsclient
 _tryalias ftp ftp ftp -p
-_tryalias gnome-open o gnome-open
+_tryalias xdg-open o xdg-open
 _tryalias grep cgrep grep --color=always
 _tryalias grep vcscgrep grep --color=always -r --exclude-dir={CVS,.svn,.hg,.git}
 _tryalias grep vcsgrep grep -r --exclude-dir={CVS,.svn,.hg,.git}

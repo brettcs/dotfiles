@@ -35,6 +35,12 @@ if _canrun colordiff; then
     }
 fi
 
+if _canrun csvtool; then
+    csvl() {
+        csvtool readable "$@" | $PAGER;
+    }
+fi
+
 d() {
     local firstchar="$(echo "$1" | cut -c1)"
     if [ -z "$1" ]; then

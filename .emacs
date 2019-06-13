@@ -29,6 +29,7 @@
 (setq-default tab-width 4)
 (setq-default vertical-scroll-bar nil)
 (setq inhibit-startup-message t)
+(setq initial-frame-alist '((vertical-scroll-bars . nil)))
 (setq auto-save-default nil)
 (setq blink-matching-paren nil)
 (setq diff-switches "-u")
@@ -39,7 +40,7 @@
 (setq read-buffer-completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
 (setq visible-bell t)
-(setq x-select-enable-clipboard t)  ; Unbreak my software, please.
+(setq x-select-enable-clipboard t)
 
 (setq auto-mode-alist
       (nconc '(("/db\\." . zone-mode)
@@ -64,25 +65,10 @@
 (global-set-key "\C-x/" 'comment-or-uncomment-region)
 (global-set-key "\C-z" 'undo)
 
-(server-start)
 (blink-cursor-mode 0)
 (column-number-mode 1)
 (menu-bar-mode 0)
-
-(when (window-system)
-      (setq-default initial-frame-alist
-                    '((vertical-scroll-bars . nil)
-                      (width . 81)
-                      (height . 50)))
-      (tool-bar-mode 0)
-      ; git://git.naquadah.org/naquadah-theme.git
-      (with-library 'naquadah-theme)
-      ; git://github.com/TeMPOraL/nyan-mode.git
-      (with-library 'nyan-mode
-        (setq nyan-bar-length 10)
-        (setq nyan-wavy-trail t)
-        (nyan-mode)
-        (nyan-stop-animation)))
+(tool-bar-mode 0)
 
 (with-library 'font-lock
   (show-paren-mode t)

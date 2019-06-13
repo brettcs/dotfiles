@@ -97,5 +97,6 @@ for fn in $(my_find -type f -name .\* ); do
 done
 
 if [ ! -e "$HOME/$shelldir/screenrc" ]; then
-    echo "screen 1 emacs" >>"$HOME/$shelldir/screenrc"
+    echo "screen 1 emacsclient --create-frame --alternate-editor=emacs" \
+         >>"$HOME/$shelldir/screenrc"
 fi

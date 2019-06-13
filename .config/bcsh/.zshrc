@@ -1,8 +1,5 @@
 # .zshrc - third in the execution list; only for interactive shells.
 
-# for ~/bin/reattach
-export BCS_VAR_FILE="$HOME/.reattach"
-
 # Autocompletion options
 setopt AUTO_LIST
 setopt AUTO_MENU
@@ -83,9 +80,6 @@ esac
 _trysource() { [ -f "$1" ] && source "$1"; }
 _trysource "$ZDOTDIR/local.zsh"
 _trysource "$ZDOTDIR/rc"
-[ -n "$BCS_SCREEN" ] && _trysource "$BCS_VAR_FILE"
-
-trap "source \"$BCS_VAR_FILE\"" USR1
 
 PROMPT="%B${PROMPT_HOST_COLOR}%m%b%f%k ${PROMPT_PCT} "
 [ "$LOGNAME" != "brett" ] && PROMPT="%n@$PROMPT"

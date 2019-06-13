@@ -1,5 +1,18 @@
 #!/bin/bash
 
+_load_systemd_envvars() {
+    local envfile="$(mktemp --tmpdir bcsh-XXXXXXXX.env)" || return $?
+    systemctl --user show-environment \
+        | grep -vE '^(HOME|LANG|LOGNAME|PATH|SHELL|USER|USERNAME)=' >"$envfile" \
+        && source "$envfile" \
+        && export $(awk '(match($0, "^[A-Z][A-Z0-9_]*=")){print substr($0, 1, RLENGTH - 1)}' "$envfile")
+    /bin/rm "$envfile"
+}
+if [ -d /run/systemd/system ]; then
+    _load_systemd_envvars
+    trap _load_systemd_envvars USR2
+fi
+
 if EDITOR="$(which emacsclient 2>/dev/null)"; then
     export ALTERNATE_EDITOR="$(which emacs)"
 else

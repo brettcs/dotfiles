@@ -51,6 +51,17 @@ can_overwrite() {
     ask_overwrite "$target" $overwrite_default
 }
 
+link_if_ok() {
+    local source="$1"; shift
+    local target="$1"; shift
+    if [ -h "$target" ] \
+       && [ "$(readlink -e "$source")" = "$(readlink -e "$target")" ]; then
+        true
+    elif can_overwrite "$source" "$target"; then
+        ln -srb "$source" "$target"
+    fi
+}
+
 should_enable() {
     local unit_name="$1"; shift
     local unit_status
@@ -96,14 +107,10 @@ done
 shelldir=".config/bcsh"
 cd "$shelldir"
 for fn in $(my_find -type f -name .\* ); do
-    source="$destdir/$shelldir/$fn"
-    target="$destdir/$fn"
-    if [ -h "$target" ] \
-       && [ "$(readlink -e "$source")" = "$(readlink -e "$target")" ]; then
-        continue
-    elif can_overwrite "$source" "$target"; then
-        ln -sb "$shelldir/$fn" "$target"
-    fi
+    link_if_ok "$destdir/$shelldir/$fn" "$destdir/$fn"
+done
+for fn in .bash_profile .bashrc; do
+    link_if_ok "$destdir/$shelldir/bashrc" "$destdir/$fn"
 done
 
 if [ ! -e "$HOME/$shelldir/screenrc" ]; then

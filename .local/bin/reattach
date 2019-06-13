@@ -26,11 +26,11 @@ else
     caption_arg=splitonly
 fi
 
-sleep_time=.1
+sleep_time=1
 while ! screen -S "$session_name" -X caption "$caption_arg" 2>/dev/null; do
-    sleep "$sleep_time"
-    sleep_time=$(( "$sleep_time" * 2 ))
-    if [ "$sleep_time" -ge 1 ]; then
+    sleep ".$sleep_time"
+    sleep_time=$(( $sleep_time * 2 ))
+    if [ "$sleep_time" -ge 10 ]; then
         break
     fi
 done

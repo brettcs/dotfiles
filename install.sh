@@ -62,31 +62,7 @@ link_if_ok() {
     fi
 }
 
-should_enable() {
-    local unit_name="$1"; shift
-    local unit_status
-    test -e /run/systemd/system
-    if unit_status="$(systemctl --user is-enabled "$unit_name")" \
-            || [ "$unit_status" != disabled ]; then
-        return 1
-    fi
-    case "$unit_name" in
-        *.service)
-            test -e "/var/lib/systemd/linger/$(id -nu)" \
-                && grep -qFx '[Install]' ".config/systemd/user/$unit_name"
-            ;;
-        *) return 0 ;;
-    esac
-}
-
 destdir=${1:-$HOME}
-
-if [ -e /run/systemd/system ] \
-       && screen_status="$(systemctl --user is-enabled screen.service)" \
-       && [ "$screen_status" = enabled ]; then
-    systemctl --user disable screen.service
-    rm "$destdir/.config/systemd/user/screen.service"
-fi
 
 for dn in $(my_find -type d); do
     test -d "$destdir/$dn" || mkdir "$destdir/$dn"
@@ -96,11 +72,6 @@ for fn in $(my_find -type f); do
     target="$destdir/$fn"
     if can_overwrite "$fn" "$target"; then
         cp -b "$fn" "$target"
-        fn_dir=$(dirname "$fn")
-        fn_base=$(basename "$fn")
-        if [ "$fn_dir" = .config/systemd/user ] && should_enable "$fn_base"; then
-            systemctl --user enable "$fn_base"
-        fi
     fi
 done
 
@@ -112,8 +83,25 @@ done
 for fn in .bash_profile .bashrc; do
     link_if_ok "$destdir/$shelldir/bashrc" "$destdir/$fn"
 done
+cd - >/dev/null
 
 if [ ! -e "$HOME/$shelldir/screenrc" ]; then
     echo "screen 1 emacsclient --create-frame --alternate-editor=emacs" \
          >>"$HOME/$shelldir/screenrc"
+fi
+
+if [ -d /run/systemd/system ] && [ -e "/var/lib/systemd/linger/$(id -nu)" ]; then
+    cd .config/systemd/user
+    systemctl --user daemon-reload
+    grep -lFx '[Install]' *.service | while read service_name; do
+        if [ "$(systemctl --user is-enabled "$service_name" || true)" = disabled ]; then
+            systemctl --user enable "$service_name"
+        fi
+    done
+    if screen_status="$(systemctl --user is-enabled screen.service)" \
+            && [ "$screen_status" = enabled ]; then
+        systemctl --user disable screen.service
+        rm "$destdir/.config/systemd/user/screen.service"
+    fi
+    cd - >/dev/null
 fi

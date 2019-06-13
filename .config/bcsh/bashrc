@@ -1,6 +1,9 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
-# If not running interactively, don't do anything
+export ZDOTDIR="${ZDOTDIR:-$HOME/.config/bcsh}"
+source "$ZDOTDIR/env"
+
+# If not running interactively, stop here
 [ -z "$PS1" ] && return
 
 case "$(id -nu)" in
@@ -8,6 +11,5 @@ case "$(id -nu)" in
     *) PS1='\u@\[\e[1;37m\]\h\[\e[0;37m\] \w\[\e[0m\] \$ ' ;;
 esac
 
-export ZDOTDIR="${ZDOTDIR:-$HOME/.config/bcsh}"
 
 source "$ZDOTDIR/rc"

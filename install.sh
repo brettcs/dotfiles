@@ -60,7 +60,10 @@ should_enable() {
         return 1
     fi
     case "$unit_name" in
-        *.service) test -e "/var/lib/systemd/linger/$(id -nu)" ;;
+        *.service)
+            test -e "/var/lib/systemd/linger/$(id -nu)" \
+                && grep -qFx '[Install]' ".config/systemd/user/$unit_name"
+            ;;
         *) return 0 ;;
     esac
 }

@@ -1,5 +1,11 @@
 [Unit]
 Description=Screen session %i
+Wants=emacs.service
+After=emacs.service
+
+[Install]
+WantedBy=default.target
+DefaultInstance=default
 
 [Service]
 ExecStart=/usr/bin/screen -S %i -Dm

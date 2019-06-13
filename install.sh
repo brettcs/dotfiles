@@ -67,6 +67,13 @@ should_enable() {
 
 destdir=${1:-$HOME}
 
+if [ -e /run/systemd/system ] \
+       && screen_status="$(systemctl --user is-enabled screen.service)" \
+       && [ "$screen_status" = enabled ]; then
+    systemctl --user disable screen.service
+    rm "$destdir/.config/systemd/user/screen.service"
+fi
+
 for dn in $(my_find -type d); do
     test -d "$destdir/$dn" || mkdir "$destdir/$dn"
 done

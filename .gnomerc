@@ -1,7 +1,6 @@
 #!/bin/sh
 
 umask 077
-emacsclient --eval "(with-library 'naquadah-theme)"
 
 systemd-run --user --unit="on-lock$DISPLAY.service" \
     --setenv "DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS" \

@@ -70,6 +70,9 @@
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 
+(when (string= (getenv "XDG_SESSION_TYPE") "x11")
+  (with-library 'naquadah-theme))
+
 (with-library 'font-lock
   (show-paren-mode t)
   (setq font-lock-maximum-decoration t)

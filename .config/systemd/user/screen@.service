@@ -12,4 +12,3 @@ ExecStart=/usr/bin/screen -S %i -Dm
 ExecStop=/usr/bin/screen -S $MAINPID.%i -X quit
 # Reload configuration in all shells.
 ExecReload=/usr/bin/pkill -USR2 --parent $MAINPID sh$$
-Restart=on-failure

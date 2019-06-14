@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -8,17 +8,32 @@ if [ "$session_name" != "${session_name#-}" ]; then
     exit 0
 fi
 
-if ! [ -d /run/systemd/system ]; then
-    exec screen -dR "$session_name"
-fi
+read screen_count detached_count screen_name <<EOF
+$(screen -S "$session_name" -ls \
+  | awk '($5 ~ /\)$/){c++}($5 == "(Detached)"){d++; n=$1} END {print c, d, n}')
+EOF
 
-service_name="screen@${session_name}.service"
-if systemctl --user --quiet is-active "$service_name"; then
-    service_command=reload
+if [ "${detached_count:-0}" = 1 ]; then
+    session_name="$screen_name"
+    pkill -USR2 --parent "${session_name%%.*}" 'sh$'
+elif [ "${screen_count:-0}" = 0 ]; then
+    if ! [ -d /run/systemd/system ]; then
+        screen -S "$session_name" -d -m
+    elif [ -e "/var/lib/systemd/linger/$(id -nu)" ]; then
+        systemctl --user start "screen@$session_name.service"
+    else
+        declare -a envvars=()
+        while read line; do
+            envvars+=("$line")
+        done <<EOF
+$(systemctl --user show-environment)
+EOF
+        systemd-run --user --scope env -i "${envvars[@]}" screen -S "$session_name" -d -m
+    fi
 else
-    service_command=start
+    printf "error: %s detached screens named %s" "${detached_count:-0}" "$session_name"
+    exit 3
 fi
-systemctl --user "$service_command" "$service_name"
 
 if [ -z "$SSH_CONNECTION" ]; then
     caption_arg=always

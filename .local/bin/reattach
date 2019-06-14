@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
@@ -17,18 +17,10 @@ if [ "${detached_count:-0}" = 1 ]; then
     session_name="$screen_name"
     pkill -USR2 --parent "${session_name%%.*}" 'sh$'
 elif [ "${screen_count:-0}" = 0 ]; then
-    if ! [ -d /run/systemd/system ]; then
-        screen -S "$session_name" -d -m
-    elif [ -e "/var/lib/systemd/linger/$(id -nu)" ]; then
+    if [ -d /run/systemd/system ] && [ -e "/var/lib/systemd/linger/$(id -nu)" ]; then
         systemctl --user start "screen@$session_name.service"
     else
-        declare -a envvars=()
-        while read line; do
-            envvars+=("$line")
-        done <<EOF
-$(systemctl --user show-environment)
-EOF
-        systemd-run --user --scope env -i "${envvars[@]}" screen -S "$session_name" -d -m
+        screen -S "$session_name" -d -m
     fi
 else
     printf "error: %s detached screens named %s" "${detached_count:-0}" "$session_name"

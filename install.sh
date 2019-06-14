@@ -86,7 +86,7 @@ done
 cd - >/dev/null
 
 if [ ! -e "$HOME/$shelldir/screenrc" ]; then
-    echo "screen 1 emacsclient --create-frame --alternate-editor=emacs" \
+    echo "screen 1 emacsclient --create-frame --alternate-editor=" \
          >>"$HOME/$shelldir/screenrc"
 fi
 

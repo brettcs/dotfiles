@@ -90,7 +90,9 @@ if [ ! -e "$HOME/$shelldir/screenrc" ]; then
          >>"$HOME/$shelldir/screenrc"
 fi
 
-if [ -d /run/systemd/system ] && [ -e "/var/lib/systemd/linger/$(id -nu)" ]; then
+if [ -d /run/systemd/system ] && { \
+       [ -e "/var/lib/systemd/linger/$(id -nu)" ] \
+       || loginctl enable-linger; } ; then
     cd .config/systemd/user
     systemctl --user daemon-reload
     grep -lFx '[Install]' *.service | while read service_name; do

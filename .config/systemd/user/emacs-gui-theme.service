@@ -1,0 +1,11 @@
+[Unit]
+Description=Change Emacs color scheme in a graphical session
+Requires=emacs.service
+After=emacs.service
+
+[Install]
+WantedBy=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/emacsclient --eval "(with-library 'naquadah-theme)"

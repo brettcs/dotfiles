@@ -237,8 +237,8 @@ _tryalias shred zeroout shred -n 0 -z
 _tryalias trash rm trash
 _tryalias xclip xcopy xclip -selection clipboard
 _tryalias xclip xpaste xclip -selection clipboard -o
-_tryalias xmodmap mx1k xmodmap -e '"pointer = 1 13 3 4 5 6 7 8 9 10 11 12 2"'
-_tryalias xmodmap nomx1k xmodmap -e '"pointer = 1 2 3 4 5 6 7 8 9 10 11 12 13"'
+_tryalias xmodmap mx1k xmodmap ~/.config/xmodmap/mx1k
+_tryalias xmodmap nomx1k xmodmap -e '"pointer = default"'
 _tryalias youtube-dl ydl youtube-dl --prefer-free-formats \
           --output '"%(autonumber)s-%(title)s.%(ext)s"'
 

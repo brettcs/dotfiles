@@ -1,0 +1,12 @@
+[Unit]
+Description=Run commands when screen locks
+PartOf=graphical-session.target
+Requires=dbus.service graphical-session-pre.target
+After=dbus.service graphical-session-pre.target
+
+[Install]
+WantedBy=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/home/brett/.local/bin/on-lock

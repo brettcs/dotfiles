@@ -1,0 +1,6 @@
+[Unit]
+Description=End the GNOME graphical session
+
+[Service]
+Type=oneshot
+ExecStart=/bin/systemctl --user stop gnome-session-end.path gnome-session.target

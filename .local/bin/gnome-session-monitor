@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+set -u
+
+mkdir -p "$XDG_RUNTIME_DIR/systemd/user"
+cat >"$XDG_RUNTIME_DIR/systemd/user/gnome-session-end.path" <<EOF
+[Path]
+PathChanged=${SESSION_MANAGER##*:}
+EOF
+systemctl --user daemon-reload
+systemctl --user start gnome-session.target gnome-session-end.path

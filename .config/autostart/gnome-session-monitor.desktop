@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=systemd GNOME session monitor
+Exec=/home/brett/.local/bin/gnome-session-monitor
+OnlyShowIn=GNOME
+NoDisplay=true

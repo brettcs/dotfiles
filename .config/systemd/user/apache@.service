@@ -1,6 +1,6 @@
 [Unit]
 Description=Apache site %i
-After=network.target
+After=network.target tmpfiles-setup.service
 
 [Service]
 Type=simple

@@ -1,0 +1,8 @@
+[Unit]
+Description=Clean up trash
+ConditionPathExists=/usr/bin/trash-empty
+ConditionPathExists=%h/.local/share/Trash
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/trash-empty 35

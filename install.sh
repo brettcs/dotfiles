@@ -85,9 +85,9 @@ for fn in .bash_profile .bashrc; do
 done
 cd - >/dev/null
 
-if [ ! -e "$HOME/$shelldir/screenrc" ]; then
+if [ ! -e "$destdir/$shelldir/screenrc" ]; then
     echo "screen 1 emacsclient --create-frame --alternate-editor=" \
-         >>"$HOME/$shelldir/screenrc"
+         >>"$destdir/$shelldir/screenrc"
 fi
 
 if [ -d /run/systemd/system ] && { \

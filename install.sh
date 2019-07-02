@@ -90,13 +90,26 @@ if [ ! -e "$destdir/$shelldir/screenrc" ]; then
          >>"$destdir/$shelldir/screenrc"
 fi
 
+if [ ! -d "$destdir/.config/apache/sites" ]; then
+    if [ -d /etc/apache2 ]; then
+        ln -st "$destdir/.config/apache" /etc/apache2/conf-available /etc/apache2/mods-available
+        cp -rt "$destdir/.config/apache" /etc/apache2/conf-enabled /etc/apache2/mods-enabled
+    fi
+    mkdir "$destdir/.config/apache/sites"
+fi
+
 if [ -z "${1:-}" ] && [ -d /run/systemd/system ] && { \
        [ -e "/var/lib/systemd/linger/$(id -nu)" ] \
        || loginctl enable-linger; } ; then
     cd .config/systemd/user
     systemctl --user daemon-reload
-    grep -lFx '[Install]' *.service | while read service_name; do
-        if [ "$(systemctl --user is-enabled "$service_name" || true)" = disabled ]; then
+    ls -1 | while read service_name; do
+        case "$service_name" in
+            *@.*) pattern='^DefaultInstance *=' ;;
+            *) pattern='^\[Install\]$' ;;
+        esac
+        if grep -q "$pattern" "$service_name" \
+                && [ "$(systemctl --user is-enabled "$service_name" || true)" = disabled ]; then
             systemctl --user enable "$service_name"
         fi
     done

@@ -90,7 +90,7 @@ if [ ! -e "$destdir/$shelldir/screenrc" ]; then
          >>"$destdir/$shelldir/screenrc"
 fi
 
-if [ -d /run/systemd/system ] && { \
+if [ -z "${1:-}" ] && [ -d /run/systemd/system ] && { \
        [ -e "/var/lib/systemd/linger/$(id -nu)" ] \
        || loginctl enable-linger; } ; then
     cd .config/systemd/user

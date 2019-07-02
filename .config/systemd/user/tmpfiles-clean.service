@@ -1,5 +1,6 @@
 [Unit]
 Description=Clean up temporary directories
+Wants=trash-clean.service
 
 [Service]
 Type=oneshot

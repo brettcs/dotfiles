@@ -3,4 +3,4 @@ Description=Clean up temporary directories
 
 [Service]
 Type=oneshot
-ExecStart=/bin/systemd-tmpfiles --clean %h/.config/systemd-tmpfiles.conf
+ExecStart=/bin/systemd-tmpfiles --root %h --clean %h/.config/systemd-tmpfiles.conf

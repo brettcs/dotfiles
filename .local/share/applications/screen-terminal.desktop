@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Screen Terminal
+Comment=Terminal attached to GNU screen session
+Exec=reattach
+Icon=utilities-terminal
+Type=Application
+Terminal=true
+Categories=System;TerminalEmulator;
+StartupNotify=true

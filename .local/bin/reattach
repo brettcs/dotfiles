@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -e
+set -u
 
 session_name="${1:-default}"
 if [ "$session_name" != "${session_name#-}" ]; then
@@ -8,38 +9,33 @@ if [ "$session_name" != "${session_name#-}" ]; then
     exit 0
 fi
 
-read screen_count detached_count screen_name <<EOF
+update_screeninfo() {
+    read screen_count detached_count screen_name <<EOF
 $(screen -S "$session_name" -ls \
-  | awk '($5 ~ /\)$/){c++}($5 == "(Detached)"){d++; n=$1} END {print c, d, n}')
+  | awk 'BEGIN {c=0; d=0} ($5 ~ /\)$/){c++}($5 == "(Detached)"){d++; n=$1} END {print c, d, n}')
 EOF
+}
 
-if [ "${detached_count:-0}" = 1 ]; then
-    session_name="$screen_name"
-    pkill -USR2 --parent "${session_name%%.*}" 'sh$'
-elif [ "${screen_count:-0}" = 0 ]; then
-    if [ -d /run/systemd/system ] && [ -e "/var/lib/systemd/linger/$(id -nu)" ]; then
+update_screeninfo
+if [ "$detached_count" = 1 ]; then
+    pkill -USR2 --parent "${screen_name%%.*}" 'sh$'
+elif [ "$screen_count" = 0 ]; then
+    if [ -d /run/systemd/system ] && [ -e "/var/lib/systemd/linger/$USER" ]; then
         systemctl --user start "screen@$session_name.service"
     else
         screen -S "$session_name" -d -m
     fi
+    sleep_time=1
+    while update_screeninfo && [ "$detached_count" != 1 ]; do
+        sleep ".$sleep_time"
+        sleep_time=$(( $sleep_time * 2 ))
+        if [ "$sleep_time" -ge 10 ]; then
+            break
+        fi
+    done
 else
-    printf "error: %s detached screens named %s" "${detached_count:-0}" "$session_name"
+    printf "error: %s detached screens named %s" "$detached_count" "$session_name"
     exit 3
 fi
 
-if [ -z "$SSH_CONNECTION" ]; then
-    caption_arg=always
-else
-    caption_arg=splitonly
-fi
-
-sleep_time=1
-while ! screen -S "$session_name" -X caption "$caption_arg" 2>/dev/null; do
-    sleep ".$sleep_time"
-    sleep_time=$(( $sleep_time * 2 ))
-    if [ "$sleep_time" -ge 10 ]; then
-        break
-    fi
-done
-
-exec screen -r "$session_name"
+exec screen -r "${screen_name:-$session_name}"

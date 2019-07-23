@@ -8,6 +8,7 @@ WantedBy=default.target
 DefaultInstance=default
 
 [Service]
+UMask=077
 ExecStart=/usr/bin/screen -S %i -Dm
 ExecStop=/usr/bin/screen -S $MAINPID.%i -X quit
 # Reload configuration in all shells.

@@ -7,5 +7,4 @@ After=tmpfiles-setup.service
 WantedBy=timers.target
 
 [Timer]
-OnActiveSec=0
 OnUnitInactiveSec=8h

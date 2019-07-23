@@ -1,5 +1,7 @@
 [Unit]
 Description=Set up temporary directories
+Wants=tmpfiles-clean.service
+Before=tmpfiles-clean.service
 
 [Install]
 WantedBy=default.target

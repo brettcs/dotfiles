@@ -72,10 +72,6 @@ d() {
     fi
 }
 
-fin() {
-    local msg="${@:-Job\'s done.}"
-    zenity --info --text "$msg" || printf "\a${msg}\n"
-}
 
 pl() {
     local newdir="$(pwd)"
@@ -187,15 +183,6 @@ vcsfind() {
         -not -prune -o \( "$@" \)
 }
 
-waittil() {
-    local target_time="$(date -d "$@" +%s)"
-    local now="$(date +%s)"
-    while [ "$now" -ge "$target_time" ]; do
-        target_time=$(($target_time + 86400))
-    done
-    sleep "$(($target_time - $now))s"
-}
-
 wrap() {
     local columns
     if [ $# -gt 1 ] && [ "$1" -gt 0 ] 2>/dev/null; then
@@ -204,15 +191,6 @@ wrap() {
         columns="${COLUMNS:-80}"
     fi
     fold -sw "$columns" "$@"
-}
-
-zenalarm() {
-    if echo "$1" | grep -Eq '^[0-9]+[smhd]$'; then
-        sleep "$1"
-    else
-        waittil "$1"
-    fi
-    shift && zenity --info --text "$*";
 }
 
 _tryalias() {

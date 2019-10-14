@@ -1,5 +1,9 @@
 #!/bin/bash
 
+_canrun() {
+    type "$@" >/dev/null 2>&1
+}
+
 _load_systemd_envvars() {
     local envfile="$(mktemp --tmpdir bcsh-XXXXXXXX.env)" || return $?
     systemctl --user show-environment \
@@ -8,6 +12,11 @@ _load_systemd_envvars() {
         && export $(awk '(match($0, "^[A-Z][A-Z0-9_]*=")){print substr($0, 1, RLENGTH - 1)}' "$envfile")
     /bin/rm "$envfile"
 }
+
+_tryalias() {
+    _canrun "$1" && shift && name="$1" && shift && eval "alias $name='$*'"
+}
+
 if [ -d /run/systemd/system ]; then
     _load_systemd_envvars
     trap _load_systemd_envvars USR2
@@ -25,10 +34,6 @@ export GREP_COLOR="${GREP_COLOR:-1;32}"
 export LESS="${LESS:-XRF}"
 export PAGER="${PAGER:-/usr/bin/less}"
 export PYTHONSTARTUP="${PYTHONSTARTUP:-$HOME/.config/pythonstartup.py}"
-
-_canrun() {
-    type "$@" >/dev/null 2>&1
-}
 
 b() { ls -Alh --color=always "$@" | $PAGER; }
 bsplit() { split -d -b "$1" "$2" "$(basename "$2")."; }
@@ -199,10 +204,6 @@ wrap() {
         columns="${COLUMNS:-80}"
     fi
     fold -sw "$columns" "$@"
-}
-
-_tryalias() {
-    _canrun "$1" && shift && name="$1" && shift && eval "alias $name='$*'"
 }
 
 _tryalias emacs wemacs VISUAL=emacs EDITOR=emacs

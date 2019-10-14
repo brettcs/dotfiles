@@ -188,7 +188,7 @@ if _canrun systemctl; then
     }
 
     if journalctl -n1 >/dev/null 2>&1; then
-        alias jctl=journalctl
+        jctl() { journalctl "$@"; }
     else
         jctl() { _wrap_systemctl journalctl "$@"; }
     fi
@@ -257,7 +257,7 @@ _canrun x || alias x='dtrx'
 if python3 -m markdown --version >/dev/null 2>&1; then
     alias _pymarkdown='python3 -m markdown -x sane_lists -x tables'
     alias markdown='_pymarkdown'
-    alias sm='_pymarkdown -x smarty'
+    sm() { _pymarkdown -x smarty "$@"; }
 elif _canrun smartypants && _canrun markdown; then
     sm() {
         smartypants --attr qbdeu "$@" | markdown

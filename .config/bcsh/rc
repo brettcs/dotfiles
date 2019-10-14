@@ -40,13 +40,13 @@ today() { isodate now; }
 
 if _canrun colordiff; then
     cdiff() {
-	local last_arg
-	eval "last_arg=\$$#"
-	if [ -e "$last_arg" ]; then
-	    colordiff -u "$@"
-	else
-	    colordiff "$@"
-	fi
+        local last_arg
+        eval "last_arg=\$$#"
+        if [ -e "$last_arg" ]; then
+            colordiff -u "$@"
+        else
+            colordiff "$@"
+        fi
     }
 fi
 

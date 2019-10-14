@@ -67,7 +67,7 @@ d() {
         eval pushd "\"+$1\""
     else
         echo "d: not directory or options: $@" >&2
-        return 1
+        return 2
     fi
 }
 
@@ -132,7 +132,7 @@ if _canrun qrencode; then
     qr() {
         if [ -z "$1" ]; then
             echo "Usage: qr URL" >&2
-            return 1
+            return 2
         fi
         fn="$(tempfile -p qr- -s .png)" && \
             qrencode -o "$fn" "$1" && eog "$fn" && rm -f "$fn"

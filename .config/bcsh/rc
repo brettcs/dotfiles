@@ -57,14 +57,13 @@ if _canrun csvtool; then
 fi
 
 d() {
-    local firstchar="$(echo "$1" | cut -c1)"
     if [ -z "$1" ]; then
         dirs -p
-    elif [ -d "$1" ] || [ + = "$firstchar" ] || [ - = "$1" ]; then
+    elif [ -d "$1" ] || [ - = "$1" ] || [ "${1#+}" != "$1" ]; then
         eval pushd "\"$1\""
-    elif [ - = "$firstchar" ]; then
+    elif [ "${1#-}" != "$1" ]; then
         dirs "$@"
-    elif echo "$1" | grep -qE '^[[:digit:]]+$'; then
+    elif [ -z "${1#[0-9]}" ]; then
         eval pushd "\"+$1\""
     else
         echo "d: not directory or options: $@" >&2
@@ -108,7 +107,7 @@ _up() {
     local nextpath
     if [ -z "$2" ]; then
         nextpath=".."
-    elif echo "$2" | grep -q "^[0-9]$"; then
+    elif [ -z "${2#[1-9]}" ]; then
         nextpath=""
         for i in $(seq 1 "$2"); do
             nextpath="${nextpath}../"
@@ -194,7 +193,7 @@ vcsfind() {
 
 wrap() {
     local columns
-    if [ $# -gt 1 ] && [ "$1" -gt 0 ] 2>/dev/null; then
+    if [ "${1:-0}" -gt 0 ] 2>/dev/null; then
         columns="$1"; shift
     else
         columns="${COLUMNS:-80}"

@@ -24,8 +24,6 @@ export LESS=XRF
 export PAGER=/usr/bin/less
 export PYTHONSTARTUP="${PYTHONSTARTUP:-$HOME/.config/pythonstartup.py}"
 
-_BCSMARKDIR="${_BCSMARKDIR:-$HOME}"
-
 _canrun() {
     type "$@" >/dev/null 2>&1
 }
@@ -34,8 +32,6 @@ b() { ls -Alh --color=always "$@" | $PAGER; }
 bsplit() { split -d -b "$1" "$2" "$(basename "$2")."; }
 cdr() { cd "$(realpath "${1:-.}")"; }
 cwdiff() { wdiff -n "$@" | colordiff | $PAGER; }
-gomark() { cd "$_BCSMARKDIR"; }
-mark() { _BCSMARKDIR="$(pwd)"; }
 reallines() { grep -Ev '^[[:space:]]*($|#)' "$@" | $PAGER; }
 stamp() { find "$@" -print0 | xargs -0 touch; }
 today() { date +%Y-%m-%d; }

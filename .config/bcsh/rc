@@ -36,7 +36,7 @@ cdr() { cd "$(realpath "${1:-.}")"; }
 cwdiff() { wdiff -n "$@" | colordiff | $PAGER; }
 reallines() { grep -Ev '^[[:space:]]*($|#)' "$@" | $PAGER; }
 stamp() { find "$@" -print0 | xargs -0 touch; }
-today() { date +%Y-%m-%d; }
+today() { isodate now; }
 
 if _canrun colordiff; then
     cdiff() {
@@ -72,6 +72,15 @@ d() {
     fi
 }
 
+isodate() {
+    local date_arg
+    if [ -z "${1:-}" ] || [ "${1#-}" != "$1" ]; then
+        date_arg=now
+    else
+        date_arg="$1"; shift
+    fi
+    date --iso-8601=date --date="$date_arg" "$@"
+}
 
 pl() {
     local newdir="$(pwd)"

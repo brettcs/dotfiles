@@ -13,15 +13,17 @@ if [ -d /run/systemd/system ]; then
     trap _load_systemd_envvars USR2
 fi
 
-if EDITOR="$(which emacsclient 2>/dev/null)"; then
-    export ALTERNATE_EDITOR="$(which emacs)"
-else
-    EDITOR=/bin/nano
+if [ -z "${EDITOR:-}" ]; then
+    if EDITOR="$(which emacsclient 2>/dev/null)"; then
+        export ALTERNATE_EDITOR="$(which emacs)"
+    else
+        EDITOR=/bin/nano
+    fi
+    export EDITOR
 fi
-export EDITOR
-export GREP_COLOR="1;32"
-export LESS=XRF
-export PAGER=/usr/bin/less
+export GREP_COLOR="${GREP_COLOR:-1;32}"
+export LESS="${LESS:-XRF}"
+export PAGER="${PAGER:-/usr/bin/less}"
 export PYTHONSTARTUP="${PYTHONSTARTUP:-$HOME/.config/pythonstartup.py}"
 
 _canrun() {

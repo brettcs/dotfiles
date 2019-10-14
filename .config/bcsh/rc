@@ -121,7 +121,7 @@ _up() {
             nextpath="$(dirname "$nextpath")"
         done
         if [ "$nextpath" = "/" ]; then
-            echo "no match found for $2" >&2
+            echo "up: no match found for $2" >&2
             return 1
         fi
     fi

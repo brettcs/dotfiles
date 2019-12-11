@@ -31,6 +31,8 @@
 (setq auto-save-default nil)
 (setq blink-matching-paren nil)
 (setq diff-switches "-u")
+(setq enable-local-eval nil)
+(setq enable-local-variables :safe)
 (setq initial-frame-alist '((vertical-scroll-bars . nil)))
 (setq inhibit-startup-message t)
 (setq kill-whole-line t)

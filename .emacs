@@ -46,8 +46,6 @@
 
 (setq auto-mode-alist
       (nconc '(("/db\\." . zone-mode)
-               ("/cvs\\.*" . fill-text-mode)
-               ("/mutt-" . visual-text-mode)
                ("\\.automount$" . conf-unix-mode)
                ("\\.device$" . conf-unix-mode)
                ("\\.mount$" . conf-unix-mode)

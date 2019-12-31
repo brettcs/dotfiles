@@ -36,12 +36,25 @@ export PAGER="${PAGER:-/usr/bin/less}"
 export PYTHONSTARTUP="${PYTHONSTARTUP:-$HOME/.config/pythonstartup.py}"
 
 b() { ls -Alh --color=always "$@" | $PAGER; }
-bsplit() { split -d -b "$1" "$2" "$(basename "$2")."; }
 cdr() { cd "$(realpath "${1:-.}")"; }
 cwdiff() { wdiff -n "$@" | colordiff | $PAGER; }
 reallines() { grep -Ev '^[[:space:]]*($|#)' "$@" | $PAGER; }
 stamp() { find "$@" -print0 | xargs -0 touch; }
 today() { isodate now; }
+
+bsplit() {
+    local bytesize="$1"; shift
+    local source="$1"; shift
+    local outprefix
+    if [ $# -ge 1 ]; then
+        outprefix="$1"
+    elif [ "$source" = - ]; then
+        outprefix="output."
+    else
+        outprefix="$(basename "$source")."
+    fi
+    split --numeric-suffixes=1 --bytes="$bytesize" "$source" "$outprefix"
+}
 
 if _canrun colordiff; then
     cdiff() {

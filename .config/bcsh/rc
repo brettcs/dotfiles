@@ -165,15 +165,14 @@ fi
 
 if _canrun svn && _canrun colordiff; then
     svncdiff() {
-        local revnum
-        if [ $# -ge 1 ] \
-               && revnum="${1#[rc]}" \
-               && [ "$revnum" -ge 0 ] 2>/dev/null \
-               && ! [ -e "$1" ]; then
+        local revnum="${1:-}"
+        if [[ "$revnum" =~ '^-?[cr]?-?[0-9]+$' && ! -e "$1" ]]; then
+            revnum="${revnum#-}"
+            revnum="${revnum#[cr]}"
             shift
             set -- "-c$revnum" "$@"
         fi
-        svn diff "$@" | cdiff -dn | $PAGER
+        svn diff "$@" | colordiff | $PAGER
     }
 fi
 

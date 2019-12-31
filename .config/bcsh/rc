@@ -272,9 +272,8 @@ _canrun x || alias x='dtrx'
     alias muttman='zless /usr/share/doc/mutt/manual.txt.gz'
 
 if python3 -m markdown --version >/dev/null 2>&1; then
-    alias _pymarkdown='python3 -m markdown -x sane_lists -x tables'
-    alias markdown='_pymarkdown'
-    sm() { _pymarkdown -x smarty "$@"; }
+    markdown() { python3 -m markdown -x sane_lists -x tables "$@"; }
+    sm() { markdown -x smarty "$@"; }
 elif _canrun smartypants && _canrun markdown; then
     sm() {
         smartypants --attr qbdeu "$@" | markdown

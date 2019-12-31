@@ -44,8 +44,12 @@ today() { isodate now; }
 
 bsplit() {
     local bytesize="$1"; shift
-    local source="$1"; shift
-    local outprefix
+    local source outprefix
+    if [ $# -ge 1 ]; then
+        source="$1"; shift
+    else
+        source=-
+    fi
     if [ $# -ge 1 ]; then
         outprefix="$1"
     elif [ "$source" = - ]; then

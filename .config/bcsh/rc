@@ -174,6 +174,10 @@ if _canrun svn && _canrun colordiff; then
         fi
         svn diff "$@" | colordiff | $PAGER
     }
+
+    svnclog() {
+        svn log --diff "$@" | colordiff | $PAGER
+    }
 fi
 
 if _canrun systemctl; then

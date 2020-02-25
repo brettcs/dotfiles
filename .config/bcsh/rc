@@ -78,8 +78,8 @@ if [ "$_HAVE_SYSTEMD" = y ]; then
             done
         fi
         case "$need_root" in
-            1) sudo $cmd "$@" ;;
-            *) $cmd "$@" ;;
+            1) sudo "$cmd" "$@" ;;
+            *) "$cmd" "$@" ;;
         esac
     }
 

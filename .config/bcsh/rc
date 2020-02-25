@@ -60,6 +60,23 @@ reallines() { grep -Ev '^[[:space:]]*($|#)' "$@" | $PAGER; }
 stamp() { find "$@" -print0 | xargs -0 touch; }
 today() { isodate now; }
 
+if _canrun systemd-run; then
+    at() {
+        if [ $# -lt 2 ]; then
+            echo "usage: at <timespec> <command> [arg ...]" >&2
+            return 2
+        fi
+        local when="$1"; shift
+        local bin="$(which -a "$1" | grep '^/' | head -n1)"
+        if ! [ -x "$bin" ]; then
+            echo "at: $1: not an executable"
+            return 3
+        fi
+        shift
+        systemd-run --user --same-dir --on-calendar="$when" "$bin" "$@"
+    }
+fi
+
 bsplit() {
     local bytesize="$1"; shift
     local source outprefix

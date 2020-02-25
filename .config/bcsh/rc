@@ -4,12 +4,27 @@ _canrun() {
     type "$@" >/dev/null 2>&1
 }
 
+_gettz() {
+    local tz
+    if _canrun timedatectl; then
+        tz="$(timedatectl show --property=Timezone --value)"
+    else
+        read tz </etc/timezone
+    fi
+    if [ -n "$tz" ] && [ "$tz" = "${tz#Etc/}" ]; then
+        echo "$tz"
+    else
+        echo America/New_York
+    fi
+}
+
 _load_systemd_envvars() {
     local envfile="$(mktemp --tmpdir bcsh-XXXXXXXX.env)" || return $?
+    printf "TZ=%s\n" "$(_gettz)" >>"$envfile"
     systemctl --user show-environment \
-        | grep -vE '^(HOME|LANG|LOGNAME|PATH|SHELL|USER|USERNAME)=' >"$envfile" \
-        && source "$envfile" \
-        && export $(awk '(match($0, "^[A-Z][A-Z0-9_]*=")){print substr($0, 1, RLENGTH - 1)}' "$envfile")
+        | grep -vE '^(HOME|LANG|LOGNAME|PATH|SHELL|USER|USERNAME)=' >>"$envfile"
+    source "$envfile" \
+        && export $(awk '(match($0, "^([A-Z][A-Z0-9_]*)=", gs)){print gs[1]}' "$envfile")
     /bin/rm "$envfile"
 }
 
@@ -34,6 +49,9 @@ export GREP_COLOR="${GREP_COLOR:-1;32}"
 export LESS="${LESS:-XRF}"
 export PAGER="${PAGER:-/usr/bin/less}"
 export PYTHONSTARTUP="${PYTHONSTARTUP:-$HOME/.config/pythonstartup.py}"
+if [ -z "${TZ:-}" ]; then
+    export TZ="$(_gettz)"
+fi
 
 b() { ls -Alh --color=always "$@" | $PAGER; }
 cdr() { cd "$(realpath "${1:-.}")"; }
@@ -285,4 +303,4 @@ elif _canrun smartypants && _canrun markdown; then
 fi
 
 [ -e "$ZDOTDIR/local" ] && source "$ZDOTDIR/local"
-unset _canrun _tryalias
+unset _tryalias

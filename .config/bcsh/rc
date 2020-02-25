@@ -1,12 +1,14 @@
 #!/bin/bash
 
+test -d /run/systemd/system && _HAVE_SYSTEMD=y || _HAVE_SYSTEMD=n
+
 _canrun() {
     type "$@" >/dev/null 2>&1
 }
 
 _gettz() {
     local tz
-    if _canrun timedatectl; then
+    if [ "$_HAVE_SYSTEMD" = y ]; then
         tz="$(timedatectl show --property=Timezone --value)"
     else
         read tz </etc/timezone
@@ -32,11 +34,6 @@ _tryalias() {
     _canrun "$1" && shift && name="$1" && shift && eval "alias $name='$*'"
 }
 
-if [ -d /run/systemd/system ]; then
-    _load_systemd_envvars
-    trap _load_systemd_envvars USR2
-fi
-
 if [ -z "${EDITOR:-}" ]; then
     if EDITOR="$(which emacsclient 2>/dev/null)"; then
         export ALTERNATE_EDITOR="$(which emacs)"
@@ -60,7 +57,32 @@ reallines() { grep -Ev '^[[:space:]]*($|#)' "$@" | $PAGER; }
 stamp() { find "$@" -print0 | xargs -0 touch; }
 today() { isodate now; }
 
-if _canrun systemd-run; then
+if [ "$_HAVE_SYSTEMD" = y ]; then
+    _load_systemd_envvars
+    trap _load_systemd_envvars USR2
+
+    _wrap_systemctl() {
+        local cmd="$1"; shift
+        local need_root
+        if [ "$(id -u)" = 0 ]; then
+            need_root=0
+        else
+            need_root=1
+            for arg in "$@"; do
+                case "$arg" in
+                    --user*)
+                        need_root=0
+                        break
+                        ;;
+                esac
+            done
+        fi
+        case "$need_root" in
+            1) sudo $cmd "$@" ;;
+            *) $cmd "$@" ;;
+        esac
+    }
+
     at() {
         if [ $# -lt 2 ]; then
             echo "usage: at <timespec> <command> [arg ...]" >&2
@@ -75,6 +97,15 @@ if _canrun systemd-run; then
         shift
         systemd-run --user --same-dir --on-calendar="$when" "$bin" "$@"
     }
+
+    if journalctl -n1 >/dev/null 2>&1; then
+        jctl() { journalctl "$@"; }
+    else
+        jctl() { _wrap_systemctl journalctl "$@"; }
+    fi
+    sctl() { _wrap_systemctl systemctl "$@"; }
+    alias ujctl='journalctl --user'
+    alias usctl='systemctl --user'
 fi
 
 bsplit() {
@@ -220,36 +251,6 @@ if _canrun svn && _canrun colordiff; then
 fi
 
 if _canrun systemctl; then
-    _wrap_systemctl() {
-        local cmd="$1"; shift
-        local need_root
-        if [ "$(id -u)" = 0 ]; then
-            need_root=0
-        else
-            need_root=1
-            for arg in "$@"; do
-                case "$arg" in
-                    --user*)
-                        need_root=0
-                        break
-                        ;;
-                esac
-            done
-        fi
-        case "$need_root" in
-            1) sudo $cmd "$@" ;;
-            *) $cmd "$@" ;;
-        esac
-    }
-
-    if journalctl -n1 >/dev/null 2>&1; then
-        jctl() { journalctl "$@"; }
-    else
-        jctl() { _wrap_systemctl journalctl "$@"; }
-    fi
-    sctl() { _wrap_systemctl systemctl "$@"; }
-    alias ujctl='journalctl --user'
-    alias usctl='systemctl --user'
 fi
 
 vcsfind() {
@@ -320,4 +321,4 @@ elif _canrun smartypants && _canrun markdown; then
 fi
 
 [ -e "$ZDOTDIR/local" ] && source "$ZDOTDIR/local"
-unset _tryalias
+unset _canrun _tryalias

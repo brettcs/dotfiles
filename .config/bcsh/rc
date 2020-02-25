@@ -98,7 +98,7 @@ if [ "$_HAVE_SYSTEMD" = y ]; then
         systemd-run --user --same-dir --on-calendar="$when" "$bin" "$@"
     }
 
-    if journalctl -n1 >/dev/null 2>&1; then
+    if journalctl --system -n1 >/dev/null 2>&1; then
         jctl() { journalctl "$@"; }
     else
         jctl() { _wrap_systemctl journalctl "$@"; }

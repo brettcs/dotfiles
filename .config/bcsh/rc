@@ -253,9 +253,6 @@ if _canrun svn && _canrun colordiff; then
     }
 fi
 
-if _canrun systemctl; then
-fi
-
 vcsfind() {
     find \( -name 'CVS' -o -name '.svn' -o -name '.hg' -o -name '.git' \) \
         -not -prune -o \( "$@" \)

@@ -28,7 +28,7 @@ _load_systemd_envvars() {
     systemctl --user show-environment \
         | grep -vE '^(HOME|LANG|LOGNAME|PATH|SHELL|USER|USERNAME)=' >>"$envfile"
     source "$envfile" \
-        && export $(awk '(match($0, "^([A-Z][A-Z0-9_]*)=", gs)){print gs[1]}' "$envfile")
+        && export $(awk '(match($0, "^[A-Z][A-Z0-9_]*=")) { print substr($0, 1, RLENGTH - 1) }' "$envfile")
     /bin/rm "$envfile"
 }
 

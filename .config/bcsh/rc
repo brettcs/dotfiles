@@ -9,7 +9,9 @@ _canrun() {
 _gettz() {
     local tz
     if [ "$_HAVE_SYSTEMD" = y ]; then
-        tz="$(timedatectl show --property=Timezone --value)"
+        # Once everything is on buster, this can be cleaned up to:
+        # tz="$(timedatectl show --property=Timezone --value)"
+        tz="$(timedatectl | awk '($1 $2 == "Timezone:") { print $3 }')"
     else
         read tz </etc/timezone
     fi

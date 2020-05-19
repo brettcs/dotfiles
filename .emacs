@@ -28,7 +28,11 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq-default vertical-scroll-bar nil)
-(setq auto-save-default nil)
+(setq auto-save-default t)
+(setq auto-save-file-name-transforms
+      `((".*" ,(concat user-emacs-directory "backups/") t)))
+(setq backup-directory-alist
+      `(("." . ,(concat user-emacs-directory "backups/"))))
 (setq blink-matching-paren nil)
 (setq diff-switches "-u")
 (setq enable-local-eval nil)
@@ -36,7 +40,7 @@
 (setq initial-frame-alist '((vertical-scroll-bars . nil)))
 (setq inhibit-startup-message t)
 (setq kill-whole-line t)
-(setq make-backup-files nil)
+(setq make-backup-files t)
 (setq mouse-yank-at-point nil)
 (setq next-line-add-newlines nil)
 (setq read-buffer-completion-ignore-case t)

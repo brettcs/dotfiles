@@ -95,7 +95,8 @@
   (global-set-key "\C-xg" 'magit-status)
   (add-hook 'magit-log-edit-mode-hook 'auto-fill-mode)
   (setq magit-repo-dirs (file-expand-wildcards "~/*repos"))
-  (setq magit-repository-directories magit-repo-dirs))
+  (setq magit-repository-directories
+        (mapcar '(lambda (p) (cons p 1)) magit-repo-dirs))
 
 (with-library 'markdown-mode
   (add-to-list 'auto-mode-alist '("\\.md\\(wn\\)?\\'" . markdown-mode))

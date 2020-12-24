@@ -111,6 +111,7 @@ if [ "$_HAVE_SYSTEMD" = y ]; then
     sctl() { _wrap_systemctl systemctl "$@"; }
     alias ujctl='journalctl --user'
     alias usctl='systemctl --user'
+    alias usrun='systemd-run --user --same-dir'
 fi
 
 bsplit() {

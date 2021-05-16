@@ -84,6 +84,7 @@ for fn in .bash_profile .bashrc; do
     link_if_ok "$destdir/$shelldir/bashrc" "$destdir/$fn"
 done
 link_if_ok "$destdir/$shelldir/env" "$destdir/.gnomerc"
+link_if_ok "$destdir/.config/emacs" "$destdir/.emacs.d"
 cd - >/dev/null
 
 if [ ! -e "$destdir/$shelldir/screenrc" ]; then

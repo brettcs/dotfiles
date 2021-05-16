@@ -144,6 +144,9 @@
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 )
 
+(with-library 'python
+  (setq python-shell-interpreter "python3")
+)
 
 (with-library 'rst
   (add-hook 'rst-mode-hook 'visual-line-mode))

@@ -4,4 +4,4 @@ Wants=trash-clean.service
 
 [Service]
 Type=oneshot
-ExecStart=/bin/systemd-tmpfiles --root %h --clean %h/.config/systemd-tmpfiles.conf
+ExecStart=/bin/systemd-tmpfiles --user --clean

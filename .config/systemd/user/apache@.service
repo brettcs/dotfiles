@@ -6,7 +6,7 @@ After=network.target tmpfiles-setup.service
 Type=simple
 UMask=077
 RuntimeDirectory=%n
-Environment=APACHE_LOG_DIR=%h/temp/%p@%i.logs
+Environment=APACHE_LOG_DIR=%h/Scratch/%N.logs
 Environment=APACHE_RUN_DIR=%t/%n
 Environment=APACHE_SERVER_ROOT=%h/.config/apache
 Environment=APACHE_STARTED_BY_SYSTEMD=true

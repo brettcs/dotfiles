@@ -127,6 +127,12 @@
   (setq-default nxml-outline-child-indent 4)
   (setq-default nxml-child-indent 4))
 
+(with-library 'outline
+  (add-hook 'outline-minor-mode-hook
+            (lambda () (local-set-key "\C-c\C-o" outline-mode-prefix-map)))
+  (add-hook 'prog-mode-hook 'outline-minor-mode)
+)
+
 (with-library 'perl-mode
   (defalias 'cperl-mode 'perl-mode))
 

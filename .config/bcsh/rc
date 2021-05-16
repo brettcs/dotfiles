@@ -288,6 +288,7 @@ _tryalias smartypants sp smartypants --attr qbdeu
 _tryalias trash rm trash
 _tryalias xclip xcopy xclip -selection clipboard
 _tryalias xclip xpaste xclip -selection clipboard -o
+_tryalias xkcdpass xkcdpass xkcdpass --count=8 --numwords=3
 _tryalias xmodmap mx1k xmodmap ~/.config/xmodmap/mx1k
 _tryalias xmodmap nomx1k xmodmap -e '"pointer = default"'
 _tryalias youtube-dl ydl youtube-dl --prefer-free-formats \

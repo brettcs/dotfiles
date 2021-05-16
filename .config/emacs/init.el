@@ -1,3 +1,5 @@
+(setq user-emacs-directory "~/.config/emacs/")
+
 (package-initialize)  ;; Added by Package.el.
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
@@ -6,12 +8,10 @@
      ,@body))
 (put 'with-library 'lisp-indent-function 1)
 
-(when (file-directory-p "~/.emacs.d/elisp")
-  (let ((default-directory "~/.emacs.d/elisp/"))
-    (normal-top-level-add-to-load-path '("."))
+(let ((default-directory (concat user-emacs-directory "elisp/")))
+  (when (file-directory-p default-directory)
     (normal-top-level-add-subdirs-to-load-path)
-    )
-  )
+))
 
 (defun fill-text-mode () (interactive)
   (text-mode) (auto-fill-mode))

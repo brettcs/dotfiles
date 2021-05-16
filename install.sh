@@ -116,10 +116,5 @@ if [ -z "${1:-}" ] && [ -d /run/systemd/system ] && { \
             systemctl --user enable "$service_name"
         fi
     done
-    if screen_status="$(systemctl --user is-enabled screen.service)" \
-            && [ "$screen_status" = enabled ]; then
-        systemctl --user disable screen.service
-        rm "$destdir/.config/systemd/user/screen.service"
-    fi
     cd - >/dev/null
 fi

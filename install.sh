@@ -84,7 +84,8 @@ for fn in .bash_profile .bashrc; do
     link_if_ok "$destdir/$shelldir/bashrc" "$destdir/$fn"
 done
 link_if_ok "$destdir/$shelldir/env" "$destdir/.gnomerc"
-link_if_ok "$destdir/.config/emacs" "$destdir/.emacs.d"
+link_if_ok "$destdir/.config/emacs" "$destdir/.emacs.d"  # Obsolete by Emacs 27
+link_if_ok "$destdir/.config/mutt" "$destdir/.mutt"  # Obsolete by mutt 2.0
 cd - >/dev/null
 
 if [ ! -e "$destdir/$shelldir/screenrc" ]; then

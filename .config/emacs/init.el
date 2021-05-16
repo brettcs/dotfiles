@@ -81,6 +81,21 @@
     (add-hook 'elpy-mode-hook 'flycheck-mode)
 ))
 
+(with-library 'ffap
+  (ffap-bindings)
+  (setq ffap-lax-url nil)
+  (defadvice ffap-string-at-point (before ffap-perl-module-fix activate)
+    "allow ffap to locate perl modules"
+    (when (and (ad-get-arg 0) (eq major-mode 'perl-mode))
+      (ad-set-arg 0 major-mode)))
+  (defun my-ffap-perldoc (file)
+    (let ((real-file (shell-command-to-string (concat "perldoc -ml " file))))
+      (unless (string-match "No module found for " real-file)
+        (substring real-file 0 -1)
+        )))
+  (add-to-list 'ffap-alist  '(perl-mode . my-ffap-perldoc))
+)
+
 (with-library 'font-lock
   (show-paren-mode t)
   (setq font-lock-maximum-decoration t)

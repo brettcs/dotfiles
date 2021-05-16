@@ -138,6 +138,12 @@
   (define-key perl-mode-map (kbd "C-c C-d") 'cperl-perldoc)
 )
 
+(with-library 'projectile
+  (projectile-mode 1)
+  (setq projectile-project-search-path '("~/Repositories"))
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+)
+
 
 (with-library 'rst
   (add-hook 'rst-mode-hook 'visual-line-mode))

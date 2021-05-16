@@ -1,4 +1,5 @@
 (package-initialize)  ;; Added by Package.el.
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
 (defmacro with-library (symbol &rest body)
   `(when (require ,symbol nil t)

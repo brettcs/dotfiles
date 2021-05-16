@@ -8,4 +8,4 @@ WantedBy=default.target
 
 [Service]
 Type=oneshot
-ExecStart=/bin/systemd-tmpfiles --root %h --boot --create --remove %h/.config/systemd-tmpfiles.conf
+ExecStart=/bin/systemd-tmpfiles --user --boot --create --remove

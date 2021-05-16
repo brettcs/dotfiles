@@ -108,6 +108,9 @@
   (add-hook 'prog-mode-hook 'fci-mode)
 )
 
+(with-library 'helm-pydoc
+  (define-key python-mode-map (kbd "C-c C-d") 'helm-pydoc))
+
 (with-library 'magit
   (global-set-key "\C-xg" 'magit-status)
   (add-hook 'magit-log-edit-mode-hook 'auto-fill-mode)

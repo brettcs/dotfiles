@@ -8,4 +8,4 @@ WantedBy=graphical-session.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/emacsclient --eval "(with-library 'naquadah-theme)"
+ExecStart=/usr/bin/emacsclient --eval "(setq-default vertical-scroll-bar t)" --eval "(menu-bar-mode 1)" --eval "(tool-bar-mode 1)" --eval "(load-theme 'naquadah t)"

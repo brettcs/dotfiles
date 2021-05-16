@@ -105,13 +105,8 @@
 (with-library 'fill-column-indicator
   (setq fci-rule-column 80)
   (setq fci-rule-color "DarkOrange4")
-  (add-hook 'emacs-lisp-mode-hook 'fci-mode)
-  (add-hook 'js-mode-hook 'fci-mode)
-  (add-hook 'perl-mode-hook 'fci-mode)
-  (add-hook 'php-mode-hook 'fci-mode)
-  (add-hook 'python-mode-hook 'fci-mode)
-  (add-hook 'ruby-mode-hook 'fci-mode)
-  (add-hook 'sh-mode-hook 'fci-mode))
+  (add-hook 'prog-mode-hook 'fci-mode)
+)
 
 (with-library 'magit
   (global-set-key "\C-xg" 'magit-status)

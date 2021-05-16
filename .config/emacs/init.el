@@ -74,6 +74,13 @@
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 
+(with-library 'elpy
+  (elpy-enable)
+  (with-library 'flycheck
+    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+    (add-hook 'elpy-mode-hook 'flycheck-mode)
+))
+
 (with-library 'font-lock
   (show-paren-mode t)
   (setq font-lock-maximum-decoration t)

@@ -134,7 +134,10 @@
 )
 
 (with-library 'perl-mode
-  (defalias 'cperl-mode 'perl-mode))
+  (defalias 'cperl-mode 'perl-mode)
+  (define-key perl-mode-map (kbd "C-c C-d") 'cperl-perldoc)
+)
+
 
 (with-library 'rst
   (add-hook 'rst-mode-hook 'visual-line-mode))

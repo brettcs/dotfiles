@@ -157,9 +157,9 @@
   (add-hook 'visual-line-mode-hook 'visual-fill-column-mode)
   (setq-default visual-fill-column-width 100))
 
-(with-library 'ws-trim
-  (setq-default ws-trim-level 1)
-  (global-ws-trim-mode t))
+(with-library 'ws-butler
+  (add-hook 'prog-mode-hook #'ws-butler-mode)
+)
 
 (put 'narrow-to-region 'disabled nil)
 (put 'overwrite-mode 'disabled t)

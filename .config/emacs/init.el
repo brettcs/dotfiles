@@ -31,9 +31,9 @@
 (setq-default vertical-scroll-bar nil)
 (setq auto-save-default t)
 (setq auto-save-file-name-transforms
-      `((".*" ,(concat user-emacs-directory "backups/") t)))
+      `((".*" "~/.cache/emacs/backups/" t)))
 (setq backup-directory-alist
-      `(("." . ,(concat user-emacs-directory "backups/"))))
+      `(("." . "~/.cache/emacs/backups/")))
 (setq blink-matching-paren nil)
 (setq diff-switches "-u")
 (setq enable-local-eval nil)

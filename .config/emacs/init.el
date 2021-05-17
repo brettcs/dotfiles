@@ -17,7 +17,7 @@
   (text-mode) (auto-fill-mode))
 
 (defun load-init-file () (interactive)
-  (load-file "~/.emacs"))
+  (load-file (concat user-emacs-directory "init.el")))
 
 (defun switch-to-buffer-last () (interactive)
   (switch-to-buffer nil))

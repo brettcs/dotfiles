@@ -1,3 +1,5 @@
+[alias]
+    review = diff -U10 -M
 [color]
 	diff = true
 	grep = true
@@ -9,7 +11,5 @@
 [color "grep"]
 	match = green bold
 	filename = magenta
-[alias]
-    review = diff -U10 -M
 [user]
 	name = Brett Smith

@@ -11,5 +11,7 @@
 [color "grep"]
 	match = green bold
 	filename = magenta
+[init]
+	defaultBranch = main
 [user]
 	name = Brett Smith

@@ -42,6 +42,7 @@
 (setq kill-whole-line t)
 (setq make-backup-files t)
 (setq mouse-yank-at-point nil)
+(setq my-project-directories '("~/Repositories/"))
 (setq next-line-add-newlines nil)
 (setq read-buffer-completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
@@ -73,6 +74,8 @@
 (column-number-mode 1)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
+
+(with-library 'local)
 
 (with-library 'elpy
   (elpy-enable)
@@ -114,7 +117,7 @@
 (with-library 'magit
   (global-set-key "\C-xg" 'magit-status)
   (add-hook 'magit-log-edit-mode-hook 'auto-fill-mode)
-  (setq magit-repo-dirs (file-expand-wildcards "~/Repositories"))
+  (setq magit-repo-dirs my-project-directories)
   (setq magit-repository-directories
         (mapcar #'(lambda (p) (cons p 1)) magit-repo-dirs))
 )
@@ -139,9 +142,9 @@
 )
 
 (with-library 'projectile
-  (projectile-mode 1)
-  (setq projectile-project-search-path '("~/Repositories"))
+  (setq projectile-project-search-path my-project-directories)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode 1)
 )
 
 (with-library 'python

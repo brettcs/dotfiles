@@ -39,7 +39,7 @@ can_overwrite() {
     test -e "$target" || return 0
     case "$fn" in
         # Files that start with standard settings
-        .config/git/config|.config/hg/hgrc|.config/mutt/muttrc)
+        .config/hg/hgrc|.config/mutt/muttrc)
             local linecount=$(wc -l <"$fn")
             head -n "$linecount" "$target" | cmp -s "$fn" - && return 1
             ;;

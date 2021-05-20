@@ -16,3 +16,5 @@
 [user]
 	name = Brett Smith
     useconfigonly = true
+[include]
+    path = local.ini

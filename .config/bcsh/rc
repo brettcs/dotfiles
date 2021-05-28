@@ -228,7 +228,7 @@ if _canrun qrencode; then
             echo "Usage: qr URL" >&2
             return 2
         fi
-        fn="$(tempfile -p qr- -s .png)" && \
+        fn="$(mktemp --tmpdir qr-XXXXXXXX.png)" && \
             qrencode -o "$fn" "$1" && eog "$fn" && /bin/rm -f "$fn"
     }
 fi

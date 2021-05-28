@@ -43,6 +43,9 @@ can_overwrite() {
             local linecount=$(wc -l <"$fn")
             head -n "$linecount" "$target" | cmp -s "$fn" - && return 1
             ;;
+        .config/screen/local)
+            return 1
+            ;;
         *)
             cmp -s "$fn" "$target" && return 1
             overwrite_default=Y
@@ -87,11 +90,6 @@ link_if_ok "$destdir/$shelldir/env" "$destdir/.gnomerc"
 link_if_ok "$destdir/.config/emacs" "$destdir/.emacs.d"  # Obsolete by Emacs 27
 link_if_ok "$destdir/.config/mutt" "$destdir/.mutt"  # Obsolete by mutt 2.0
 cd - >/dev/null
-
-if [ ! -e "$destdir/$shelldir/screenrc" ]; then
-    echo "screen 1 emacsclient --create-frame --alternate-editor=" \
-         >>"$destdir/$shelldir/screenrc"
-fi
 
 if [ ! -d "$destdir/.config/apache/sites" ]; then
     if [ -d /etc/apache2 ]; then

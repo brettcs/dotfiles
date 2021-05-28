@@ -1,0 +1,5 @@
+caption always
+screen 1 zsh -i -c "exec python3"
+at 1 title py3
+split
+focus

@@ -114,7 +114,7 @@
 
 (with-library 'magit
   (global-set-key "\C-xg" 'magit-status)
-  (add-hook 'magit-log-edit-mode-hook 'auto-fill-mode)
+  (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
   (setq magit-repo-dirs my-project-directories)
   (setq magit-repository-directories
         (mapcar #'(lambda (p) (cons p 1)) magit-repo-dirs))

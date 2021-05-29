@@ -6,10 +6,13 @@ source "$ZDOTDIR/env"
 # If not running interactively, stop here
 [ -z "$PS1" ] && return
 
-case "$(id -nu)" in
-    brett) PS1='\[\e[1;37m\]\h\[\e[0;37m\] \w\[\e[0m\] \$ ' ;;
-    *) PS1='\u@\[\e[1;37m\]\h\[\e[0;37m\] \w\[\e[0m\] \$ ' ;;
+case "$(hostname --fqdn)" in
+    *.brettcsmith.org) PS1='\[\e[1;37m\]\h\[\e[0;37m\] \w' ;;
+    *) PS1='\[\e[1;31m\]\h\[\e[0;37m\] \w' ;;
 esac
-
+case "${BCS_SCREEN:-}" in
+    1) PS1="$PS1 \\[\\e[0m\\]% " ;;
+    *) PS1="$PS1 \\[\\e[1;33m\\]%\\[\\e[0m\\] " ;;
+esac
 
 source "$ZDOTDIR/rc"

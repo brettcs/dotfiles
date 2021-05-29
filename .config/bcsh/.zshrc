@@ -78,13 +78,12 @@ else
     PROMPT_PCT="%B%F{yellow}%#%b%f"
 fi
 
-case "$(hostname -s)" in
-    # Home machines
-    nuc10g) PROMPT_HOST_COLOR='%F{cyan}' ;;
-    mililani) PROMPT_HOST_COLOR='%F{red}' ;;
-    larnblatt) PROMPT_HOST_COLOR='%F{magenta}' ;;
-    # Personal servers
-    *) PROMPT_HOST_COLOR='%K{red}%F{white}' ;;
+case "$(hostname --fqdn)" in
+    nuc10g.*) PROMPT_HOST_COLOR='%F{cyan}' ;;
+    mililani.*) PROMPT_HOST_COLOR='%F{red}' ;;
+    larnblatt.*) PROMPT_HOST_COLOR='%F{magenta}' ;;
+    *.brettcsmith.org) PROMPT_HOST_COLOR='%F{white}' ;;
+    *) PROMPT_HOST_COLOR='%F{red}' ;;
 esac
 
 _trysource() { [ -f "$1" ] && source "$1"; }
@@ -92,6 +91,5 @@ _trysource "$ZDOTDIR/local.zsh"
 _trysource "$ZDOTDIR/rc"
 
 PROMPT="%B${PROMPT_HOST_COLOR}%m%b%f%k ${PROMPT_PCT} "
-[ "$LOGNAME" != "brett" ] && PROMPT="%n@$PROMPT"
 [ -n "$BCS_SCREEN" ] && PROMPT="${PROMPT_SCREEN_HINT}${PROMPT}"
 true

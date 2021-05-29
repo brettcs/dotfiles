@@ -1,4 +1,10 @@
-(setq user-emacs-directory "~/.config/emacs/")
+(let ((confdirs (or (getenv "XDG_CONFIG_DIRS") (getenv "XDG_CONFIG_HOME") "~/.config"))
+      confdir)
+  (dolist (confdir (nreverse (split-string confdirs ":")))
+    (let ((my-emacs-dir (concat (file-name-as-directory confdir) (file-name-as-directory "emacs"))))
+      (when (file-exists-p (concat my-emacs-dir "init.el"))
+        (setq user-emacs-directory my-emacs-dir)
+))))
 
 (package-initialize)  ;; Added by Package.el.
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))

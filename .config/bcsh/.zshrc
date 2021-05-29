@@ -9,6 +9,20 @@ setopt AUTO_PARAM_SLASH
 unsetopt AUTO_REMOVE_SLASH
 setopt LIST_TYPES
 
+# History options
+HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/zsh/history"
+HISTSIZE=1000
+SAVEHIST=1000
+setopt APPEND_HISTORY
+setopt CLOBBER
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+mkdir -p "$(dirname "$HISTFILE")"
+
 # Miscellaneous options
 setopt CORRECT
 setopt NO_BEEP

@@ -71,7 +71,7 @@ for dn in $(my_find -type d); do
     test -d "$destdir/$dn" || mkdir "$destdir/$dn"
 done
 
-for fn in $(my_find -type f); do
+for fn in $(my_find -type f -name '.*'); do
     target="$destdir/$fn"
     if can_overwrite "$fn" "$target"; then
         cp -b "$fn" "$target"

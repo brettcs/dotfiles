@@ -28,7 +28,6 @@
 (setq-default fill-column 76)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
-(setq-default vertical-scroll-bar nil)
 (setq auto-save-default t)
 (setq auto-save-file-name-transforms
       `((".*" "~/.cache/emacs/backups/" t)))
@@ -73,7 +72,6 @@
 (blink-cursor-mode 0)
 (column-number-mode 1)
 (menu-bar-mode 0)
-(tool-bar-mode 0)
 
 (with-library 'local)
 
@@ -167,5 +165,3 @@
 (put 'narrow-to-region 'disabled nil)
 (put 'overwrite-mode 'disabled t)
 (put 'upcase-region 'disabled nil)
-
-(with-library 'local)

@@ -34,18 +34,12 @@
 (setq-default fill-column 76)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
-(setq auto-save-default t)
-(setq auto-save-file-name-transforms
-      `((".*" "~/.cache/emacs/backups/" t)))
-(setq backup-directory-alist
-      `(("." . "~/.cache/emacs/backups/")))
 (setq blink-matching-paren nil)
 (setq diff-switches "-u")
 (setq enable-local-eval nil)
 (setq enable-local-variables :safe)
 (setq inhibit-startup-message t)
 (setq kill-whole-line t)
-(setq make-backup-files t)
 (setq mouse-yank-at-point nil)
 (setq my-project-directories '("~/Repositories/"))
 (setq next-line-add-newlines nil)
@@ -53,6 +47,15 @@
 (setq read-file-name-completion-ignore-case t)
 (setq visible-bell t)
 (setq x-select-enable-clipboard t)
+
+(let ((cachehome (file-name-as-directory (or (getenv "XDG_CACHE_HOME") "~/.cache"))))
+  (let ((cachedir (concat cachehome (file-name-as-directory "emacs/backups/"))))
+    (setq auto-save-file-name-transforms `((".*" ,cachedir t)))
+    (setq backup-directory-alist `(("." . ,cachedir))))
+  (let ((can-cache (file-exists-p cachehome)))
+    (setq auto-save-default can-cache)
+    (setq make-backup-files can-cache))
+)
 
 (setq auto-mode-alist
       (nconc '(("/db\\." . zone-mode)

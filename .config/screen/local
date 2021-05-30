@@ -1,1 +1,1 @@
-screen 1 emacsclient --create-frame --alternate-editor=
+screen 1 sh -c '[ -n "${EMACS_SOCKET_NAME:-}" ] && set -- --socket-name="$EMACS_SOCKET_NAME"; exec emacsclient --create-frame --alternate-editor= "$@"'

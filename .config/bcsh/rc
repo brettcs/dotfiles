@@ -50,6 +50,7 @@ export LESSHISTFILE="${LESSHISTFILE:-${XDG_STATE_HOME:-$HOME/.local/state}/less/
 mkdir -p --mode=0700 "$(dirname "$LESSHISTFILE")"
 export PAGER="${PAGER:-/usr/bin/less}"
 export PYTHONSTARTUP="${PYTHONSTARTUP:-$ZDOTDIR/../pythonstartup.py}"
+export RIPGREP_CONFIG_PATH="${ZDOTDIR/../ripgrep/rc}"
 if [ -z "${TZ:-}" ]; then
     export TZ="$(_gettz)"
 fi
@@ -313,6 +314,7 @@ alias up='_up cd'
 alias upp='_up pushd'
 alias venv='py -m venv'
 
+_canrun rg || alias rg='grep -Er --color=auto --exclude-dir={CVS,.svn,.hg,.git}'
 _canrun x || alias x='dtrx'
 [ -e "/usr/share/doc/mutt/manual.txt.gz" ] && \
     alias muttman='zless /usr/share/doc/mutt/manual.txt.gz'

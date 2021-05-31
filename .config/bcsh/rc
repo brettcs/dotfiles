@@ -46,6 +46,8 @@ if [ -z "${EDITOR:-}" ]; then
 fi
 export GREP_COLOR="${GREP_COLOR:-1;32}"
 export LESS="${LESS:-XRF}"
+export LESSHISTFILE="${LESSHISTFILE:-${XDG_STATE_HOME:-$HOME/.local/state}/less/history}"
+mkdir -p --mode=0700 "$(dirname "$LESSHISTFILE")"
 export PAGER="${PAGER:-/usr/bin/less}"
 export PYTHONSTARTUP="${PYTHONSTARTUP:-$ZDOTDIR/../pythonstartup.py}"
 if [ -z "${TZ:-}" ]; then

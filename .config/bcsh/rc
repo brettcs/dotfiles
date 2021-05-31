@@ -47,7 +47,7 @@ fi
 export GREP_COLOR="${GREP_COLOR:-1;32}"
 export LESS="${LESS:-XRF}"
 export PAGER="${PAGER:-/usr/bin/less}"
-export PYTHONSTARTUP="${PYTHONSTARTUP:-$HOME/.config/pythonstartup.py}"
+export PYTHONSTARTUP="${PYTHONSTARTUP:-$ZDOTDIR/../pythonstartup.py}"
 if [ -z "${TZ:-}" ]; then
     export TZ="$(_gettz)"
 fi

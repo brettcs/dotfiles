@@ -40,6 +40,7 @@ if ! screen_id="$(find_screen)"; then
     export SHELL
 
     mkdir -p --mode=0700 "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$(dirname "$EMACS_SOCKET_NAME")"
+    umask 077
     emacs --daemon="$EMACS_SOCKET_NAME" --no-init-file --load "$XDG_CONFIG_HOME/emacs/init.el"
     screen -S "$NAME" -c "$HERE/.screenrc" -dm
     while ! screen_id="$(find_screen)"; do

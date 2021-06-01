@@ -21,6 +21,9 @@ xdg_dirs() {
     fi
 }
 
+case "${TERM:-}" in
+    screen.*|"") export TERM=screen ;;
+esac
 if ! screen_id="$(find_screen)"; then
     HERE="$(dirname "$(readlink -e "$0")")"
     export EMACS_SOCKET_NAME="$XDG_RUNTIME_DIR/emacs/$NAME"

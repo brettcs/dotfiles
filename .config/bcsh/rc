@@ -192,6 +192,12 @@ py() {
     fi
 }
 
+if ! _canrun rg; then
+    rg() {
+        grep -Er --color=auto --exclude-dir={CVS,.svn,.hg,.git} "$@"
+    }
+fi
+
 str() {
     if file -b "$1" | grep -q text; then
         $PAGER "$1"
@@ -315,7 +321,6 @@ alias up='_up cd'
 alias upp='_up pushd'
 alias venv='py -m venv'
 
-_canrun rg || alias rg='grep -Er --color=auto --exclude-dir={CVS,.svn,.hg,.git}'
 _canrun x || alias x='dtrx'
 [ -e "/usr/share/doc/mutt/manual.txt.gz" ] && \
     alias muttman='zless /usr/share/doc/mutt/manual.txt.gz'

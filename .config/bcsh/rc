@@ -147,6 +147,14 @@ if _canrun colordiff; then
     }
 fi
 
+cmeta() {
+    local obj=""
+    if [ $# -gt 0 ]; then
+        obj="$1"; shift
+    fi
+    curl --connect-timeout 1 "$@" "http://169.254.169.254/latest/meta-data/$obj" && echo
+}
+
 if _canrun csvtool; then
     csvl() {
         csvtool readable "$@" | $PAGER;

@@ -50,7 +50,7 @@ export LESSHISTFILE="${LESSHISTFILE:-${XDG_STATE_HOME:-$HOME/.local/state}/less/
 mkdir -p --mode=0700 "$(dirname "$LESSHISTFILE")"
 export PAGER="${PAGER:-/usr/bin/less}"
 export PYTHONSTARTUP="${PYTHONSTARTUP:-$ZDOTDIR/../pythonstartup.py}"
-export RIPGREP_CONFIG_PATH="${ZDOTDIR/../ripgrep/rc}"
+export RIPGREP_CONFIG_PATH="${RIPGREP_CONFIG_PATH:-$ZDOTDIR/../ripgrep/rc}"
 if [ -z "${TZ:-}" ]; then
     export TZ="$(_gettz)"
 fi

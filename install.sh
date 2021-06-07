@@ -7,9 +7,8 @@ cd "$(dirname "$0")"
 umask 077
 
 my_find() {
-    find -mindepth 1 \
-	\( -name .git -or -name .gitignore -or -name "$(basename "$0")" \) \
-	-prune -or "$@" -print | sed -e 's/^\.\///'
+    find "$@" \
+        | awk '($0 ~ /^\.\/\./ && $0 !~ /^\.\/\.git/) { print }'
 }
 
 ask_overwrite() {
@@ -71,7 +70,7 @@ for dn in $(my_find -type d); do
     test -d "$destdir/$dn" || mkdir "$destdir/$dn"
 done
 
-for fn in $(my_find -type f -name '.*'); do
+for fn in $(my_find -type f); do
     target="$destdir/$fn"
     if can_overwrite "$fn" "$target"; then
         cp -b "$fn" "$target"

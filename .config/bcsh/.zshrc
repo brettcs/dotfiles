@@ -79,9 +79,10 @@ else
 fi
 
 case "$(hostname --fqdn)" in
-    nuc10g.*) PROMPT_HOST_COLOR='%F{cyan}' ;;
-    mililani.*) PROMPT_HOST_COLOR='%F{red}' ;;
     larnblatt.*) PROMPT_HOST_COLOR='%F{magenta}' ;;
+    mililani.*) PROMPT_HOST_COLOR='%F{yellow}' ;;
+    nuc10g|nuc10g.*) PROMPT_HOST_COLOR='%F{cyan}' ;;
+    xps9310|xps9310.*) PROMPT_HOST_COLOR='%F{green}' ;;
     *.brettcsmith.org) PROMPT_HOST_COLOR='%F{white}' ;;
     *) PROMPT_HOST_COLOR='%F{red}' ;;
 esac

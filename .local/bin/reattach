@@ -9,33 +9,25 @@ if [ "$session_name" != "${session_name#-}" ]; then
     exit 0
 fi
 
-update_screeninfo() {
-    read screen_count detached_count screen_name <<EOF
-$(screen -S "$session_name" -ls \
-  | awk 'BEGIN {c=0; d=0} ($5 ~ /\)$/){c++}($5 == "(Detached)"){d++; n=$1} END {print c, d, n}')
+read screen_count detached_count screen_name <<EOF
+$(screen -S "$session_name" -ls | awk '
+BEGIN {c=0; d=0}
+($5 ~ /\)$/) {c++}
+($5 == "(Detached)") {d++; n=$1}
+END {print c, d, n}
+')
 EOF
-}
-
-update_screeninfo
-if [ "$detached_count" = 1 ]; then
-    pkill -USR2 --parent "${screen_name%%.*}" 'sh$'
-elif [ "$screen_count" = 0 ]; then
-    if [ -d /run/systemd/system ] && [ -e "/var/lib/systemd/linger/$USER" ]; then
-        systemctl --user start "screen@$session_name.service"
-    else
-        screen -S "$session_name" -d -m
-    fi
-    sleep_time=1
-    while update_screeninfo && [ "$detached_count" != 1 ]; do
-        sleep ".$sleep_time"
-        sleep_time=$(( $sleep_time * 2 ))
-        if [ "$sleep_time" -ge 10 ]; then
-            break
-        fi
-    done
-else
+if [ "$detached_count" -gt 1 ]; then
     printf "error: %s detached screens named %s" "$detached_count" "$session_name"
     exit 3
+elif [ "$detached_count" -eq 1 ]; then
+    pkill -USR2 --parent "${screen_name%%.*}" 'sh$'
+    exec screen -r "${screen_name:-$session_name}"
+elif [ -d /run/systemd/system ]; then
+    exec systemd-run \
+         --user --scope --same-dir \
+         --unit="screen-${session_name}-$(date --iso-8601=seconds)" \
+         screen -S "$session_name"
+else
+    exec screen -S "$session_name"
 fi
-
-exec screen -r "${screen_name:-$session_name}"

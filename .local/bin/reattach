@@ -46,7 +46,7 @@ elif [ "$detached_count" -eq 1 ]; then
     exec screen -r "${screen_name:-$session_name}"
 elif [ -d /run/systemd/system ]; then
     exec systemd-run \
-         --user --scope --same-dir \
+         --user --scope \
          --unit="screen-${session_name}-$(date --iso-8601=seconds)" \
          screen "$@" -S "$session_name"
 else

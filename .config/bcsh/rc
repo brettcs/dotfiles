@@ -292,7 +292,7 @@ if _canrun emacsclient; then
         if [ -n "${EMACS_SOCKET_NAME:-}" ]; then
             set -- -s "$EMACS_SOCKET_NAME" "$@"
         fi
-        emascsclient -n "$@"
+        emacsclient -n "$@"
     }
 fi
 

@@ -33,6 +33,11 @@ BEGIN {c=0; d=0}
 END {print c, d, n}
 ')
 EOF
+# For reasons I don't fully understand, on Debian <11, starting a screen from
+# inside a screen (e.g., over SSH) causes screen to use a more limited terminal.
+# Switch back to what we originally connected with so the new/reattached screen
+# can use the full set of terminal capabilities.
+export TERM="${TERM#screen.}"
 if [ "$detached_count" -gt 1 ]; then
     printf "error: %s detached screens named %s" "$detached_count" "$session_name"
     exit 3

@@ -1,14 +1,13 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
-HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/bash/history"
-HISTSIZE=1000
 ZDOTDIR="${ZDOTDIR:-$HOME/.config/bcsh}"
-
 source "$ZDOTDIR/env"
 
 # If not running interactively, stop here
 [ -z "$PS1" ] && return
 
+HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/bash/history"
+HISTSIZE=1000
 mkdir -p "$(dirname "$HISTFILE")"
 
 source "$ZDOTDIR/rc"

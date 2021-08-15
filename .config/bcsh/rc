@@ -277,6 +277,16 @@ vcsfind() {
         -not -prune -o \( "$@" \)
 }
 
+if _canrun emacsclient; then
+    visit() {
+        # Mimic the EMACS_SOCKET_NAME handling of Emacs 27+ on older versions
+        if [ -n "${EMACS_SOCKET_NAME:-}" ]; then
+            set -- -s "$EMACS_SOCKET_NAME" "$@"
+        fi
+        emascsclient -n "$@"
+    }
+fi
+
 wrap() {
     local columns
     if [ "${1:-0}" -gt 0 ] 2>/dev/null; then
@@ -288,7 +298,6 @@ wrap() {
 }
 
 _tryalias emacs wemacs VISUAL=emacs EDITOR=emacs
-_tryalias emacsclient visit emacsclient -n
 _tryalias emacsclient wemacsc VISUAL=emacsclient EDITOR=emacsclient
 _tryalias ftp ftp ftp -p
 _tryalias xdg-open o xdg-open

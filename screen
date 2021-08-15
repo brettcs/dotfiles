@@ -3,12 +3,6 @@
 set -e
 set -u
 
-NAME="${1:-brett}"
-
-find_screen() {
-    screen -ls | grep -Eo "\\b[0-9]+\\.$NAME\\b"
-}
-
 xdg_dirs() {
     local dirs home
     eval "dirs=\${XDG_$1_DIRS:-}; home=\${XDG_$1_HOME:-}"
@@ -21,30 +15,25 @@ xdg_dirs() {
     fi
 }
 
-if ! screen_id="$(find_screen)"; then
-    HERE="$(dirname "$(readlink -e "$0")")"
-    export EMACS_SOCKET_NAME="$XDG_RUNTIME_DIR/emacs/$NAME"
-    export PATH="$PATH:$HERE/.local/bin"
-    export XDG_CONFIG_DIRS="$HERE/.config:$(xdg_dirs CONFIG .config)"
-    export XDG_CONFIG_HOME="$HERE/.config"
-    export XDG_DATA_DIRS="$HERE/data:$(xdg_dirs DATA .local/share)"
-    export XDG_DATA_HOME="$HERE/data"
-    export XDG_STATE_DIRS="$HERE/state:$(xdg_dirs STATE .local/state)"
-    export XDG_STATE_HOME="$HERE/state"
-    export ZDOTDIR="$XDG_CONFIG_HOME/bcsh"
-    unset DISPLAY WAYLAND_DISPLAY
+NAME="${1:-brett}"
+HERE="$(dirname "$(readlink -e "$0")")"
+export EMACS_SOCKET_NAME="$XDG_RUNTIME_DIR/emacs/$NAME"
+export PATH="$PATH:$HERE/.local/bin"
+export XDG_CONFIG_DIRS="$HERE/.config:$(xdg_dirs CONFIG .config)"
+export XDG_CONFIG_HOME="$HERE/.config"
+export XDG_DATA_DIRS="$HERE/data:$(xdg_dirs DATA .local/share)"
+export XDG_DATA_HOME="$HERE/data"
+export XDG_STATE_DIRS="$HERE/state:$(xdg_dirs STATE .local/state)"
+export XDG_STATE_HOME="$HERE/state"
+export ZDOTDIR="$XDG_CONFIG_HOME/bcsh"
+unset DISPLAY WAYLAND_DISPLAY
 
-    if ! SHELL="$(which zsh 2>/dev/null)"; then
-        SHELL="$HERE/bcsbash"
-    fi
-    export SHELL
-
-    mkdir -p --mode=0700 "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$(dirname "$EMACS_SOCKET_NAME")"
-    umask 077
-    emacs --daemon="$EMACS_SOCKET_NAME" --no-init-file --load "$XDG_CONFIG_HOME/emacs/init.el"
-    screen -S "$NAME" -c "$HERE/.screenrc" -dm
-    while ! screen_id="$(find_screen)"; do
-        sleep .2s
-    done
+if ! SHELL="$(which zsh 2>/dev/null)"; then
+    SHELL="$HERE/bcsbash"
 fi
-exec screen -S "$screen_id" -Dr
+export SHELL
+
+mkdir -p --mode=0700 "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$(dirname "$EMACS_SOCKET_NAME")"
+umask 077
+emacs --daemon="$EMACS_SOCKET_NAME" --no-init-file --load "$XDG_CONFIG_HOME/emacs/init.el"
+exec "$HERE/.local/bin/reattach" "$NAME" -c "$HERE/.screenrc"

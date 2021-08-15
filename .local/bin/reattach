@@ -3,11 +3,24 @@
 set -e
 set -u
 
+usage() {
+    local exitcode out_fd
+    case $# in
+        0) exitcode=0; out_fd=1 ;;
+        *) exitcode="$1"; out_fd=2; shift ;;
+    esac
+    echo "Usage: reattach [session name]" >&"$out_fd"
+    exit "$exitcode"
+}
+
+while getopts "h" option; do
+    case "$option" in
+        h) usage ;;
+        "?") usage 2 ;;
+    esac
+done
+shift $(( $OPTIND - 1 ))
 session_name="${1:-default}"
-if [ "$session_name" != "${session_name#-}" ]; then
-    echo "Usage: reattach [session name]"
-    exit 0
-fi
 
 read screen_count detached_count screen_name <<EOF
 $(screen -S "$session_name" -ls | awk '

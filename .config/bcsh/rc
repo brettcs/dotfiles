@@ -56,7 +56,7 @@ fi
 
 _fqdn="$(hostname --fqdn)"
 PROMPT_HOST_FGC="$(echo "$_fqdn" | cksum | awk '{print $1 % 200 + 30}')"
-_domainname="${fqdn#*.}"
+_domainname="${_fqdn#*.}"
 case "$_domainname" in
     ""|brettcsmith.org|*.brettcsmith.org) ;;
     *) PROMPT_HOST_BGC="$(echo "$_domainname" | cksum | awk '{print $1 % 10 * 8 + 18}')"

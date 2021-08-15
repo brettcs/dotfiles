@@ -17,7 +17,7 @@ xdg_dirs() {
 
 NAME="${1:-brett}"
 HERE="$(dirname "$(readlink -e "$0")")"
-export EMACS_SOCKET_NAME="$XDG_RUNTIME_DIR/emacs/$NAME"
+EMACS_SOCKET_NAME="$XDG_RUNTIME_DIR/emacs/$NAME"
 export PATH="$PATH:$HERE/.local/bin"
 export XDG_CONFIG_DIRS="$HERE/.config:$(xdg_dirs CONFIG .config)"
 export XDG_CONFIG_HOME="$HERE/.config"
@@ -35,5 +35,15 @@ export SHELL
 
 mkdir -p --mode=0700 "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$(dirname "$EMACS_SOCKET_NAME")"
 umask 077
-emacs --daemon="$EMACS_SOCKET_NAME" --no-init-file --load "$XDG_CONFIG_HOME/emacs/init.el"
+
+if systemd-run --user --scope \
+               --unit="emacs-${NAME}-$(date --iso-8601=seconds)" \
+               emacs \
+               --daemon="$EMACS_SOCKET_NAME" \
+               --no-init-file \
+               --load "$XDG_CONFIG_HOME/emacs/init.el" \
+; then
+    export EMACS_SOCKET_NAME
+fi
+
 exec "$HERE/.local/bin/reattach" "$NAME" -c "$HERE/.screenrc"

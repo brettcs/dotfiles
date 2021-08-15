@@ -69,7 +69,7 @@ _trysource "$ZDOTDIR/rc"
 
 case "$TERM" in
     screen*) PROMPT_PREFIX=$'%{\e]0;%m:%~\a\ek\e\\%}' ;;
-    xterm*) PROMPT_PREFIX=$'%{\e]0;%m:%~\a}' ;;
+    xterm*) PROMPT_PREFIX=$'%{\e]0;%m:%~\a%}' ;;
 esac
 PROMPT="$PROMPT_PREFIX\
 ${PROMPT_HOST_BGC:+%K{$PROMPT_HOST_BGC\}}\

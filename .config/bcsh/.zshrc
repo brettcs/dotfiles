@@ -47,13 +47,7 @@ zstyle ':vcs_info:git:*' formats '%F{green}%r:%B%b%%b%F{green}:%f'
 zstyle ':vcs_info:git:*' actionformats \
     '%F{green}%r:%B%F{yellow}%a%f%%b on %F{green}%B%b%%b%F{green}:%f'
 
-### TERMINAL TITLE SETTING
-if [ "$TERM" = "xterm" ] || [ -n "$BCS_SCREEN" ]; then
-    titlebar="%m:%~"
-fi
-
 precmd() {
-    [ -n "$titlebar" ] && echo -ne "\033]0;${(%)titlebar}\007"
     vcs_info
     RPROMPT="%(1j!%B%F{cyan}%j%b%f !)"
     RPROMPT+="%(0?!!%B%F{red}%?%b%f )"
@@ -69,28 +63,17 @@ precmd() {
     RPROMPT+="%b%f%k)"
 }
 
-PROMPT_SCREEN_HINT=$'%{\ek\e\\%}'
-if [ "$LOGNAME" = "root" ]; then
-    PROMPT_PCT="%B%F{red}%#%b%f"
-elif [ -n "$BCS_SCREEN" ]; then
-    PROMPT_PCT="%#"
-else
-    PROMPT_PCT="%B%F{yellow}%#%b%f"
-fi
-
-case "$(hostname --fqdn)" in
-    larnblatt.*) PROMPT_HOST_COLOR='%F{magenta}' ;;
-    mililani.*) PROMPT_HOST_COLOR='%F{yellow}' ;;
-    nuc10g|nuc10g.*) PROMPT_HOST_COLOR='%F{cyan}' ;;
-    xps9310|xps9310.*) PROMPT_HOST_COLOR='%F{green}' ;;
-    *.brettcsmith.org) PROMPT_HOST_COLOR='%F{white}' ;;
-    *) PROMPT_HOST_COLOR='%F{red}' ;;
-esac
-
 _trysource() { [ -f "$1" ] && source "$1"; }
 _trysource "$ZDOTDIR/local.zsh"
 _trysource "$ZDOTDIR/rc"
 
-PROMPT="%B${PROMPT_HOST_COLOR}%m%b%f%k ${PROMPT_PCT} "
-[ -n "$BCS_SCREEN" ] && PROMPT="${PROMPT_SCREEN_HINT}${PROMPT}"
-true
+case "$TERM" in
+    screen*) PROMPT_PREFIX=$'%{\e]0;%m:%~\a\ek\e\\%}' ;;
+    xterm*) PROMPT_PREFIX=$'%{\e]0;%m:%~\a}' ;;
+esac
+PROMPT="$PROMPT_PREFIX\
+${PROMPT_HOST_BGC:+%K{$PROMPT_HOST_BGC\}}\
+${PROMPT_HOST_FGC:+%F{$PROMPT_HOST_FGC\}}\
+%B%m%b%k ${PROMPT_DELIM_COLOR:-%F{7\}}%#%b%f%k \
+"
+unset PROMPT_PREFIX PROMPT_HOST_BGC PROMPT_HOST_FGC PROMPT_DELIM_COLOR

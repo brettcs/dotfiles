@@ -54,6 +54,15 @@ if [ -z "${TZ:-}" ]; then
     export TZ="$(_gettz)"
 fi
 
+_fqdn="$(hostname --fqdn)"
+PROMPT_HOST_FGC="$(echo "$_fqdn" | cksum | awk '{print $1 % 200 + 30}')"
+_domainname="${fqdn#*.}"
+case "$_domainname" in
+    ""|brettcsmith.org|*.brettcsmith.org) ;;
+    *) PROMPT_HOST_BGC="$(echo "$_domainname" | cksum | awk '{print $1 % 10 * 8 + 18}')"
+esac
+[ "$(id -u)" = 0 ] && PROMPT_DELIM_COLOR=9
+
 b() { ls -Alh --color=always "$@" | $PAGER; }
 cdr() { cd "$(realpath "${1:-.}")"; }
 cwdiff() { wdiff -n "$@" | colordiff | $PAGER; }

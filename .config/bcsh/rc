@@ -38,11 +38,10 @@ _tryalias() {
 
 if [ -z "${EDITOR:-}" ]; then
     if EDITOR="$(which emacsclient 2>/dev/null)"; then
-        export ALTERNATE_EDITOR="$(which emacs)"
-    else
-        EDITOR=/bin/nano
+        export EDITOR ALTERNATE_EDITOR="$(which emacs)"
+    elif EDITOR="$(which nano 2>/dev/null)"; then
+        export EDITOR
     fi
-    export EDITOR
 fi
 export GREP_COLOR="${GREP_COLOR:-1;32}"
 export LESS="${LESS:-XRF}"

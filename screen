@@ -36,13 +36,7 @@ export SHELL
 mkdir -p --mode=0700 "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$(dirname "$EMACS_SOCKET_NAME")"
 umask 077
 
-if systemd-run --user --scope \
-               --unit="emacs-${NAME}-$(date --iso-8601=seconds)" \
-               emacs \
-               --daemon="$EMACS_SOCKET_NAME" \
-               --no-init-file \
-               --load "$XDG_CONFIG_HOME/emacs/init.el" \
-; then
+if type emacsclient >/dev/null 2>&1; then
     export EMACS_SOCKET_NAME
 fi
 

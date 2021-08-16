@@ -59,7 +59,7 @@ PROMPT_HOST_FGC="$(echo "$_fqdn" | cksum | awk '{print $1 % 200 + 30}')"
 _domainname="${_fqdn#*.}"
 case "$_domainname" in
     "$_fqdn"|brettcsmith.org|*.brettcsmith.org) ;;
-    *) PROMPT_HOST_BGC="$(echo "$_domainname" | cksum | awk '{print $1 % 10 * 8 + 18}')"
+    *) PROMPT_HOST_BGC="$(echo "$_domainname" | cksum | awk '{print $1 % 12 + 52}')"
 esac
 [ "$(id -u)" = 0 ] && PROMPT_DELIM_COLOR=9
 

@@ -208,9 +208,14 @@ py() {
     fi
 }
 
-if ! _canrun rg; then
+if _canrun rg; then
+    g() { rg --color=always "$@" | $PAGER; }
+else
+    g() {
+        grep -r --color=always --exclude-dir={CVS,.svn,.hg,.git} "$@" | $PAGER
+    }
     rg() {
-        grep -Er --color=auto --exclude-dir={CVS,.svn,.hg,.git} "$@"
+        grep -r --color=auto --exclude-dir={CVS,.svn,.hg,.git} "$@"
     }
 fi
 

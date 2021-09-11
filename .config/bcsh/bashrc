@@ -13,10 +13,7 @@ mkdir -p "$(dirname "$HISTFILE")"
 source "$ZDOTDIR/rc"
 
 case "$TERM" in
-    screen*)
-        PROMPT_DELIM_COLOR="${PROMPT_DELIM_COLOR:-7}"
-        PROMPT_PREFIX='\[\e]0;\h:\w\a\ek\e\\\]'
-        ;;
+    screen*) PROMPT_PREFIX='\[\e]0;\h:\w\a\ek\e\\\]' ;;
     xterm*) PROMPT_PREFIX='\[\e]0;\h:\w\a\]'
 esac
 PS1="$PROMPT_PREFIX\

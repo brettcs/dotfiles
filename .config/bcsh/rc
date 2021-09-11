@@ -61,7 +61,11 @@ case "$_domainname" in
     "$_fqdn"|brettcsmith.org|*.brettcsmith.org) ;;
     *) PROMPT_HOST_BGC="$(echo "$_domainname" | cksum | awk '{print $1 % 12 + 52}')"
 esac
-[ "$(id -u)" = 0 ] && PROMPT_DELIM_COLOR=9
+if [ "$(id -u)" = 0 ]; then
+    PROMPT_DELIM_COLOR=9
+elif [ -n "$STY" ]; then
+    PROMPT_DELIM_COLOR=7
+fi
 
 b() { ls -Alh --color=always "$@" | $PAGER; }
 cdr() { cd "$(realpath "${1:-.}")"; }

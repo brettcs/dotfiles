@@ -68,10 +68,7 @@ _trysource "$ZDOTDIR/local.zsh"
 _trysource "$ZDOTDIR/rc"
 
 case "$TERM" in
-    screen*)
-        PROMPT_DELIM_COLOR="${PROMPT_DELIM_COLOR:-7}"
-        PROMPT_PREFIX=$'%{\e]0;%m:%~\a\ek\e\\%}'
-        ;;
+    screen*) PROMPT_PREFIX=$'%{\e]0;%m:%~\a\ek\e\\%}' ;;
     xterm*) PROMPT_PREFIX=$'%{\e]0;%m:%~\a%}' ;;
 esac
 PROMPT="$PROMPT_PREFIX\

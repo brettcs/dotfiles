@@ -1,1 +1,1 @@
-screen 1 sh -c '[ -n "${EMACS_SOCKET_NAME:-}" ] && set -- --socket-name="$EMACS_SOCKET_NAME"; exec emacsclient --create-frame --alternate-editor= "$@"'
+screen 1 sh -c 'if [ -n "${EMACS_SOCKET_NAME:-}" ]; then emacs --daemon="$EMACS_SOCKET_NAME" --no-init-file --load="${XDG_CONFIG_HOME:-$HOME/.config}/emacs/init.el"; exec emacsclient --socket-name="$EMACS_SOCKET_NAME" --create-frame; elif type emacsclient >/dev/null 2>&1; then exec emacsclient --create-frame --alternate-editor=; else exec nano; fi'

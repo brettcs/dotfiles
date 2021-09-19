@@ -90,14 +90,6 @@ link_if_ok "$destdir/.config/emacs" "$destdir/.emacs.d"  # Obsolete by Emacs 27
 link_if_ok "$destdir/.config/mutt" "$destdir/.mutt"  # Obsolete by mutt 2.0
 cd - >/dev/null
 
-if [ ! -d "$destdir/.config/apache/sites" ]; then
-    if [ -d /etc/apache2 ]; then
-        ln -st "$destdir/.config/apache" /etc/apache2/conf-available /etc/apache2/mods-available
-        cp -rt "$destdir/.config/apache" /etc/apache2/conf-enabled /etc/apache2/mods-enabled
-    fi
-    mkdir "$destdir/.config/apache/sites"
-fi
-
 if [ -z "${1:-}" ] && [ -d /run/systemd/system ] && { \
        [ -e "/var/lib/systemd/linger/$(id -nu)" ] \
        || loginctl enable-linger; } ; then
@@ -119,4 +111,12 @@ if [ -z "${1:-}" ] && [ -d /run/systemd/system ] && { \
         fi
     done
     cd - >/dev/null
+fi
+
+if [ ! -d "$destdir/.config/apache/sites" ]; then
+    mkdir "$destdir/.config/apache/sites"
+    if [ -d /etc/apache2 ]; then
+        ln -st "$destdir/.config/apache" /etc/apache2/conf-available /etc/apache2/mods-available
+        cp -rt "$destdir/.config/apache" /etc/apache2/conf-enabled /etc/apache2/mods-enabled
+    fi
 fi

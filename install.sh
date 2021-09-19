@@ -105,10 +105,15 @@ if [ -z "${1:-}" ] && [ -d /run/systemd/system ] && { \
     systemctl --user daemon-reload
     ls -1 | while read service_name; do
         case "$service_name" in
+            emacs.service)
+                systemctl --user disable emacs.service
+                rm emacs.service
+                continue
+                ;;
             *@.*) pattern='^DefaultInstance *=' ;;
             *) pattern='^\[Install\]$' ;;
         esac
-        if grep -q "$pattern" "$service_name" \
+        if grep -qr "$pattern" "$service_name" \
                 && [ "$(systemctl --user is-enabled "$service_name" || true)" = disabled ]; then
             systemctl --user enable "$service_name"
         fi

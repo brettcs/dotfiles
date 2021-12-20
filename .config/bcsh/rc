@@ -216,10 +216,16 @@ if _canrun rg; then
     g() { rg --color=always "$@" | $PAGER; }
 else
     g() {
-        grep -r --color=always --exclude-dir={CVS,.svn,.hg,.git} "$@" | $PAGER
+        if [ -t 0 ]; then
+            set -- --recursive "$@"
+        fi
+        grep --color=always --exclude-dir={CVS,.svn,.hg,.git} "$@" | $PAGER
     }
     rg() {
-        grep -r --color=auto --exclude-dir={CVS,.svn,.hg,.git} "$@"
+        if [ -t 0 ]; then
+            set -- --recursive "$@"
+        fi
+        grep --color=auto --exclude-dir={CVS,.svn,.hg,.git} "$@"
     }
 fi
 

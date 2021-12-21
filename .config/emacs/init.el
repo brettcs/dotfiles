@@ -144,6 +144,7 @@
 )
 
 (with-library 'perl-mode
+  (add-to-list 'auto-mode-alist '("\\.t\\'" . perl-mode))
   (defalias 'cperl-mode 'perl-mode)
   (define-key perl-mode-map (kbd "C-c C-d") 'cperl-perldoc)
 )

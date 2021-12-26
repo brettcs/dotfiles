@@ -66,6 +66,10 @@ link_if_ok() {
 
 destdir=${1:-$HOME}
 
+if [ -d "$destdir/.config/apache" ] && ! [ -d "$destdir/.config/httpd" ]; then
+    mv "$destdir/.config/apache" "$destdir/.config/httpd"
+fi
+
 for dn in $(my_find -type d); do
     test -d "$destdir/$dn" || mkdir "$destdir/$dn"
 done
@@ -113,10 +117,10 @@ if [ -z "${1:-}" ] && [ -d /run/systemd/system ] && { \
     cd - >/dev/null
 fi
 
-if [ ! -d "$destdir/.config/apache/sites" ]; then
-    mkdir "$destdir/.config/apache/sites"
+if [ ! -d "$destdir/.config/httpd/sites" ]; then
+    mkdir "$destdir/.config/httpd/sites"
     if [ -d /etc/apache2 ]; then
-        ln -st "$destdir/.config/apache" /etc/apache2/conf-available /etc/apache2/mods-available
-        cp -rt "$destdir/.config/apache" /etc/apache2/conf-enabled /etc/apache2/mods-enabled
+        ln -st "$destdir/.config/httpd" /etc/apache2/conf-available /etc/apache2/mods-available
+        cp -rt "$destdir/.config/httpd" /etc/apache2/conf-enabled /etc/apache2/mods-enabled
     fi
 fi

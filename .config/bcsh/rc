@@ -212,15 +212,7 @@ py() {
     fi
 }
 
-if _canrun rg; then
-    g() { rg --color=always "$@" | $PAGER; }
-else
-    g() {
-        if [ -t 0 ]; then
-            set -- --recursive "$@"
-        fi
-        grep --color=always --exclude-dir={CVS,.svn,.hg,.git} "$@" | $PAGER
-    }
+if ! _canrun rg; then
     rg() {
         if [ -t 0 ]; then
             set -- --recursive "$@"
@@ -228,6 +220,7 @@ else
         grep --color=auto --exclude-dir={CVS,.svn,.hg,.git} "$@"
     }
 fi
+g() { rg --color=always "$@" | $PAGER; }
 
 str() {
     if file -b "$1" | grep -q text; then

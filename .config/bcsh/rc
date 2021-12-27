@@ -3,7 +3,7 @@
 test -d /run/systemd/system && _HAVE_SYSTEMD=y || _HAVE_SYSTEMD=n
 
 _canrun() {
-    type "$@" >/dev/null 2>&1
+    command -v "$@" >/dev/null
 }
 
 _gettz() {
@@ -205,7 +205,7 @@ pl() {
 }
 
 py() {
-    if [ -z "$VIRTUAL_ENV" ] && type python3 >/dev/null 2>&1; then
+    if [ -z "$VIRTUAL_ENV" ] && command -v python3 >/dev/null; then
         python3 "$@"
     else
         python "$@"

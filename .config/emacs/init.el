@@ -70,6 +70,7 @@
                ("\\.swap$" . conf-unix-mode)
                ("\\.target$" . conf-unix-mode)
                ("\\.timer$" . conf-unix-mode)
+               ("\\.txt$" . text-mode)
                ) auto-mode-alist))
 (add-hook 'text-mode-hook 'visual-line-mode)
 

@@ -164,7 +164,6 @@
 
 ; https://github.com/joostkremers/visual-fill-column
 (with-library 'visual-fill-column
-  (global-visual-fill-column-mode)
   (add-hook 'visual-line-mode-hook 'visual-fill-column-mode)
   (setq-default visual-fill-column-width 100))
 

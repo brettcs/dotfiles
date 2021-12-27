@@ -71,6 +71,7 @@
                ("\\.target$" . conf-unix-mode)
                ("\\.timer$" . conf-unix-mode)
                ) auto-mode-alist))
+(add-hook 'text-mode-hook 'visual-line-mode)
 
 (global-set-key "\C-c\C-s" 'ispell-region)
 (global-set-key "\C-xl" 'switch-to-buffer-last)
@@ -158,9 +159,6 @@
 (with-library 'python
   (setq python-shell-interpreter "python3")
 )
-
-(with-library 'rst
-  (add-hook 'rst-mode-hook 'visual-line-mode))
 
 ; https://github.com/joostkremers/visual-fill-column
 (with-library 'visual-fill-column

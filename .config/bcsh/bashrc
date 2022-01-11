@@ -6,6 +6,7 @@ source "$ZDOTDIR/env"
 # If not running interactively, stop here
 [ -z "$PS1" ] && return
 
+HISTCONTROL="ignoredups:ignorespace"
 HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/bash/history"
 HISTSIZE=1000
 mkdir -p "$(dirname "$HISTFILE")"

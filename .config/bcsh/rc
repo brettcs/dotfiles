@@ -368,4 +368,4 @@ elif _canrun smartypants && _canrun markdown; then
 fi
 
 [ -e "$ZDOTDIR/local" ] && source "$ZDOTDIR/local"
-unset _canrun _tryalias
+unset -f _canrun _tryalias

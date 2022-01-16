@@ -25,5 +25,5 @@ for locale_try in en_US.UTF-8 C.UTF-8 en_US; do
     if _trylocale "$locale_try"; then break; fi
 done
 
-unset _addpath _trylocale
+unset -f _addpath _trylocale
 umask 0077

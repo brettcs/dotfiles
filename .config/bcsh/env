@@ -2,7 +2,17 @@
 # Common environment variables for all shells
 # Load from .zshenv or equivalent
 
-export PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin:$HOME/.local/bin
+_addpath() {
+    PATH="${PATH:+$PATH:}/usr$1"
+    if [ -d "$1" ] && ! [ -h "$1" ]; then
+        PATH="$PATH:$1"
+    fi
+}
+unset PATH
+_addpath /bin
+_addpath /sbin
+PATH="$PATH:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin"
+export PATH
 
 _trylocale() {
     local regexp=$(echo "$1" | sed -e 's/-/-?/g' -e 's/\./\\./g')

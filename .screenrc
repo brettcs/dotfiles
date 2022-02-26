@@ -16,6 +16,5 @@ bind s split
 bind ^x windowlist -b
 
 source .config/screen/local
-screen 3
 screen 2
 screen 1

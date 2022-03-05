@@ -27,3 +27,5 @@ done
 
 unset -f _addpath _trylocale
 umask 0077
+
+export TMUX_TMPDIR="${XDG_RUNTIME_DIR:-/tmp}"

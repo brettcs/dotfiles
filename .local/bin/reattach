@@ -20,13 +20,13 @@ while getopts "h" option; do
     esac
 done
 shift $(( $OPTIND - 1 ))
-case $# in
-    0) session_name=default ;;
-    *) session_name="$1"; shift ;;
-esac
+
+if [ $# -gt 0 ]; then
+    set -- -S "$@"
+fi
 
 read screen_flags screen_name <<EOF
-$(screen -S "$session_name" -ls | awk '
+$(screen "$@" -ls | awk '
 ($5 ~ /\)$/) {sn=$1}
 ($5 == "(Detached)") {dn=$1}
 END {print dn ? "-r " dn : "-x " sn}
@@ -44,7 +44,7 @@ elif [ -e "/var/lib/systemd/linger/$USER" ]; then
     exec systemd-run \
          --user --scope \
          --unit="screen-${session_name}-$(date --iso-8601=seconds)" \
-         screen "$@" -S "$session_name"
+         screen "$@"
 else
-    exec screen "$@" -S "$session_name"
+    exec screen "$@"
 fi

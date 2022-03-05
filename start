@@ -20,6 +20,7 @@ HERE="$(dirname "$(readlink -e "$0")")"
 SOCKET_DIR="${XDG_RUNTIME_DIR:-/tmp}/Bretts"
 EMACS_SOCKET_NAME="$SOCKET_DIR/Emacs"
 export PATH="$PATH:$HERE/.local/bin"
+export SCREENDIR="$SOCKET_DIR/screen"
 export SCREENRC="$HERE/.screenrc"
 export XDG_CONFIG_DIRS="$HERE/.config:$(xdg_dirs CONFIG .config)"
 export XDG_CONFIG_HOME="$HERE/.config"
@@ -35,7 +36,7 @@ if ! SHELL="$(which zsh 2>/dev/null)"; then
 fi
 export SHELL
 
-mkdir -p --mode=0700 "$SOCKET_DIR" "$XDG_DATA_HOME" "$XDG_STATE_HOME"
+mkdir -p --mode=0700 "$SCREENDIR" "$XDG_DATA_HOME" "$XDG_STATE_HOME"
 umask 077
 
 if command -v emacsclient >/dev/null; then

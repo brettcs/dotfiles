@@ -31,6 +31,13 @@ srun() {
     exec "$@"
 }
 
+if command -v tmux >/dev/null; then
+    if [ $# -gt 0 ]; then
+        set -- -s "$@"
+    fi
+    srun tmux -f "$conf_dir/.tmux.conf" new-session -A "$@"
+fi
+
 if [ $# -gt 0 ]; then
     set -- -S "$@"
 fi

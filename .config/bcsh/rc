@@ -63,7 +63,7 @@ case "$_domainname" in
 esac
 if [ "$(id -u)" = 0 ]; then
     PROMPT_DELIM_COLOR=9
-elif [ -n "$STY" ]; then
+elif [ -n "$STY$TMUX" ]; then
     PROMPT_DELIM_COLOR=7
 fi
 
@@ -266,10 +266,12 @@ if _canrun qrencode; then
     }
 fi
 
-if ! _canrun reattach && _canrun screen; then
-    reattach() {
-        screen -dR -S "${1:-default}"
-    }
+if ! _canrun reattach; then
+    if _canrun tmux; then
+        reattach() { tmux new-session -A "$@"; }
+    elif _canrun screen; then
+        reattach() { screen -dR "$@"; }
+    fi
 fi
 
 if _canrun svn && _canrun colordiff; then

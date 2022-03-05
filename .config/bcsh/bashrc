@@ -15,7 +15,7 @@ source "$ZDOTDIR/rc"
 
 case "$TERM" in
     screen*) PROMPT_PREFIX='\[\e]0;\h:\w\a\ek\e\\\]' ;;
-    xterm*) PROMPT_PREFIX='\[\e]0;\h:\w\a\]'
+    tmux*|xterm*) PROMPT_PREFIX='\[\e]0;\h:\w\a\]'
 esac
 PS1="$PROMPT_PREFIX\
 ${PROMPT_HOST_BGC:+\\[\\e[48;5;${PROMPT_HOST_BGC}m\\]}\

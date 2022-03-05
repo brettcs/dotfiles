@@ -21,7 +21,6 @@ SOCKET_DIR="${XDG_RUNTIME_DIR:-/tmp}/Bretts"
 EMACS_SOCKET_NAME="$SOCKET_DIR/Emacs"
 export PATH="$PATH:$HERE/.local/bin"
 export SCREENDIR="$SOCKET_DIR/screen"
-export SCREENRC="$HERE/.screenrc"
 export XDG_CONFIG_DIRS="$HERE/.config:$(xdg_dirs CONFIG .config)"
 export XDG_CONFIG_HOME="$HERE/.config"
 export XDG_DATA_DIRS="$HERE/data:$(xdg_dirs DATA .local/share)"
@@ -66,4 +65,4 @@ if command -v emacsclient >/dev/null; then
     export EMACS_SOCKET_NAME
 fi
 
-exec "$HERE/.local/bin/reattach" "$NAME"
+exec "$HERE/.local/bin/reattach" -C "$HERE"

@@ -40,6 +40,29 @@ mkdir -p --mode=0700 "$SCREENDIR" "$XDG_DATA_HOME" "$XDG_STATE_HOME"
 umask 077
 
 if command -v emacsclient >/dev/null; then
+    emacs_eval() {
+        if [ $# = 0 ]; then
+            set -- t
+        fi
+        emacsclient --socket-name="$EMACS_SOCKET_NAME" --alternate-editor=false \
+                    --eval "$@" >/dev/null 2>&1
+    }
+    emacs_load=true
+    if emacs_eval; then
+        emacs_load=false
+    elif [ -e "/var/lib/systemd/linger/$USER" ]; then
+        systemd-run --user \
+            --unit="brett-emacs-$(date --iso-8601=seconds)" \
+            emacs --fg-daemon="$EMACS_SOCKET_NAME" --no-init-file
+    else
+        emacs --daemon="$EMACS_SOCKET_NAME" --no-init-file
+    fi
+    if $emacs_load; then
+        while ! emacs_eval; do
+            sleep .1
+        done
+        emacs_eval "(load-file \"$XDG_CONFIG_HOME/emacs/init.el\")" &
+    fi
     export EMACS_SOCKET_NAME
 fi
 

@@ -25,12 +25,11 @@ case $# in
     *) session_name="$1"; shift ;;
 esac
 
-read screen_count detached_count screen_name <<EOF
+read screen_flags screen_name <<EOF
 $(screen -S "$session_name" -ls | awk '
-BEGIN {c=0; d=0}
-($5 ~ /\)$/) {c++}
-($5 == "(Detached)") {d++; n=$1}
-END {print c, d, n}
+($5 ~ /\)$/) {sn=$1}
+($5 == "(Detached)") {dn=$1}
+END {print dn ? "-r " dn : "-x " sn}
 ')
 EOF
 # For reasons I don't fully understand, on Debian <11, starting a screen from
@@ -38,12 +37,9 @@ EOF
 # Switch back to what we originally connected with so the new/reattached screen
 # can use the full set of terminal capabilities.
 export TERM="${TERM#screen.}"
-if [ "$detached_count" -gt 1 ]; then
-    printf "error: %s detached screens named %s" "$detached_count" "$session_name"
-    exit 3
-elif [ "$detached_count" -eq 1 ]; then
+if [ -n "$screen_name" ]; then
     pkill -USR2 --parent "${screen_name%%.*}" 'sh$'
-    exec screen -r "${screen_name:-$session_name}"
+    exec screen "$screen_flags" "$screen_name"
 elif [ -e "/var/lib/systemd/linger/$USER" ]; then
     exec systemd-run \
          --user --scope \

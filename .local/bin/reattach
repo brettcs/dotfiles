@@ -9,12 +9,14 @@ usage() {
         0) exitcode=0; out_fd=1 ;;
         *) exitcode="$1"; out_fd=2; shift ;;
     esac
-    echo "Usage: reattach [session name] [screen options]" >&"$out_fd"
+    echo "Usage: reattach [-C CONFDIR] [session name]" >&"$out_fd"
     exit "$exitcode"
 }
 
-while getopts "h" option; do
+conf_dir="$HOME"
+while getopts "C:h" option; do
     case "$option" in
+        C) conf_dir="$OPTARG" ;;
         h) usage ;;
         "?") usage 2 ;;
     esac
@@ -49,5 +51,5 @@ if [ -n "$screen_name" ]; then
     pkill -USR2 --parent "${screen_name%%.*}" 'sh$'
     exec screen "$screen_flags" "$screen_name"
 else
-    srun screen "$@"
+    srun screen -c "$conf_dir/.screenrc" "$@"
 fi

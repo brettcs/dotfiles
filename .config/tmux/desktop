@@ -1,5 +1,8 @@
+set -g status on
+set -g status-style "bright,bg=blue,fg=white"
+
 new-window -ad
 new-window -ad
 new-window -ad
-new-window -ad
-split-window
+split-window -d -t :1.
+split-window -d -t :3.

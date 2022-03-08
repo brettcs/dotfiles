@@ -26,7 +26,7 @@ shift $(( $OPTIND - 1 ))
 srun() {
     if [ -e "/var/lib/systemd/linger/$USER" ]; then
         set -- systemd-run --user --scope \
-            --unit="brett-$1-$(date --iso-8601=seconds)" "$@"
+            --unit="brett-$1-$(date +%Y-%m-%dT%H:%M)" "$@"
     fi
     exec "$@"
 }

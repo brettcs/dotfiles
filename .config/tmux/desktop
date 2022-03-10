@@ -1,4 +1,5 @@
 set -g status on
+set -g status-right-length 70
 set -g status-style "bright,bg=#000044,fg=yellow"
 
 new-window -ad

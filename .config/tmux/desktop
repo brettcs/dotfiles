@@ -1,5 +1,5 @@
 set -g status on
-set -g status-style "bright,bg=blue,fg=white"
+set -g status-style "bright,bg=#000044,fg=yellow"
 
 new-window -ad
 new-window -ad

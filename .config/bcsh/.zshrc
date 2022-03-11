@@ -68,7 +68,7 @@ _trysource() { [ -f "$1" ] && source "$1"; }
 _trysource "$ZDOTDIR/local.zsh"
 _trysource "$ZDOTDIR/rc"
 
-case "$TERM" in
+case "${TMUX:+tmux}${STY:+screen}$TERM" in
     screen*) PROMPT_PREFIX=$'%{\e]0;%m:%~\a\ek\e\\%}' ;;
     tmux*|xterm*) PROMPT_PREFIX=$'%{\e]0;%m:%~\a%}' ;;
 esac

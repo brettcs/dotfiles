@@ -49,11 +49,6 @@ $(screen "$@" -ls | awk '
 END {print dn ? "-r " dn : "-x " sn}
 ')
 EOF
-# For reasons I don't fully understand, on Debian <11, starting a screen from
-# inside a screen (e.g., over SSH) causes screen to use a more limited terminal.
-# Switch back to what we originally connected with so the new/reattached screen
-# can use the full set of terminal capabilities.
-export TERM="${TERM#screen.}"
 if [ -n "$screen_name" ]; then
     pkill -USR2 --parent "${screen_name%%.*}" 'sh$'
     exec screen "$screen_flags" "$screen_name"

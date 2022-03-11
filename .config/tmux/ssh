@@ -1,3 +1,4 @@
 new-window -ad
 new-window -a -c $HOME -n editor 'if command -v emacsclient >/dev/null; then if [ -n "${EMACS_SOCKET_NAME:-}" ]; then set -- --socket-name="$EMACS_SOCKET_NAME"; fi; exec emacsclient --tty --alternate-editor= "$@"; elif command -v nano >/dev/null; then exec nano; else exec $EDITOR; fi'
 swap-window -s editor -t 1
+select-window -t -

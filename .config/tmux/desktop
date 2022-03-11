@@ -6,4 +6,4 @@ new-window -ad
 new-window -ad
 new-window -ad
 split-window -d -t :1.
-split-window -d -t :3.
+split-window -d -t :2.

@@ -60,7 +60,8 @@ if command -v emacsclient >/dev/null; then
         while ! emacs_eval; do
             sleep .1
         done
-        nohup emacs_eval "(load-file \"$XDG_CONFIG_HOME/emacs/init.el\")" \
+        nohup emacsclient --socket-name="$EMACS_SOCKET_NAME" \
+              --eval "(load-file \"$XDG_CONFIG_HOME/emacs/init.el\")" \
               >>"$SOCKET_DIR/Emacs.log" 2>&1 &
     fi
     export EMACS_SOCKET_NAME

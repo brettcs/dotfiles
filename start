@@ -15,7 +15,6 @@ xdg_dirs() {
     fi
 }
 
-NAME="${1:-brett}"
 HERE="$(dirname "$(readlink -e "$0")")"
 SOCKET_DIR="${XDG_RUNTIME_DIR:-/tmp}/Bretts"
 EMACS_SOCKET_NAME="$SOCKET_DIR/Emacs"

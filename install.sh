@@ -94,11 +94,12 @@ if [ -z "${1:-}" ] && [ -d /run/systemd/system ] && { \
        || loginctl enable-linger; } ; then
     cd .config/systemd/user
     systemctl --user daemon-reload
+    systemctl --user enable --now systemd-tmpfiles-setup.service systemd-tmpfiles-clean.timer
     ls -1 | while read service_name; do
         case "$service_name" in
-            emacs.service)
-                systemctl --user disable emacs.service
-                rm emacs.service
+            emacs.service|tmpfiles-*.*)
+                systemctl --user disable "$service_name"
+                rm "$service_name"
                 continue
                 ;;
             *@.*) pattern='^DefaultInstance *=' ;;

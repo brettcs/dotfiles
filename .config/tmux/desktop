@@ -4,6 +4,6 @@ set -g status-style "bright,bg=#000044,fg=yellow"
 
 new-window -ad
 new-window -ad
-new-window -ad
 split-window -d -t :1.
 split-window -d -t :2.
+split-window -d -t :3.

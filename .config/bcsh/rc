@@ -274,6 +274,15 @@ if ! _canrun reattach; then
     fi
 fi
 
+if _canrun ssh-keygen; then
+    ssh-hostfps() {
+        find /etc/ssh -name "*.pub" -print0 \
+            | xargs -0r -n1 ssh-keygen -l -f \
+            | awk '{ printf("%s (%s): %s\n", substr($4, 2, length($4) - 2), $1, $2); }' \
+            | sort -r
+    }
+fi
+
 if _canrun svn && _canrun colordiff; then
     svncdiff() {
         local revnum="${1:-}"

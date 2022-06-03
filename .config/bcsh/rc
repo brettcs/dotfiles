@@ -198,6 +198,16 @@ isodate() {
     date --iso-8601=date --date="$date_arg" "$@"
 }
 
+if _canrun apt; then
+    list-installed() {
+        apt list --installed | awk '($4 !~ /\Wautomatic\W/){print}'
+    }
+elif _canrun dnf; then
+    list-installed() {
+        sudo dnf repoquery --userinstalled
+    }
+fi
+
 pl() {
     local newdir="$(pwd)"
     eval cd - >/dev/null

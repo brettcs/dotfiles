@@ -349,7 +349,6 @@ _tryalias nano wnano VISUAL=nano EDITOR=nano
 _tryalias readlink realpath readlink -e
 _tryalias shred zeroout shred -n 0 -z
 _tryalias smartypants sp smartypants --attr qbdeu
-_tryalias trash rm trash
 _tryalias xclip xcopy xclip -selection clipboard
 _tryalias xclip xpaste xclip -selection clipboard -o
 _tryalias xkcdpass xkcdpass xkcdpass --count=8 --numwords=3
@@ -368,7 +367,6 @@ alias noproxy='http_proxy=""'
 alias pd=popd
 alias pip='py -m pip'
 alias pydoc='py -m pydoc'
-alias rrm=/bin/rm
 alias up='_up cd'
 alias upp='_up pushd'
 alias venv='py -m venv'

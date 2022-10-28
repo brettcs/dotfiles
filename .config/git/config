@@ -1,20 +1,26 @@
 [alias]
-    review = diff -U10 -M
+review = diff -U10 -M
+
 [color]
-	diff = true
-	grep = true
+diff = true
+grep = true
+
 [color "diff"]
-	meta = cyan
-	frag = yellow bold
-	old = red bold
-	new = green bold
+meta = cyan
+frag = yellow bold
+old = red bold
+new = green bold
+
 [color "grep"]
-	match = green bold
-	filename = magenta
+match = green bold
+filename = magenta
+
 [init]
-	defaultBranch = main
+defaultBranch = main
+
 [user]
-	name = Brett Smith
-    useconfigonly = true
+name = Brett Smith
+useconfigonly = true
+
 [include]
-    path = local.ini
+path = local.ini

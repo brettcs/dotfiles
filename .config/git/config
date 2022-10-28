@@ -15,6 +15,9 @@ new = green bold
 match = green bold
 filename = magenta
 
+[column]
+ui = auto
+
 [init]
 defaultBranch = main
 

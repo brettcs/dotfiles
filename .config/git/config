@@ -21,6 +21,9 @@ ui = auto
 [init]
 defaultBranch = main
 
+[rerere]
+enabled
+
 [user]
 name = Brett Smith
 useconfigonly = true

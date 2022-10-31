@@ -3,7 +3,7 @@ defencoding UTF-8
 caption string '%?%F%{=b}%:%{=}%?%{dm}::[%{w} %-w%{Y}%n %t%{-}%+w %{-}]::%{= dw} %h'
 defflow off
 defutf8 on
-escape ^\^\
+escape ^q^q
 nethack off
 shelltitle '% |%'
 startup_message off

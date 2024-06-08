@@ -9,6 +9,7 @@ import os
 import pprint as pprintmod
 import random
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -28,13 +29,23 @@ TimeDelta = datetime.timedelta
 TZInfo = datetime.tzinfo
 Decimal = decimal.Decimal
 StringIO = io.StringIO
-pprint = pprintmod.pprint
 
 try:
     TimeZone = datetime.timezone
     UTC = datetime.timezone.utc
 except AttributeError:
     pass
+
+printer_config = {
+    'indent': 2,
+    'sort_dicts': False,
+    'width': shutil.get_terminal_size((100, 24)).columns,
+}
+if sys.version_info > (3, 10):
+    printer_config['underscore_numbers'] = True
+pprinter = pprintmod.PrettyPrinter(**printer_config)
+p = pprinter.pprint
+del printer_config
 
 # JSON compatibility constants
 null = None

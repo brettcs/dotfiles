@@ -67,7 +67,8 @@ elif [ -n "$STY$TMUX" ]; then
     PROMPT_DELIM_COLOR=7
 fi
 
-b() { ls -Alh --color=always "$@" | $PAGER; }
+b() { bb -go "$@"; }
+bb() { ls -Ahl --color=always --time-style=long-iso "$@" | $PAGER; }
 cdr() { cd "$(realpath "${1:-.}")"; }
 cwdiff() { wdiff -n "$@" | colordiff | $PAGER; }
 reallines() { grep -Ev '^[[:space:]]*($|#)' "$@" | $PAGER; }

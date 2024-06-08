@@ -159,6 +159,8 @@
 )
 
 (with-library 'python
+  (setq elpy-rpc-python-command "python3")
+  (setq python-fill-docstring-style "pep-257-nn")
   (setq python-shell-interpreter "python3")
 )
 

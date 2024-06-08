@@ -1,5 +1,7 @@
 [alias]
 review = diff -U10 -M
+timesheet = log --author-date-order --author='Brett Smith' --pretty='%as%x09%h%x09%s'
+wdiff = diff --word-diff
 
 [color]
 diff = true

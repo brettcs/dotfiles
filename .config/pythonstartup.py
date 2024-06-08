@@ -35,3 +35,8 @@ try:
     UTC = datetime.timezone.utc
 except AttributeError:
     pass
+
+# JSON compatibility constants
+null = None
+false = False
+true = True

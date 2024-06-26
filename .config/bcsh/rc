@@ -336,6 +336,8 @@ wrap() {
     fold -sw "$columns" "$@"
 }
 
+_tryalias curl fetch curl --fail --location --no-clobber --progress-bar --remote-name-all ||
+    _tryalias wget fetch wget --no-clobber
 _tryalias emacs wemacs VISUAL=emacs EDITOR=emacs
 _tryalias emacsclient wemacsc VISUAL=emacsclient EDITOR=emacsclient
 _tryalias ftp ftp ftp -p

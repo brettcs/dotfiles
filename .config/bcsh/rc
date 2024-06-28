@@ -44,7 +44,7 @@ if [ -z "${EDITOR:-}" ]; then
     fi
 fi
 export GREP_COLOR="${GREP_COLOR:-1;32}"
-export LESS="${LESS:-XRF}"
+export LESS="${LESS:-FiRXx4}"
 export LESSHISTFILE="${LESSHISTFILE:-${XDG_STATE_HOME:-$HOME/.local/state}/less/history}"
 mkdir -p --mode=0700 "$(dirname "$LESSHISTFILE")"
 export PAGER="${PAGER:-/usr/bin/less}"

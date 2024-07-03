@@ -36,7 +36,7 @@ fi
 export SHELL
 
 mkdir -p --mode=0700 "$SCREENDIR" "$XDG_DATA_HOME" "$XDG_STATE_HOME"
-umask 077
+umask 027
 
 if command -v emacsclient >/dev/null; then
     emacs_eval() {

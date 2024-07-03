@@ -4,7 +4,7 @@ set -e
 set -u
 
 cd "$(dirname "$0")"
-umask 077
+umask 027
 
 my_find() {
     find "$@" \

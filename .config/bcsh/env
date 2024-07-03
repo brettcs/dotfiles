@@ -26,6 +26,6 @@ for locale_try in en_US.UTF-8 C.UTF-8 en_US; do
 done
 
 unset -f _addpath _trylocale
-umask 0077
+umask 0027
 
 export TMUX_TMPDIR="${XDG_RUNTIME_DIR:-/tmp}"

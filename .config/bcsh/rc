@@ -63,8 +63,12 @@ case "$_domainname" in
 esac
 if [ "$(id -u)" = 0 ]; then
     PROMPT_DELIM_COLOR=9
-elif [ -n "$STY$TMUX" ]; then
-    PROMPT_DELIM_COLOR=7
+fi
+# ▸⇥⮞⮞⊵❭⮑⮡》
+if [ -n "$SSH_CONNECTION" ]; then
+    PROMPT_DELIM="»"
+else
+    PROMPT_DELIM="⟩"
 fi
 
 b() { bb -go "$@"; }

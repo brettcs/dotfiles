@@ -128,6 +128,7 @@ if [ "$_HAVE_SYSTEMD" = y ]; then
     alias ujctl='journalctl --user'
     alias usctl='systemctl --user'
     alias usrun='systemd-run --user --same-dir'
+    alias wsctl='sudo env VISUAL="$VISUAL" EDITOR="$EDITOR" systemctl edit'
 fi
 
 bsplit() {
@@ -374,6 +375,7 @@ alias pydoc='py -m pydoc'
 alias up='_up cd'
 alias upp='_up pushd'
 alias venv='py -m venv'
+alias wsudo='sudo env VISUAL="$VISUAL" EDITOR="$EDITOR"'
 
 _canrun x || alias x='dtrx'
 [ -e "/usr/share/doc/mutt/manual.txt.gz" ] && \

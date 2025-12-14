@@ -273,7 +273,7 @@ if _canrun qrencode; then
             return 2
         fi
         fn="$(mktemp --tmpdir qr-XXXXXXXX.png)" && \
-            qrencode -o "$fn" "$1" && eog "$fn" && /bin/rm -f "$fn"
+            qrencode -o "$fn" "$1" && eog "$fn"
     }
 fi
 

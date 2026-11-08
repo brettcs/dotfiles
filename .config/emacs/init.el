@@ -31,7 +31,7 @@
 (defun visual-text-mode () (interactive)
   (text-mode) (visual-line-mode))
 
-(setq-default fill-column 76)
+(setq-default fill-column 79)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq blink-matching-paren nil)
@@ -41,7 +41,7 @@
 (setq inhibit-startup-message t)
 (setq kill-whole-line t)
 (setq mouse-yank-at-point nil)
-(setq my-project-directories '("~/Repositories/"))
+(setq my-project-directories '("~/Projects/"))
 (setq next-line-add-newlines nil)
 (setq read-buffer-completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
@@ -73,6 +73,7 @@
                ("\\.txt$" . text-mode)
                ) auto-mode-alist))
 (add-hook 'text-mode-hook 'visual-line-mode)
+(add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
 
 (global-set-key "\C-c\C-s" 'ispell-region)
 (global-set-key "\C-xl" 'switch-to-buffer-last)
@@ -112,13 +113,6 @@
   (show-paren-mode t)
   (setq font-lock-maximum-decoration t)
   (global-font-lock-mode t))
-
-; https://github.com/alpaker/Fill-Column-Indicator.git
-(with-library 'fill-column-indicator
-  (setq fci-rule-column 80)
-  (setq fci-rule-color "DarkOrange4")
-  (add-hook 'prog-mode-hook 'fci-mode)
-)
 
 (with-library 'helm-pydoc
   (define-key python-mode-map (kbd "C-c C-d") 'helm-pydoc))
@@ -164,7 +158,6 @@
   (setq python-shell-interpreter "python3")
 )
 
-; https://github.com/joostkremers/visual-fill-column
 (with-library 'visual-fill-column
   (add-hook 'visual-line-mode-hook 'visual-fill-column-mode)
   (setq-default visual-fill-column-width 100))

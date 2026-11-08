@@ -117,6 +117,11 @@
 (with-library 'helm-pydoc
   (define-key python-mode-map (kbd "C-c C-d") 'helm-pydoc))
 
+; https://github.com/bmag/imenu-list.git
+(with-library 'imenu-list
+  (global-set-key (kbd "C-'") #'imenu-list-smart-toggle)
+  )
+
 (with-library 'magit
   (global-set-key "\C-xg" 'magit-status)
   (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
